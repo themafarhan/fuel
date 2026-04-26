@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-Month PPL Transformation Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090910;
+    --surface: #10101a;
+    --surface2: #16161f;
+    --border: #1e1e2e;
+    --accent: #e8ff47;
+    --accent2: #47c8ff;
+    --accent3: #ff6b47;
+    --purple: #b47aff;
+    --text: #eaeaf5;
+    --muted: #6060a0;
+    --phase1: #e8ff47;
+    --phase2: #47c8ff;
+    --phase3: #ff6b47;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; line-height:1.6; overflow-x:hidden; }
+
+  .hero { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:60px 40px; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-200px; right:-200px; width:700px; height:700px; background:radial-gradient(circle,rgba(232,255,71,.06) 0%,transparent 70%); pointer-events:none; }
+  .hero::after { content:''; position:absolute; bottom:-100px; left:-100px; width:500px; height:500px; background:radial-gradient(circle,rgba(71,200,255,.04) 0%,transparent 70%); pointer-events:none; }
+  .hero-label { font-family:'DM Mono',monospace; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:20px; }
+  .hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(60px,11vw,110px); line-height:.9; letter-spacing:2px; color:var(--text); margin-bottom:8px; }
+  .hero h1 span { color:var(--accent); }
+  .hero-sub { font-size:15px; color:var(--muted); margin-top:24px; max-width:480px; }
+
+  .stat-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:2px; margin-top:48px; }
+  .stat-card { background:var(--surface); padding:22px; border:1px solid var(--border); position:relative; transition:border-color .2s; }
+  .stat-card:first-child { border-radius:12px 0 0 12px; }
+  .stat-card:last-child { border-radius:0 12px 12px 0; }
+  .stat-card.clickable { cursor:pointer; }
+  .stat-card.clickable:hover { border-color:var(--accent); background:rgba(232,255,71,.03); }
+  .edit-hint { position:absolute; top:8px; right:10px; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--accent); opacity:.5; text-transform:uppercase; transition:opacity .2s; }
+  .stat-card.clickable:hover .edit-hint { opacity:1; }
+  .stat-val { font-family:'Bebas Neue',sans-serif; font-size:44px; line-height:1; }
+  .stat-label { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:6px; }
+
+  /* MODALS */
+  .modal-overlay { display:none; position:fixed; inset:0; z-index:1000; background:rgba(5,5,12,.88); backdrop-filter:blur(8px); align-items:center; justify-content:center; }
+  .modal-overlay.open { display:flex; }
+  .modal-box { background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:36px; width:340px; max-width:95vw; box-shadow:0 40px 80px rgba(0,0,0,.6); max-height:90vh; overflow-y:auto; }
+  .modal-title { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:1px; margin-bottom:6px; }
+  .modal-sub { font-size:13px; color:var(--muted); margin-bottom:24px; }
+  .modal-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:14px 16px; color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:32px; letter-spacing:1px; text-align:center; outline:none; transition:border-color .2s; }
+  .modal-input:focus { border-color:var(--accent); }
+  .modal-unit { text-align:center; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:8px; }
+  .modal-bmi { margin-top:20px; padding:14px; background:var(--surface2); border-radius:8px; font-family:'DM Mono',monospace; font-size:12px; letter-spacing:1px; text-align:center; color:var(--muted); transition:all .2s; line-height:1.8; }
+  .modal-bmi strong { color:var(--accent); font-size:20px; }
+  .modal-actions { display:flex; gap:10px; margin-top:20px; }
+  .btn { flex:1; padding:12px; border-radius:8px; border:none; cursor:pointer; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; transition:all .2s; }
+  .btn-primary { background:var(--accent); color:#0a0a0f; }
+  .btn-primary:hover { background:#d4eb00; }
+  .btn-ghost { background:transparent; border:1px solid var(--border); color:var(--muted); }
+  .btn-ghost:hover { border-color:var(--muted); color:var(--text); }
+  .btn-danger { background:transparent; border:1px solid rgba(255,107,71,.3); color:var(--accent3); }
+  .btn-danger:hover { border-color:var(--accent3); background:rgba(255,107,71,.08); }
+  .btn-steps { background:rgba(71,200,255,.1); border:1px solid rgba(71,200,255,.25); color:var(--accent2); }
+  .btn-steps:hover { background:rgba(71,200,255,.18); }
+
+  /* NAV */
+  .phase-nav { position:sticky; top:0; z-index:100; background:rgba(9,9,16,.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 40px; display:flex; gap:0; overflow-x:auto; }
+  .phase-nav::-webkit-scrollbar { height:0; }
+  .phase-btn { padding:17px 22px; background:none; border:none; color:var(--muted); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
+  .phase-btn.active { color:var(--text); border-bottom-color:var(--accent); }
+  .phase-btn:hover { color:var(--text); }
+
+  .section { padding:56px 40px; max-width:1100px; margin:0 auto; display:none; }
+  .section.active { display:block; }
+  .section-title { font-family:'Bebas Neue',sans-serif; font-size:52px; letter-spacing:2px; line-height:1; margin-bottom:8px; }
+  .phase-tag { display:inline-block; font-family:'DM Mono',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:16px; }
+  .tag-1 { background:rgba(232,255,71,.08); color:var(--phase1); border:1px solid rgba(232,255,71,.15); }
+  .tag-2 { background:rgba(71,200,255,.08); color:var(--phase2); border:1px solid rgba(71,200,255,.15); }
+  .tag-3 { background:rgba(255,107,71,.08); color:var(--phase3); border:1px solid rgba(255,107,71,.15); }
+  .section-desc { color:var(--muted); font-size:14px; max-width:700px; margin-bottom:40px; margin-top:10px; }
+
+  .info-box { border-radius:10px; padding:14px 18px; margin-bottom:18px; font-size:13px; line-height:1.7; }
+  .info-y { background:rgba(232,255,71,.05); border:1px solid rgba(232,255,71,.12); color:#ccd870; }
+  .info-b { background:rgba(71,200,255,.05); border:1px solid rgba(71,200,255,.12); color:#80bdd8; }
+  .info-o { background:rgba(255,107,71,.05); border:1px solid rgba(255,107,71,.12); color:#d09080; }
+
+  .week-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:3px; margin-bottom:40px; }
+  .day-card { background:var(--surface); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+  .day-header { padding:10px 12px 8px; border-bottom:1px solid var(--border); }
+  .day-name { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; }
+  .day-type { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; margin-top:2px; }
+  .push-day .day-type { color:#ff9060; }
+  .pull-day .day-type { color:#47c8ff; }
+  .leg-day .day-type { color:#e8ff47; }
+  .day-content { padding:10px 12px; }
+  .day-pill { font-size:11px; padding:3px 0; display:block; color:#a0a0c0; }
+
+  .block-title { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:1px; margin-bottom:14px; display:flex; align-items:center; gap:12px; }
+  .block-title::after { content:''; flex:1; height:1px; background:var(--border); }
+
+  /* EXERCISE CARDS */
+  .exercise-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:10px; overflow:hidden; }
+  .ex-header { display:flex; align-items:center; gap:14px; padding:14px 18px; cursor:pointer; transition:background .15s; user-select:none; }
+  .ex-header:hover { background:var(--surface2); }
+  .ex-num { font-family:'Bebas Neue',sans-serif; font-size:26px; color:var(--muted); min-width:32px; line-height:1; }
+  .ex-info { flex:1; }
+  .ex-name { font-weight:600; font-size:14px; }
+  .ex-meta { font-family:'DM Mono',monospace; font-size:10px; color:var(--muted); margin-top:3px; }
+  .ex-badge { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; padding:3px 9px; border-radius:20px; white-space:nowrap; }
+  .badge-push { background:rgba(255,144,96,.1); color:#ff9060; border:1px solid rgba(255,144,96,.2); }
+  .badge-pull { background:rgba(71,200,255,.1); color:#47c8ff; border:1px solid rgba(71,200,255,.2); }
+  .badge-leg { background:rgba(232,255,71,.1); color:#e8ff47; border:1px solid rgba(232,255,71,.2); }
+  .badge-core { background:rgba(180,122,255,.1); color:#b47aff; border:1px solid rgba(180,122,255,.2); }
+  .badge-finish { background:rgba(255,200,60,.1); color:#ffc83c; border:1px solid rgba(255,200,60,.2); }
+  .ex-chevron { color:var(--muted); font-size:11px; transition:transform .2s; flex-shrink:0; }
+  .ex-chevron.open { transform:rotate(180deg); }
+  .ex-body { display:none; padding:0 18px 18px; border-top:1px solid var(--border); }
+  .ex-body.open { display:block; }
+  .ex-section-title { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin:14px 0 6px; }
+  .ex-text { font-size:13px; color:#b8b8d0; line-height:1.7; }
+  .tip-list { list-style:none; padding:0; }
+  .tip-list li { font-size:12px; color:#b8b8d0; padding:5px 0 5px 18px; position:relative; border-bottom:1px solid var(--border); }
+  .tip-list li:last-child { border:none; }
+  .tip-list li::before { content:'→'; position:absolute; left:0; color:var(--accent); font-size:10px; }
+  .rest-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(232,255,71,.07); border:1px solid rgba(232,255,71,.12); border-radius:6px; padding:5px 11px; font-family:'DM Mono',monospace; font-size:11px; color:var(--accent); margin-top:12px; }
+
+  /* SET TRACKER */
+  .set-tracker { margin-top:16px; background:var(--surface2); border-radius:10px; padding:14px 16px; }
+  .set-tracker-title { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:12px; display:flex; align-items:center; justify-content:space-between; }
+  .set-tracker-title span { color:var(--muted); font-size:9px; }
+  .sets-table { width:100%; border-collapse:collapse; }
+  .sets-table th { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:var(--muted); padding:4px 6px; text-align:center; }
+  .sets-table th:first-child { text-align:left; }
+  .sets-table td { padding:4px 4px; }
+  .set-num { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); text-align:left; padding-left:4px; white-space:nowrap; }
+  .set-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:5px; padding:5px 6px; color:var(--text); font-family:'DM Mono',monospace; font-size:12px; text-align:center; outline:none; transition:border-color .2s; min-width:52px; }
+  .set-input:focus { border-color:var(--accent); }
+  .set-input.done { border-color:rgba(232,255,71,.3); background:rgba(232,255,71,.03); }
+  .set-del-btn { background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:2px 6px; border-radius:4px; transition:color .15s, background .15s; }
+  .set-del-btn:hover { color:var(--accent3); background:rgba(255,107,71,.1); }
+  .add-set-btn { margin-top:10px; padding:7px 14px; background:rgba(232,255,71,.06); border:1px dashed rgba(232,255,71,.2); border-radius:6px; color:var(--accent); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; cursor:pointer; width:100%; transition:all .2s; }
+  .add-set-btn:hover { background:rgba(232,255,71,.1); }
+  .save-sets-btn { margin-top:8px; padding:8px 14px; background:rgba(232,255,71,.12); border:1px solid rgba(232,255,71,.25); border-radius:6px; color:var(--accent); font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; cursor:pointer; width:100%; transition:all .2s; }
+  .save-sets-btn:hover { background:rgba(232,255,71,.2); }
+  .sets-saved-msg { display:none; font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; color:var(--accent); text-align:center; margin-top:6px; }
+  .date-row { display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+  .date-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+  .date-input { background:var(--bg); border:1px solid var(--border); border-radius:5px; padding:5px 8px; color:var(--text); font-family:'DM Mono',monospace; font-size:11px; outline:none; }
+  .date-input:focus { border-color:var(--accent); }
+
+  /* FINISHER */
+  .finisher-box { background:linear-gradient(135deg,rgba(255,200,60,.04),rgba(255,107,71,.04)); border:1px solid rgba(255,200,60,.15); border-radius:12px; padding:20px 24px; margin-top:24px; }
+  .finisher-title { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px; color:#ffc83c; margin-bottom:10px; }
+  .finisher-row { display:flex; align-items:flex-start; gap:12px; padding:8px 0; border-bottom:1px solid rgba(255,200,60,.08); font-size:12px; color:#c0b080; line-height:1.6; }
+  .finisher-row:last-child { border:none; }
+  .finisher-row strong { color:var(--text); min-width:80px; font-size:11px; flex-shrink:0; }
+
+  /* PROG GRID */
+  .prog-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin-top:16px; }
+  .prog-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:22px; }
+  .prog-month { font-family:'Bebas Neue',sans-serif; font-size:34px; line-height:1; margin-bottom:4px; }
+  .prog-sub { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border); }
+  .prog-item { font-size:12px; color:#b0b0d0; padding:5px 0; border-bottom:1px solid var(--border); display:flex; gap:8px; }
+  .prog-item:last-child { border:none; }
+  .prog-item::before { content:'✓'; color:var(--accent); flex-shrink:0; }
+
+  /* TIMELINE */
+  .timeline { margin-top:24px; }
+  .tl-item { display:flex; gap:20px; padding-bottom:28px; position:relative; }
+  .tl-item::before { content:''; position:absolute; left:19px; top:40px; bottom:0; width:2px; background:var(--border); }
+  .tl-item:last-child::before { display:none; }
+  .tl-dot { width:40px; height:40px; border-radius:50%; background:var(--surface2); border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:16px; flex-shrink:0; }
+  .tl-content { padding-top:8px; }
+  .tl-phase { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); }
+  .tl-title { font-weight:600; font-size:14px; margin:3px 0; }
+  .tl-desc { font-size:12px; color:#a0a0c0; line-height:1.7; }
+
+  .rec-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; margin-top:20px; }
+  .rec-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px; }
+  .rec-icon { font-size:26px; margin-bottom:10px; }
+  .rec-title { font-weight:600; font-size:13px; margin-bottom:6px; }
+  .rec-text { font-size:12px; color:var(--muted); line-height:1.7; }
+
+  .divider { height:1px; background:var(--border); margin:44px 0; }
+
+  /* STEPS + TRACKER SECTION */
+  .tracker-section { padding:56px 40px; max-width:1100px; margin:0 auto; display:none; }
+  .tracker-section.active { display:block; }
+
+  /* STEPS CARD */
+  .steps-card { background:var(--surface); border:1px solid rgba(71,200,255,.2); border-radius:14px; padding:24px; margin-bottom:20px; }
+  .steps-header { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:16px; }
+  .steps-title { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; color:var(--accent2); }
+  .steps-log-row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  .steps-input { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text); font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; text-align:center; outline:none; width:140px; transition:border-color .2s; }
+  .steps-input:focus { border-color:var(--accent2); }
+  .steps-date-input { background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:10px 14px; color:var(--text); font-family:'DM Mono',monospace; font-size:12px; outline:none; transition:border-color .2s; }
+  .steps-date-input:focus { border-color:var(--accent2); }
+  .steps-history { margin-top:16px; }
+  .steps-history-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .steps-history-item:last-child { border:none; }
+  .steps-date { font-family:'DM Mono',monospace; font-size:11px; color:var(--muted); min-width:100px; }
+  .steps-val { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--accent2); line-height:1; }
+  .steps-bar { flex:1; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden; }
+  .steps-bar-fill { height:100%; background:var(--accent2); border-radius:2px; transition:width .4s; }
+  .steps-del { background:none; border:none; color:var(--muted); cursor:pointer; font-size:14px; padding:2px 6px; border-radius:4px; }
+  .steps-del:hover { color:var(--accent3); }
+
+  /* HISTORY LOG */
+  .log-section { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:24px; margin-top:20px; }
+  .log-title { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+  .log-entry { background:var(--surface2); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
+  .log-entry-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; flex-wrap:wrap; }
+  .log-date-badge { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; background:rgba(232,255,71,.08); border:1px solid rgba(232,255,71,.15); border-radius:4px; padding:3px 8px; color:var(--accent); }
+  .log-day-badge { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; border-radius:4px; padding:3px 8px; }
+  .log-ex-name { font-size:12px; font-weight:600; color:var(--text); margin-bottom:4px; }
+  .log-sets-row { display:flex; gap:6px; flex-wrap:wrap; }
+  .log-set-pill { font-family:'DM Mono',monospace; font-size:10px; background:var(--bg); border:1px solid var(--border); border-radius:4px; padding:2px 8px; color:#b0b0c0; }
+
+  /* DOWNLOAD AREA */
+  .download-area { background:var(--surface); border:1px solid rgba(180,122,255,.2); border-radius:14px; padding:24px; margin-top:20px; }
+  .download-title { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:1px; color:var(--purple); margin-bottom:10px; }
+  .download-desc { font-size:13px; color:var(--muted); margin-bottom:16px; }
+  .download-btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; background:rgba(180,122,255,.12); border:1px solid rgba(180,122,255,.3); border-radius:8px; color:var(--purple); font-family:'DM Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+  .download-btn:hover { background:rgba(180,122,255,.22); }
+
+  /* COLLAPSIBLE DAY BLOCKS */
+  .day-block { margin-bottom:0; }
+  .day-block-header { display:flex; align-items:center; gap:14px; padding:16px 20px; background:var(--surface); border:1px solid var(--border); border-radius:12px; cursor:pointer; user-select:none; transition:background .15s, border-color .15s; margin-bottom:4px; }
+  .day-block-header:hover { background:var(--surface2); border-color:rgba(232,255,71,.18); }
+  .day-block-header.open { border-radius:12px 12px 0 0; margin-bottom:0; border-bottom-color:transparent; }
+  .day-block-title { font-family:'Bebas Neue',sans-serif; font-size:26px; letter-spacing:1px; flex:1; }
+  .day-block-meta { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:1px; color:var(--muted); text-transform:uppercase; }
+  .day-block-chevron { color:var(--muted); font-size:12px; transition:transform .25s; flex-shrink:0; }
+  .day-block-chevron.open { transform:rotate(180deg); }
+  .day-block-body { display:none; border:1px solid var(--border); border-top:none; border-radius:0 0 12px 12px; padding:20px; margin-bottom:32px; background:var(--surface); }
+  .day-block-body.open { display:block; }
+  .day-notes-row { margin-bottom:16px; padding:14px 16px; background:var(--surface2); border-radius:8px; border:1px solid var(--border); }
+  .day-notes-label { font-family:'DM Mono',monospace; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .day-notes-input { width:100%; background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:8px 12px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:13px; outline:none; resize:vertical; min-height:52px; transition:border-color .2s; }
+  .day-notes-input:focus { border-color:var(--accent); }
+  .day-notes-save { margin-top:6px; padding:5px 14px; background:rgba(232,255,71,.08); border:1px solid rgba(232,255,71,.18); border-radius:5px; color:var(--accent); font-family:'DM Mono',monospace; font-size:9px; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+  .day-notes-save:hover { background:rgba(232,255,71,.16); }
+  .day-notes-saved { display:none; font-family:'DM Mono',monospace; font-size:9px; color:var(--accent); margin-left:8px; }
+
+  /* WARMUP / TREADMILL */
+  .warmup-card { background:rgba(232,255,71,.03); border:1px solid rgba(232,255,71,.1); border-radius:8px; padding:12px 16px; margin-bottom:10px; font-family:'DM Mono',monospace; font-size:11px; letter-spacing:1px; color:#909860; display:flex; align-items:center; gap:10px; }
+  .warmup-icon { font-size:16px; }
+
+  @media(max-width:760px){
+    .hero{padding:40px 20px;}
+    .phase-nav{padding:0 16px;}
+    .section{padding:40px 20px;}
+    .tracker-section{padding:40px 20px;}
+    .week-grid{grid-template-columns:repeat(3,1fr);}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .stat-card:first-child{border-radius:12px 0 0 0;}
+    .stat-card:last-child{border-radius:0 0 12px 0;}
+    .sets-table th:nth-child(3), .sets-table td:nth-child(3) { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- WEIGHT MODAL -->
+<div class="modal-overlay" id="weightModal">
+  <div class="modal-box">
+    <div class="modal-title">Update Weight</div>
+    <div class="modal-sub">Enter your current weight to recalculate BMI and daily protein target.</div>
+    <input class="modal-input" id="weightInput" type="number" min="40" max="250" placeholder="95" oninput="calcModalBMI()">
+    <div class="modal-unit">kilograms</div>
+    <div class="modal-bmi" id="modalBmiBox">Enter weight to see BMI</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeWeightModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveWeight()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- STEPS MODAL -->
+<div class="modal-overlay" id="stepsModal">
+  <div class="modal-box">
+    <div class="modal-title">Log Steps</div>
+    <div class="modal-sub">Enter today's step count.</div>
+    <div style="margin-bottom:12px;">
+      <div class="date-label" style="margin-bottom:6px;">Date</div>
+      <input class="steps-date-input" id="stepsDateInput" type="date" style="width:100%">
+    </div>
+    <input class="modal-input" id="stepsInput" type="number" min="0" max="99999" placeholder="8000" style="font-size:28px;">
+    <div class="modal-unit">steps</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeStepsModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSteps()">Log Steps</button>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">⚡ 6-Month PPL Transformation · Gym Edition</div>
+  <h1>PUSH.<br>LEGS.<br><span>PULL.</span></h1>
+
+  <!-- Daily motivational quote -->
+  <div id="daily-quote-block" style="margin-bottom:20px;max-width:560px;padding:14px 18px;background:rgba(180,122,255,.05);border:1px solid rgba(180,122,255,.14);border-radius:10px;">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px;">Daily Fuel</div>
+    <div id="daily-quote-text" style="font-size:13px;color:#c8c0e0;line-height:1.7;font-style:italic;"></div>
+    <div id="daily-quote-author" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;"></div>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card clickable" onclick="trainToday()" style="border-color:rgba(232,255,71,.2);background:rgba(232,255,71,.03);">
+      <span class="edit-hint" style="color:var(--accent);">→ go</span>
+      <div class="stat-val" style="color:var(--accent);font-size:32px;line-height:1.1;" id="displayTodayDay">—</div>
+      <div class="stat-label" style="color:var(--accent);opacity:.7;">Train Today</div>
+    </div>
+    <div class="stat-card clickable" onclick="openWeightModal()">
+      <span class="edit-hint">✎ tap to edit</span>
+      <div class="stat-val" id="displayWeight" style="color:#ff6b47;">95<span style="font-size:20px;color:var(--muted);">kg</span></div>
+      <div class="stat-label">Current Weight</div>
+    </div>
+    <div class="stat-card clickable" onclick="openStepsModal()">
+      <span class="edit-hint">✎ log today</span>
+      <div class="stat-val" id="displaySteps" style="color:#47c8ff;">—</div>
+      <div class="stat-label">Today's Steps</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="displayBMI" style="color:#ffc83c;">28.4</div>
+      <div class="stat-label">BMI · Obese (Indian std)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:#47c8ff;">6'0"</div>
+      <div class="stat-label">Height</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" id="displayProtein" style="color:#b47aff;">152<span style="font-size:20px;color:var(--muted);">g</span></div>
+      <div class="stat-label">Daily Protein Target</div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="phase-nav">
+  <button class="phase-btn active" onclick="showSection('overview',this)">Overview</button>
+  <button class="phase-btn" onclick="showSection('routine',this)">Routine</button>
+  <button class="phase-btn" onclick="showSection('phase2',this)">Progression</button>
+  <button class="phase-btn" onclick="showSection('recovery',this)">Recovery</button>
+  <button class="phase-btn" onclick="showSection('milestones',this)">Milestones</button>
+  <button class="phase-btn" onclick="showSection('tracker',this)">📊 Tracker</button>
+</nav>
+
+<!-- OVERVIEW -->
+<div id="overview" class="section active">
+  <span class="phase-tag tag-1">Program Structure</span>
+  <div class="section-title">THE PPL SYSTEM</div>
+  <p class="section-desc">Push-Pull-Legs, 6 days a week. Each muscle group trains twice per week with adequate recovery. All working sets are 11+ reps for hypertrophy. Every session ends with a 10-min treadmill walk. Total time: under 55 minutes.</p>
+
+  <div class="info-box info-y">
+    <strong>Why PPL works best:</strong> Heavy compound lifts trigger the highest anabolic hormone response of any training style. More muscle = higher resting metabolism = fat burning 24/7. The treadmill finisher keeps cardiovascular fitness improving without interfering with lifting recovery. 11+ rep targets build both strength and hypertrophy simultaneously.
+  </div>
+
+  <div class="block-title">Weekly Schedule — Mon to Sat</div>
+  <div class="week-grid">
+    <div class="day-card push-day">
+      <div class="day-header"><div class="day-name">MON</div><div class="day-type">Push A</div></div>
+      <div class="day-content">
+        <span class="day-pill">Chest · Triceps · Side Delts</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~55 min total</span>
+      </div>
+    </div>
+    <div class="day-card leg-day">
+      <div class="day-header"><div class="day-name">TUE</div><div class="day-type">Legs A</div></div>
+      <div class="day-content">
+        <span class="day-pill">Quads · Hamstrings · Calves</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~55 min total</span>
+      </div>
+    </div>
+    <div class="day-card pull-day">
+      <div class="day-header"><div class="day-name">WED</div><div class="day-type">Pull A</div></div>
+      <div class="day-content">
+        <span class="day-pill">Back · Rear Delts · Biceps</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~50 min total</span>
+      </div>
+    </div>
+    <div class="day-card push-day">
+      <div class="day-header"><div class="day-name">THU</div><div class="day-type">Push B</div></div>
+      <div class="day-content">
+        <span class="day-pill">Chest · Triceps · Side Delts</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~55 min total</span>
+      </div>
+    </div>
+    <div class="day-card leg-day">
+      <div class="day-header"><div class="day-name">FRI</div><div class="day-type">Legs B</div></div>
+      <div class="day-content">
+        <span class="day-pill">Quads · Hamstrings · Calves</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~55 min total</span>
+      </div>
+    </div>
+    <div class="day-card pull-day">
+      <div class="day-header"><div class="day-name">SAT</div><div class="day-type">Pull B</div></div>
+      <div class="day-content">
+        <span class="day-pill">Back · Rear Delts · Biceps</span>
+        <span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span>
+        <span class="day-pill" style="color:#505070;font-size:10px;">~50 min total</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-box info-b">
+    <strong>Session structure (every day):</strong> 5 min warm-up (treadmill walk + dynamic stretches) → 35–40 min lifting → 10 min treadmill walk finisher → 3–5 min cool-down stretch. Total ≤55 min. All working sets target 11+ reps. Hit the top rep range 2 sessions in a row → add weight.
+  </div>
+
+  <div class="block-title">3-Phase Progression</div>
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase1)">Ph 1</div>
+      <div class="prog-sub">Months 1–2 · Foundation</div>
+      <div class="prog-item">Learn all movements with perfect form</div>
+      <div class="prog-item">Light–moderate weight, 11–15 reps</div>
+      <div class="prog-item">Treadmill: brisk walk, 4–5 km/h</div>
+      <div class="prog-item">Stretch every session</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase2)">Ph 2</div>
+      <div class="prog-sub">Months 3–4 · Hypertrophy</div>
+      <div class="prog-item">Moderate–heavy weight, 11–13 reps</div>
+      <div class="prog-item">Progressive overload every session</div>
+      <div class="prog-item">Treadmill: incline walk, 5–6 km/h</div>
+      <div class="prog-item">Track every set, weight, and rep</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase3)">Ph 3</div>
+      <div class="prog-sub">Months 5–6 · Strength</div>
+      <div class="prog-item">Heavy compounds, 8–11 reps</div>
+      <div class="prog-item">Treadmill: jog intervals mixed with walk</div>
+      <div class="prog-item">Advanced overload techniques</div>
+      <div class="prog-item">Visible muscle definition</div>
+    </div>
+  </div>
+</div>
+
+<!-- ROUTINE -->
+<div id="routine" class="section">
+  <span class="phase-tag tag-1">Your Weekly Workout</span>
+  <div class="section-title">THE ROUTINE</div>
+  <p class="section-desc">6 days, PPL split. Every exercise defaults to the set × rep target shown. Click any exercise to expand its tracking, add/remove sets, and log weight and reps. Data is saved locally in your browser.</p>
+
+  <!-- MON: PUSH A -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('mon')">
+    <div class="day-block-title"><span style="color:#ff9060;">MON</span> — Push A</div>
+    <div class="day-block-meta">Chest · Triceps · Side Delts</div>
+    <span class="day-block-chevron" id="day-chevron-mon">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-mon">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-mon" placeholder="e.g. Bench: 3×12, 2×11 @ 60kg · felt strong today..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('mon')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-mon">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min dynamic arm swings + shoulder circles</div>
+
+  <div class="exercise-card" data-exid="mon-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Flat Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Lie flat. Grip slightly wider than shoulder-width. Lower bar to nipple line with 3 sec control, press back up. 5 points of contact: head, upper back, both feet, butt. Shoulder blades pinched down and back. Elbows 45–60° to body.</div>
+      <div class="rest-badge">⏱ 90 sec rest between sets</div>
+      <div id="tracker-mon-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="mon-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Incline Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Upper Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Bench at 30° (not 45° — too much shoulder). Bar to upper chest. Same blade positioning as flat bench. Expect to lift 10–15% less than flat.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-mon-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="mon-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Sit with back flat against pad. Elbows at shoulder height with slight bend. Squeeze pecs to bring arms together. Hold 1 sec at the centre. Control the return — don't let weight snap you open.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-mon-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="mon-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Overhead Tricep Rope Extension</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Cable set low. Grip rope overhead, elbows close to head. Extend arms fully overhead, spreading rope slightly at the top. Lower with control — feel the long head stretch. Keep elbows fixed — only forearms move.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-mon-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="mon-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Lateral Dumbbell Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Side Delts</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Stand, slight forward lean. Raise arms out to sides to shoulder height — lead with elbows not wrists. Pinky slightly higher at top. Slow 3-sec descent. Keep weight light — side delts are small. No swinging.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-mon-05"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="mon-06">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">06</div>
+      <div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Cable set high, rope attachment. Upper arms pinned to sides. Push down until fully extended, spread rope apart at bottom. Slowly return. Slight forward lean keeps tension. Elbows must not flare.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-mon-06"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block mon -->
+
+  <div class="divider"></div>
+
+  <!-- TUE: LEGS A -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('tue')">
+    <div class="day-block-title"><span style="color:#e8ff47;">TUE</span> — Legs A</div>
+    <div class="day-block-meta">Quads · Hamstrings · Calves</div>
+    <span class="day-block-chevron" id="day-chevron-tue">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-tue">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-tue" placeholder="e.g. Leg press: 5×12 @ 80kg · calves felt tight..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('tue')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-tue">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min leg swings, hip circles + dynamic stretches</div>
+
+  <div class="exercise-card" data-exid="tue-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Seated Hamstring Curl</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Hamstrings</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Sit upright, pad resting just above ankles. Curl legs down through full range. Squeeze at bottom. 3–4 sec eccentric (return). Toes pointed away slightly for fuller contraction. Don't let hips lift off.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-tue-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="tue-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Seated Leg Extension</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Sit with pad just above ankles. Extend legs fully, squeeze quads hard at top, lower with 3–4 sec control. Toes slightly toward you at top for fuller quad contraction. Hold 1–2 sec at top. Don't use excessive weight — this should burn, not strain.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-tue-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="tue-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">Target: 5 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Mid foot on platform, hip-width, toes slightly out. Lower until 90° at knee, press through heels. Never lock knees at top. Don't let lower back peel off seat at bottom. Full range beats heavy partials every time.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-tue-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="tue-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Single Leg Standing Calf Raises</div><div class="ex-meta">Target: 5 × 11+ each leg · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Calves</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Stand on one foot on an elevated surface. Full stretch at bottom (heel below toe level), rise fully on toes, pause at top. 3 sec descent. Calves grow from full ROM and controlled tempo — not heavy partial reps. Alternate feet.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-tue-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="tue-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Sitting Calf Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Calves (Soleus)</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Seated calf raise machine. Knees bent at 90°. Full stretch at bottom, full rise at top. Bent knee targets soleus (deeper calf) — pairs perfectly with standing raises. Hold peak contraction 1–2 sec.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-tue-05"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="tue-06">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">06</div>
+      <div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Sit with back support. Dumbbells at shoulder height, palms facing forward. Press overhead until arms nearly extended. Lower with control to ear level. Core braced throughout. Don't hyperextend lower back.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-tue-06"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block tue -->
+
+  <div class="divider"></div>
+
+  <!-- WED: PULL A -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('wed')">
+    <div class="day-block-title"><span style="color:#47c8ff;">WED</span> — Pull A</div>
+    <div class="day-block-meta">Back · Rear Delts · Biceps</div>
+    <span class="day-block-chevron" id="day-chevron-wed">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-wed">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-wed" placeholder="e.g. Pulldown: 4×12 @ 55kg · rows felt heavy..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('wed')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-wed">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min band pull-aparts + shoulder rotations</div>
+
+  <div class="exercise-card" data-exid="wed-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Lat Pulldown</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Wide overhand grip. Lean back 10–15°. Depress shoulders first, then pull bar to upper chest, elbows driving toward floor. Full extension at top — feel the stretch. Never pull behind neck. Think "elbows to back pockets."</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-wed-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="wed-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Single Hand Seated Cable Row</div><div class="ex-meta">Target: 4 × 11+ each arm · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Single handle attachment. Sit upright at cable row. Pull to hip/abdomen, elbow driving back. No torso rotation — isolate the back. Full stretch on return. Torso stays vertical throughout.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-wed-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="wed-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Lat Pullover</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Lie across a bench or use cable/machine. Arms extended overhead, slight fixed elbow bend. Pull weight in an arc from overhead to hips. Squeeze lats at the bottom. Stretch fully at top every rep. Excellent for lat width.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-wed-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="wed-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Reverse Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Rear Delts</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Face the pec deck, chest against pad. Elbows at shoulder height with slight bend. Pull arms back and out. Squeeze rear delts at end range. Control return — don't let it snap forward. Critical for shoulder balance and injury prevention.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-wed-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="wed-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Seated preacher-style machine curl. Chest against pad. Full range: arm nearly straight at bottom, fully contracted at top. 3 sec eccentric. No momentum — the machine eliminates cheating. Most effective bicep isolation available.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-wed-05"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block wed -->
+
+  <div class="divider"></div>
+
+  <!-- THU: PUSH B -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('thu')">
+    <div class="day-block-title"><span style="color:#ff9060;">THU</span> — Push B</div>
+    <div class="day-block-meta">Chest · Triceps · Side Delts</div>
+    <span class="day-block-chevron" id="day-chevron-thu">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-thu">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-thu" placeholder="e.g. Bench: beat Mon by 1 rep · laterals @ 8kg..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('thu')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-thu">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min dynamic arm swings + shoulder circles</div>
+
+  <div class="info-box info-o">Push B is identical in structure to Push A — same muscle groups, same rep targets. This twice-per-week frequency is what drives hypertrophy. Focus on progressive overload: if you moved more weight or more reps than Monday, it's a win.
+  </div>
+
+  <div class="exercise-card" data-exid="thu-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Flat Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Monday. Aim to match or beat Monday's numbers. Shoulder blades down and back. Elbows 45–60° to body. Touch chest lightly — no bounce.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-thu-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="thu-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Incline Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Upper Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">30° incline. Same technique as Monday. Try to beat Monday's incline numbers over time — this is where upper chest development comes from.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-thu-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="thu-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Squeeze pecs together, hold 1 sec at centre. Control the return. Match or beat Monday's weight here.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-thu-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="thu-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Overhead Tricep Rope Extension</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Cable low, rope attachment overhead. Elbows close to head, fixed. Only forearms move. Stretch the long head fully at the bottom. Spread rope slightly at top.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-thu-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="thu-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Lateral Dumbbell Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Side Delts</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Lead with elbows. Pinky slightly high. Slow descent. No swinging. Light weight with perfect form beats heavy with momentum every time for side delts.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-thu-05"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="thu-06">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">06</div>
+      <div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Upper arms fixed to sides. Push down, spread rope at bottom. Slow return. Compound superset opportunity: can be done back-to-back with lateral raises on rest days to save time.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-thu-06"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block thu -->
+
+  <div class="divider"></div>
+
+  <!-- FRI: LEGS B -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('fri')">
+    <div class="day-block-title"><span style="color:#e8ff47;">FRI</span> — Legs B</div>
+    <div class="day-block-meta">Quads · Hamstrings · Calves</div>
+    <span class="day-block-chevron" id="day-chevron-fri">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-fri">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-fri" placeholder="e.g. Hack squat: 4×11 @ 60kg · smashed it today..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('fri')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-fri">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min leg swings, hip circles + dynamic stretches</div>
+
+  <div class="info-box info-y">Legs B swaps Leg Press for Hack Squat — this hits the quads harder with more knee flexion. Everything else mirrors Tuesday. Track both sessions independently and compare your progress week to week.
+  </div>
+
+  <div class="exercise-card" data-exid="fri-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Seated Hamstring Curl</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Hamstrings</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Tuesday. Full range, 3–4 sec eccentric. Try to match or beat Tuesday's weight. Hamstrings respond to slow controlled reps — don't rush.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-fri-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="fri-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Seated Leg Extension</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Tuesday. Squeeze at top, 3–4 sec descent. Hold contraction 1–2 sec. Burn, not strain.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-fri-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="fri-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Hack Squat</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Feet on platform shoulder-width. Back against pad throughout. Lower until thighs parallel or below. Drive through heels to stand. Machine guides the path — use this to focus entirely on quad engagement. Don't lock knees at top.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-fri-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="fri-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Single Leg Standing Calf Raises</div><div class="ex-meta">Target: 5 × 11+ each leg · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Calves</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Full ROM — heel fully below toe platform, fully rise on toes. Pause at both ends. 3 sec descent. Same as Tuesday. Alternate feet or do all reps one leg before switching.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-fri-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="fri-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Sitting Calf Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-leg">Calves (Soleus)</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Seated machine. Bent knee hits soleus. Full stretch, full rise. Hold peak 1–2 sec. Same as Tuesday.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-fri-05"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="fri-06">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">06</div>
+      <div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Tuesday. Core braced. Press overhead. Try to beat Tuesday's numbers over time.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-fri-06"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block fri -->
+
+  <div class="divider"></div>
+
+  <!-- SAT: PULL B -->
+  <div class="day-block">
+  <div class="day-block-header" onclick="toggleDay('sat')">
+    <div class="day-block-title"><span style="color:#47c8ff;">SAT</span> — Pull B</div>
+    <div class="day-block-meta">Back · Rear Delts · Biceps</div>
+    <span class="day-block-chevron" id="day-chevron-sat">▼</span>
+  </div>
+  <div class="day-block-body" id="day-body-sat">
+  <div class="day-notes-row">
+    <div class="day-notes-label">📝 Day Notes / Reps Summary</div>
+    <textarea class="day-notes-input" id="day-notes-sat" placeholder="e.g. Pulldown: beat Wed by 2 reps · great week!..."></textarea>
+    <div style="display:flex;align-items:center;margin-top:4px;">
+      <button class="day-notes-save" onclick="saveDayNotes('sat')">Save Notes</button>
+      <span class="day-notes-saved" id="day-notes-saved-sat">✓ Saved</span>
+    </div>
+  </div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min band pull-aparts + shoulder rotations</div>
+
+  <div class="info-box info-b">Pull B mirrors Wednesday exactly. Same exercises, same targets. Compare Saturday vs Wednesday numbers — you should see improvement across the week. End of the training week: give it everything.
+  </div>
+
+  <div class="exercise-card" data-exid="sat-01">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">01</div>
+      <div class="ex-info"><div class="ex-name">Lat Pulldown</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Wide overhand grip. Depress shoulders first. Pull to upper chest. Full stretch at top. Elbows to back pockets. Try to beat Wednesday's numbers.</div>
+      <div class="rest-badge">⏱ 90 sec rest</div>
+      <div id="tracker-sat-01"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="sat-02">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">02</div>
+      <div class="ex-info"><div class="ex-name">Single Hand Seated Cable Row</div><div class="ex-meta">Target: 4 × 11+ each arm · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Wednesday. No torso rotation. Full stretch on return. Torso stays vertical.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-sat-02"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="sat-03">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">03</div>
+      <div class="ex-info"><div class="ex-name">Lat Pullover</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Wednesday. Stretch fully at top, squeeze lats at the bottom of each rep.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-sat-03"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="sat-04">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">04</div>
+      <div class="ex-info"><div class="ex-name">Reverse Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Rear Delts</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same as Wednesday. Squeeze rear delts at end range. Control return. This is your shoulder health insurance — do it well.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-sat-04"></div>
+    </div>
+  </div>
+
+  <div class="exercise-card" data-exid="sat-05">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">05</div>
+      <div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div>
+      <span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Full range. 3 sec eccentric. No momentum. End the week strong on biceps.</div>
+      <div class="rest-badge">⏱ 60 sec rest</div>
+      <div id="tracker-sat-05"></div>
+    </div>
+  </div>
+
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  </div></div><!-- end day-block sat -->
+</div>
+
+<!-- PROGRESSION -->
+<div id="phase2" class="section">
+  <span class="phase-tag tag-2">Progressive Overload</span>
+  <div class="section-title">PROGRESSION<br><span style="color:var(--accent2)">SYSTEM</span></div>
+  <p class="section-desc">The 11+ rep system with double progression. Same structure for 6 months — load is what changes.</p>
+
+  <div class="info-box info-b">
+    <strong>The 2-for-2 Rule:</strong> Hit your top-end reps (11+) for 2 consecutive sessions → add weight next session. Bench/Row: +2.5 kg. Leg Press/Hack Squat: +5 kg. Isolation: +1–2 kg. Never add weight if form breaks down.
+  </div>
+
+  <div class="exercise-card">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">▶</div>
+      <div class="ex-info"><div class="ex-name">Double Progression — Exact Method</div><div class="ex-meta">Applied to every lift, every session</div></div>
+      <span class="ex-badge badge-pull">System</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-section-title">How it works</div>
+      <div class="ex-text">Set a weight you can do 11 clean reps. Try to add reps each session. Once you hit 15+ reps across all sets comfortably — add weight. Reset back to 11 reps with the new weight. Repeat. This cycle drives all muscle and strength gain.</div>
+      <div class="ex-section-title">Weight Increments</div>
+      <ul class="tip-list">
+        <li>Barbell compound lifts (bench, incline): +2.5 kg per progression</li>
+        <li>Leg Press: +5 kg · Hack Squat: +5 kg</li>
+        <li>Calf raises: +2 kg · Leg curls/extensions: +2 kg</li>
+        <li>Cables and dumbbells: +1–2 kg</li>
+        <li>Overhead press: +2 kg per progression</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exercise-card">
+    <div class="ex-header" onclick="toggleEx(this)">
+      <div class="ex-num">▶</div>
+      <div class="ex-info"><div class="ex-name">Deload Week — Every 4 Weeks</div><div class="ex-meta">Weeks 4, 8, 12, 16, 20, 24</div></div>
+      <span class="ex-badge badge-core">Recovery</span><span class="ex-chevron">▼</span>
+    </div>
+    <div class="ex-body">
+      <div class="ex-text">Same PPL structure. Same exercises. Drop all weights 40%. Cut 1 set per exercise. No max effort. Focus entirely on form. Treadmill walk only — no intensity. Sleep extra 30–60 min if possible. Non-negotiable — your body must have a recovery week. You always come back stronger after a deload.</div>
+    </div>
+  </div>
+
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;font-size:13px;color:#b0b0c0;line-height:2.2;">
+    <strong style="color:var(--accent)">The 2-for-2 Rule:</strong> Hit 11+ reps for 2 sessions in a row → add weight next session.<br>
+    <strong style="color:var(--accent)">Deload weeks:</strong> Every 4 weeks, drop all weights 40%, reduce sets by 1. Non-negotiable.<br>
+    <strong style="color:var(--accent)">Track everything:</strong> Log reps, sets, weight every session using the Tracker tab. No tracking = no progress visibility.<br>
+    <strong style="color:var(--accent)">Regress when:</strong> Form breaks down, joint pain appears, or 3+ missed sessions. Drop 20% weight.<br>
+    <strong style="color:var(--accent)">Stop immediately if:</strong> Sharp joint pain, numbness in limbs, dizziness. See a physiotherapist.
+  </div>
+
+  <div class="info-box info-b" style="margin-top:20px;">
+    <strong>On nutrition:</strong> Eat real food — dal, rice, sabzi, eggs, curd, chicken. Protein at every meal. No liquid calories. Aim for 300–500 calorie deficit. Never go below 1700 calories. A registered dietitian will multiply your results.
+  </div>
+</div>
+
+<!-- RECOVERY -->
+<div id="recovery" class="section">
+  <span class="phase-tag tag-3">Recovery System</span>
+  <div class="section-title">RECOVER<br><span style="color:var(--accent3)">OR FAIL</span></div>
+  <p class="section-desc">Lifting 6 days per week is high volume. Without systematic recovery, you'll overtrain, plateau, and get injured. This section determines results more than any exercise choice.</p>
+
+  <div class="rec-grid">
+    <div class="rec-card">
+      <div class="rec-icon">😴</div>
+      <div class="rec-title">Sleep 7–9 Hours</div>
+      <div class="rec-text">Growth hormone peaks during deep sleep. Same wake time daily, dark room, no screens 60 min before. Your most powerful anabolic tool — free and available every night.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🥩</div>
+      <div class="rec-title">Protein — <span id="recProtein">152</span>g/day</div>
+      <div class="rec-text">1.6g per kg bodyweight minimum, spread across 4–5 meals. Eggs, paneer, chicken, dal, Greek yogurt, fish, whey as backup. Protein within 90 min post-training maximises muscle protein synthesis.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">💧</div>
+      <div class="rec-title">Hydration 3.5–4L/day</div>
+      <div class="rec-text">Add 750ml per training hour. Just 2% dehydration = 10–15% strength loss. Sea salt + lemon in 1–2 glasses daily for electrolytes. Pale yellow urine = good.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🧊</div>
+      <div class="rec-title">Contrast Shower</div>
+      <div class="rec-text">Post-workout: 30s cold → 30s hot × 5 cycles, end cold. Reduces DOMS by 20–30%. Boosts dopamine 250%, norepinephrine 300%. One of the most underrated recovery tools available.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🔄</div>
+      <div class="rec-title">Foam Rolling 10 min/day</div>
+      <div class="rec-text">Priority: IT band, quads, upper back, lats, glutes, calves. 45–60 sec per area. Breathe through tender spots. Best done every morning or pre-training.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">☀️</div>
+      <div class="rec-title">Morning Sunlight</div>
+      <div class="rec-text">10–20 min outdoors within 1 hr of waking (no sunglasses). Sets circadian rhythm. Critical for Indian bodies — Vitamin D deficiency is near-universal and directly suppresses testosterone and recovery capacity.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">💊</div>
+      <div class="rec-title">Evidence-Based Supplements</div>
+      <div class="rec-text">Creatine monohydrate 5g/day (only supplement with consistent evidence). Vitamin D3 + K2. Magnesium glycinate (sleep and muscle recovery). Omega-3 fish oil (inflammation). Consult a doctor first.</div>
+    </div>
+    <div class="rec-card">
+      <div class="rec-icon">🧘</div>
+      <div class="rec-title">Sunday — Full Rest</div>
+      <div class="rec-text">No gym. Light walk optional. High cortisol from overtraining directly blocks fat loss and muscle gain. Ideal Sunday: meal prep, extra sleep, foam rolling, and stretching. Nothing more.</div>
+    </div>
+  </div>
+</div>
+
+<!-- MILESTONES -->
+<div id="milestones" class="section">
+  <span class="phase-tag tag-2">6-Month Roadmap</span>
+  <div class="section-title">MONTHLY<br><span style="color:var(--accent2)">TARGETS</span></div>
+  <p class="section-desc">Concrete benchmarks for each month. Direction matters more than pace — if you're behind, extend the phase rather than skipping ahead.</p>
+
+  <div class="prog-grid">
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase1)">M1</div>
+      <div class="prog-sub">Month 1 · Learn</div>
+      <div class="prog-item">All PPL movements with correct form</div>
+      <div class="prog-item">Completing all sets and reps</div>
+      <div class="prog-item">Treadmill 10 min every session</div>
+      <div class="prog-item">6 gym sessions per week, consistent</div>
+      <div class="prog-item">-1.5 to -2 kg weight lost</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase1)">M2</div>
+      <div class="prog-sub">Month 2 · Build Base</div>
+      <div class="prog-item">Bench 30 kg · Lat Pulldown 40 kg</div>
+      <div class="prog-item">Leg Press 80 kg · Hack Squat 60 kg</div>
+      <div class="prog-item">Increasing weight each week</div>
+      <div class="prog-item">-3 to -4 kg total lost</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase2)">M3</div>
+      <div class="prog-sub">Month 3 · Hypertrophy</div>
+      <div class="prog-item">Bench 40 kg · Lat Pulldown 55 kg</div>
+      <div class="prog-item">Leg Press 100 kg · Hack Squat 80 kg</div>
+      <div class="prog-item">Visible shape change in arms/chest/back</div>
+      <div class="prog-item">-5 to -7 kg total lost</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase2)">M4</div>
+      <div class="prog-sub">Month 4 · Strength Rising</div>
+      <div class="prog-item">Bench 50 kg · Lat Pulldown 65 kg</div>
+      <div class="prog-item">Leg Press 120 kg · Hack Squat 100 kg</div>
+      <div class="prog-item">Posture noticeably improved</div>
+      <div class="prog-item">-8 to -10 kg total lost</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase3)">M5</div>
+      <div class="prog-sub">Month 5 · Power</div>
+      <div class="prog-item">Bench 62 kg · Lat Pulldown 75 kg</div>
+      <div class="prog-item">Leg Press 140 kg · Hack Squat 120 kg</div>
+      <div class="prog-item">No chronic body pain</div>
+      <div class="prog-item">-11 to -13 kg total lost</div>
+    </div>
+    <div class="prog-card">
+      <div class="prog-month" style="color:var(--phase3)">M6</div>
+      <div class="prog-sub">Month 6 · New Body</div>
+      <div class="prog-item">Bench 70 kg · Lat Pulldown 85 kg</div>
+      <div class="prog-item">Visible muscle definition</div>
+      <div class="prog-item">Full flexibility — no daily stiffness</div>
+      <div class="prog-item">-14 to -16 kg total lost</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRACKER -->
+<div id="tracker" class="tracker-section">
+  <span class="phase-tag tag-2">Progress Tracking</span>
+  <div class="section-title">TRACKER</div>
+  <p class="section-desc">Log your daily steps, body weight over time, and review your exercise history. Download everything as an Excel file anytime.</p>
+
+  <!-- STEPS SECTION -->
+  <div class="steps-card">
+    <div class="steps-header">
+      <div class="steps-title">📍 Daily Steps</div>
+      <button class="btn btn-steps" style="flex:none;padding:10px 20px;" onclick="openStepsModal()">+ Log Today</button>
+    </div>
+    <div class="steps-history" id="stepsHistoryEl">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No steps logged yet. Tap "Log Today" to start.</div>
+    </div>
+  </div>
+
+  <!-- WEIGHT HISTORY -->
+  <div class="log-section">
+    <div class="log-title">⚖️ Weight History</div>
+    <div id="weightHistoryEl">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No weight history yet. Tap the weight tile on the home screen to log.</div>
+    </div>
+  </div>
+
+  <!-- EXERCISE LOG -->
+  <div class="log-section" style="margin-top:20px;">
+    <div class="log-title" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <span>🏋️ Exercise Log</span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <select id="logFilterDay" onchange="renderExerciseLog()" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;outline:none;">
+          <option value="">All Days</option>
+          <option value="mon">Monday</option>
+          <option value="tue">Tuesday</option>
+          <option value="wed">Wednesday</option>
+          <option value="thu">Thursday</option>
+          <option value="fri">Friday</option>
+          <option value="sat">Saturday</option>
+        </select>
+      </div>
+    </div>
+    <div id="exerciseLogEl" style="margin-top:14px;">
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No exercises logged yet. Open the Routine tab, expand an exercise, and save your sets.</div>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD -->
+  <div class="download-area">
+    <div class="download-title">📥 Export Data</div>
+    <div class="download-desc">Download all your tracked data — steps, weight history, and all exercise sets with reps and weights — as an Excel spreadsheet (.xlsx).</div>
+    <button class="download-btn" onclick="downloadExcel()">⬇ Download Excel (.xlsx)</button>
+  </div>
+</div>
+
+<script>
+// ─── DATA DEFINITIONS ────────────────────────────────────────────────────────
+const HEIGHT_M = 1.8288;
+let currentWeight = 95;
+
+// Default set counts for each exercise
+const defaultSets = {
+  'mon-01':4,'mon-02':4,'mon-03':4,'mon-04':4,'mon-05':5,'mon-06':4,
+  'tue-01':5,'tue-02':5,'tue-03':5,'tue-04':5,'tue-05':5,'tue-06':3,
+  'wed-01':4,'wed-02':4,'wed-03':4,'wed-04':4,'wed-05':4,
+  'thu-01':4,'thu-02':4,'thu-03':4,'thu-04':4,'thu-05':5,'thu-06':4,
+  'fri-01':5,'fri-02':5,'fri-03':4,'fri-04':5,'fri-05':5,'fri-06':3,
+  'sat-01':4,'sat-02':4,'sat-03':4,'sat-04':4,'sat-05':4
+};
+
+const exerciseNames = {
+  'mon-01':'Flat Barbell Bench Press','mon-02':'Incline Barbell Bench Press',
+  'mon-03':'Pec Deck','mon-04':'Overhead Tricep Rope Extension',
+  'mon-05':'Lateral Dumbbell Raises','mon-06':'Tricep Rope Pushdown',
+  'tue-01':'Seated Hamstring Curl','tue-02':'Seated Leg Extension',
+  'tue-03':'Leg Press','tue-04':'Single Leg Standing Calf Raises',
+  'tue-05':'Sitting Calf Raises','tue-06':'Seated Dumbbell Overhead Press',
+  'wed-01':'Lat Pulldown','wed-02':'Single Hand Seated Cable Row',
+  'wed-03':'Lat Pullover','wed-04':'Reverse Pec Deck',
+  'wed-05':'Sitting Machine Bicep Curls',
+  'thu-01':'Flat Barbell Bench Press (Thu)','thu-02':'Incline Barbell Bench Press (Thu)',
+  'thu-03':'Pec Deck (Thu)','thu-04':'Overhead Tricep Rope Extension (Thu)',
+  'thu-05':'Lateral Dumbbell Raises (Thu)','thu-06':'Tricep Rope Pushdown (Thu)',
+  'fri-01':'Seated Hamstring Curl (Fri)','fri-02':'Seated Leg Extension (Fri)',
+  'fri-03':'Hack Squat','fri-04':'Single Leg Standing Calf Raises (Fri)',
+  'fri-05':'Sitting Calf Raises (Fri)','fri-06':'Seated Dumbbell Overhead Press (Fri)',
+  'sat-01':'Lat Pulldown (Sat)','sat-02':'Single Hand Seated Cable Row (Sat)',
+  'sat-03':'Lat Pullover (Sat)','sat-04':'Reverse Pec Deck (Sat)',
+  'sat-05':'Sitting Machine Bicep Curls (Sat)'
+};
+
+const dayLabels = {
+  mon:{label:'MON',color:'#ff9060'},tue:{label:'TUE',color:'#e8ff47'},
+  wed:{label:'WED',color:'#47c8ff'},thu:{label:'THU',color:'#ff9060'},
+  fri:{label:'FRI',color:'#e8ff47'},sat:{label:'SAT',color:'#47c8ff'}
+};
+
+// ─── STORAGE HELPERS ─────────────────────────────────────────────────────────
+function loadData(key, fallback) {
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e) { return fallback; }
+}
+function saveData(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch(e) {}
+}
+
+// ─── WEIGHT MODAL ─────────────────────────────────────────────────────────────
+function openWeightModal() {
+  document.getElementById('weightInput').value = currentWeight;
+  calcModalBMI();
+  document.getElementById('weightModal').classList.add('open');
+  setTimeout(() => document.getElementById('weightInput').focus(), 80);
+}
+function closeWeightModal() { document.getElementById('weightModal').classList.remove('open'); }
+function calcModalBMI() {
+  const w = parseFloat(document.getElementById('weightInput').value);
+  const box = document.getElementById('modalBmiBox');
+  if (!w || w < 30 || w > 300) { box.innerHTML = 'Enter weight above to see BMI'; return; }
+  const bmi = (w / (HEIGHT_M * HEIGHT_M)).toFixed(1);
+  const protein = Math.round(w * 1.6);
+  let cat, col;
+  if (bmi < 18.5) { cat='Underweight'; col='#47c8ff'; }
+  else if (bmi < 23) { cat='Normal (Indian std)'; col='#e8ff47'; }
+  else if (bmi < 27.5) { cat='Overweight (Indian std)'; col='#ffc83c'; }
+  else { cat='Obese (Indian std)'; col='#ff6b47'; }
+  box.innerHTML = `BMI <strong style="color:${col};font-size:20px;">${bmi}</strong> &nbsp;·&nbsp; ${cat}<br><span style="font-size:10px;letter-spacing:1px;">Protein target: ${protein}g / day</span>`;
+}
+function saveWeight() {
+  const w = parseFloat(document.getElementById('weightInput').value);
+  if (!w || w < 30 || w > 300) return;
+  currentWeight = w;
+  // Save weight history
+  const hist = loadData('weightHistory', []);
+  const today = new Date().toISOString().split('T')[0];
+  const existing = hist.findIndex(e => e.date === today);
+  if (existing >= 0) hist[existing].weight = w;
+  else hist.push({ date: today, weight: w });
+  hist.sort((a,b) => b.date.localeCompare(a.date));
+  saveData('weightHistory', hist);
+  updateHeroStats();
+  closeWeightModal();
+  renderWeightHistory();
+}
+function updateHeroStats() {
+  const w = currentWeight;
+  const bmi = (w / (HEIGHT_M * HEIGHT_M)).toFixed(1);
+  const protein = Math.round(w * 1.6);
+  document.getElementById('displayWeight').innerHTML = w + '<span style="font-size:20px;color:var(--muted);">kg</span>';
+  let col = '#ffc83c';
+  if (bmi < 18.5) col = '#47c8ff';
+  else if (bmi < 23) col = '#e8ff47';
+  else if (bmi >= 27.5) col = '#ff6b47';
+  document.getElementById('displayBMI').textContent = bmi;
+  document.getElementById('displayBMI').style.color = col;
+  document.getElementById('displayProtein').innerHTML = protein + '<span style="font-size:20px;color:var(--muted);">g</span>';
+  document.getElementById('recProtein').textContent = protein;
+}
+
+// ─── STEPS MODAL ─────────────────────────────────────────────────────────────
+function openStepsModal() {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('stepsDateInput').value = today;
+  document.getElementById('stepsInput').value = '';
+  document.getElementById('stepsModal').classList.add('open');
+  setTimeout(() => document.getElementById('stepsInput').focus(), 80);
+}
+function closeStepsModal() { document.getElementById('stepsModal').classList.remove('open'); }
+function saveSteps() {
+  const steps = parseInt(document.getElementById('stepsInput').value);
+  const date = document.getElementById('stepsDateInput').value;
+  if (!steps || steps < 0 || !date) return;
+  const hist = loadData('stepsHistory', []);
+  const existing = hist.findIndex(e => e.date === date);
+  if (existing >= 0) hist[existing].steps = steps;
+  else hist.push({ date, steps });
+  hist.sort((a,b) => b.date.localeCompare(a.date));
+  saveData('stepsHistory', hist);
+  closeStepsModal();
+  renderStepsHistory();
+  updateTodayStepsDisplay();
+}
+function deleteSteps(date) {
+  const hist = loadData('stepsHistory', []).filter(e => e.date !== date);
+  saveData('stepsHistory', hist);
+  renderStepsHistory();
+  updateTodayStepsDisplay();
+}
+function updateTodayStepsDisplay() {
+  const today = new Date().toISOString().split('T')[0];
+  const hist = loadData('stepsHistory', []);
+  const todayEntry = hist.find(e => e.date === today);
+  const el = document.getElementById('displaySteps');
+  if (todayEntry) {
+    el.innerHTML = todayEntry.steps.toLocaleString() + '<span style="font-size:16px;color:var(--muted);"> steps</span>';
+  } else {
+    el.textContent = '—';
+  }
+}
+function renderStepsHistory() {
+  const hist = loadData('stepsHistory', []);
+  const el = document.getElementById('stepsHistoryEl');
+  if (!hist.length) {
+    el.innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No steps logged yet.</div>';
+    return;
+  }
+  const maxSteps = Math.max(...hist.map(e => e.steps), 10000);
+  el.innerHTML = hist.slice(0, 30).map(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    const label = d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const pct = Math.min(100, Math.round((e.steps / maxSteps) * 100));
+    const goal10k = e.steps >= 10000 ? '🎯 10k' : '';
+    return `<div class="steps-history-item">
+      <span class="steps-date">${label}</span>
+      <span class="steps-val">${e.steps.toLocaleString()}</span>
+      <div class="steps-bar"><div class="steps-bar-fill" style="width:${pct}%"></div></div>
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:#60a060;">${goal10k}</span>
+      <button class="steps-del" onclick="deleteSteps('${e.date}')" title="Delete">✕</button>
+    </div>`;
+  }).join('');
+}
+
+// ─── WEIGHT HISTORY RENDER ───────────────────────────────────────────────────
+function renderWeightHistory() {
+  const hist = loadData('weightHistory', []);
+  const el = document.getElementById('weightHistoryEl');
+  if (!hist.length) {
+    el.innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No weight history yet.</div>';
+    return;
+  }
+  const minW = Math.min(...hist.map(e => e.weight)) - 2;
+  const maxW = Math.max(...hist.map(e => e.weight)) + 2;
+  el.innerHTML = hist.slice(0, 30).map(e => {
+    const d = new Date(e.date + 'T12:00:00');
+    const label = d.toLocaleDateString('en-GB', { weekday:'short', day:'numeric', month:'short' });
+    const bmi = (e.weight / (HEIGHT_M * HEIGHT_M)).toFixed(1);
+    const pct = Math.max(5, Math.min(95, Math.round(((e.weight - minW) / (maxW - minW)) * 100)));
+    return `<div class="steps-history-item">
+      <span class="steps-date">${label}</span>
+      <span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:#ff6b47;line-height:1;">${e.weight}<span style="font-size:12px;color:var(--muted);">kg</span></span>
+      <div class="steps-bar"><div class="steps-bar-fill" style="width:${pct}%;background:#ff6b47;"></div></div>
+      <span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">BMI ${bmi}</span>
+    </div>`;
+  }).join('');
+}
+
+// ─── SET TRACKER ─────────────────────────────────────────────────────────────
+function buildTracker(exid) {
+  const numSets = defaultSets[exid] || 4;
+  const el = document.getElementById('tracker-' + exid);
+  if (!el || el.dataset.built) return;
+  el.dataset.built = 'true';
+
+  const today = new Date().toISOString().split('T')[0];
+  const savedSessions = loadData('exercise_' + exid, []);
+  const todaySession = savedSessions.find(s => s.date === today) || { date: today, sets: [] };
+
+  el.innerHTML = `
+    <div class="set-tracker">
+      <div class="set-tracker-title">
+        <span>📋 Set Tracker</span>
+        <span id="st-date-${exid}">${today}</span>
+      </div>
+      <div class="date-row">
+        <span class="date-label">Session date:</span>
+        <input class="date-input" id="stdate-${exid}" type="date" value="${today}" onchange="changeDateTracker('${exid}')">
+      </div>
+      <table class="sets-table">
+        <thead><tr>
+          <th>Set</th>
+          <th>Weight (kg)</th>
+          <th>Reps</th>
+          <th></th>
+        </tr></thead>
+        <tbody id="sets-body-${exid}"></tbody>
+      </table>
+      <button class="add-set-btn" onclick="addSet('${exid}')">+ Add Set</button>
+      <button class="save-sets-btn" onclick="saveSets('${exid}')">💾 Save Sets</button>
+      <div class="sets-saved-msg" id="saved-msg-${exid}">✓ Saved!</div>
+    </div>
+  `;
+
+  // Populate with saved or default sets
+  const existingSets = todaySession.sets.length ? todaySession.sets : Array(numSets).fill({weight:'',reps:''});
+  existingSets.forEach((s, i) => appendSetRow(exid, i+1, s.weight, s.reps));
+}
+
+function appendSetRow(exid, num, weight, reps) {
+  const tbody = document.getElementById('sets-body-' + exid);
+  if (!tbody) return;
+  const tr = document.createElement('tr');
+  tr.dataset.setnum = num;
+  tr.innerHTML = `
+    <td class="set-num">Set ${num}</td>
+    <td><input class="set-input" type="number" min="0" step="0.5" placeholder="kg" value="${weight||''}" oninput="markDone(this)"></td>
+    <td><input class="set-input" type="number" min="0" placeholder="reps" value="${reps||''}" oninput="markDone(this)"></td>
+    <td><button class="set-del-btn" onclick="deleteSetRow(this,'${exid}')" title="Remove set">✕</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+function markDone(input) {
+  if (input.value) input.classList.add('done');
+  else input.classList.remove('done');
+}
+
+function addSet(exid) {
+  const tbody = document.getElementById('sets-body-' + exid);
+  if (!tbody) return;
+  const rows = tbody.querySelectorAll('tr');
+  appendSetRow(exid, rows.length + 1, '', '');
+}
+
+function deleteSetRow(btn, exid) {
+  const tr = btn.closest('tr');
+  tr.remove();
+  // Re-number
+  const tbody = document.getElementById('sets-body-' + exid);
+  tbody.querySelectorAll('tr').forEach((row, i) => {
+    row.dataset.setnum = i+1;
+    row.querySelector('.set-num').textContent = 'Set ' + (i+1);
+  });
+}
+
+function changeDateTracker(exid) {
+  const date = document.getElementById('stdate-' + exid).value;
+  document.getElementById('st-date-' + exid).textContent = date;
+  // Load saved data for that date
+  const sessions = loadData('exercise_' + exid, []);
+  const session = sessions.find(s => s.date === date);
+  const tbody = document.getElementById('sets-body-' + exid);
+  tbody.innerHTML = '';
+  const numSets = defaultSets[exid] || 4;
+  const sets = session ? session.sets : Array(numSets).fill({weight:'',reps:''});
+  sets.forEach((s, i) => appendSetRow(exid, i+1, s.weight, s.reps));
+}
+
+function saveSets(exid) {
+  const date = document.getElementById('stdate-' + exid).value;
+  const tbody = document.getElementById('sets-body-' + exid);
+  const rows = tbody.querySelectorAll('tr');
+  const sets = [];
+  rows.forEach(row => {
+    const inputs = row.querySelectorAll('input');
+    sets.push({ weight: inputs[0].value || '', reps: inputs[1].value || '' });
+  });
+  const sessions = loadData('exercise_' + exid, []);
+  const existingIdx = sessions.findIndex(s => s.date === date);
+  const entry = { date, sets, exid, name: exerciseNames[exid] || exid };
+  if (existingIdx >= 0) sessions[existingIdx] = entry;
+  else sessions.push(entry);
+  sessions.sort((a,b) => b.date.localeCompare(a.date));
+  saveData('exercise_' + exid, sessions);
+
+  const msg = document.getElementById('saved-msg-' + exid);
+  msg.style.display = 'block';
+  setTimeout(() => msg.style.display = 'none', 2000);
+  renderExerciseLog();
+}
+
+// ─── EXERCISE LOG RENDER ─────────────────────────────────────────────────────
+function renderExerciseLog() {
+  const filterDay = document.getElementById('logFilterDay')?.value || '';
+  const el = document.getElementById('exerciseLogEl');
+  if (!el) return;
+
+  // Gather all exercise IDs
+  const allIds = Object.keys(exerciseNames);
+  const filteredIds = filterDay ? allIds.filter(id => id.startsWith(filterDay)) : allIds;
+
+  let allEntries = [];
+  filteredIds.forEach(exid => {
+    const sessions = loadData('exercise_' + exid, []);
+    sessions.forEach(s => {
+      if (s.sets && s.sets.some(set => set.weight || set.reps)) {
+        allEntries.push({ ...s, exid });
+      }
+    });
+  });
+
+  allEntries.sort((a,b) => b.date.localeCompare(a.date) || a.exid.localeCompare(b.exid));
+
+  if (!allEntries.length) {
+    el.innerHTML = '<div style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No exercises logged yet.</div>';
+    return;
+  }
+
+  // Group by date
+  const grouped = {};
+  allEntries.forEach(e => {
+    if (!grouped[e.date]) grouped[e.date] = [];
+    grouped[e.date].push(e);
+  });
+
+  el.innerHTML = Object.keys(grouped).sort((a,b) => b.localeCompare(a)).map(date => {
+    const d = new Date(date + 'T12:00:00');
+    const dateLabel = d.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'short', year:'numeric' });
+    const dayKey = d.toLocaleDateString('en-US',{weekday:'short'}).toLowerCase().substring(0,3);
+    const dayInfo = dayLabels[dayKey] || {};
+    const entries = grouped[date];
+    return `<div class="log-entry">
+      <div class="log-entry-header">
+        <span class="log-date-badge">${dateLabel}</span>
+        ${dayInfo.label ? `<span class="log-day-badge" style="background:rgba(${hexToRgb(dayInfo.color||'#ffffff')},.1);border:1px solid rgba(${hexToRgb(dayInfo.color||'#ffffff')},.2);color:${dayInfo.color||'#fff'};">${dayInfo.label}</span>` : ''}
+      </div>
+      ${entries.map(e => `
+        <div style="margin-bottom:8px;">
+          <div class="log-ex-name">${e.name || e.exid}</div>
+          <div class="log-sets-row">
+            ${e.sets.map((s,i) => `<span class="log-set-pill">S${i+1}: ${s.weight?s.weight+'kg':'—'} × ${s.reps||'—'}</span>`).join('')}
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('');
+}
+
+function hexToRgb(hex) {
+  const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return r ? `${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}` : '255,255,255';
+}
+
+// ─── EXCEL EXPORT ─────────────────────────────────────────────────────────────
+function downloadExcel() {
+  // Build CSV-like data for multiple sheets using simple approach:
+  // We'll create an Excel-compatible HTML table saved as .xls (widely supported)
+  
+  const weightHist = loadData('weightHistory', []);
+  const stepsHist = loadData('stepsHistory', []);
+
+  // Gather all exercise sessions
+  const allExerciseSessions = [];
+  Object.keys(exerciseNames).forEach(exid => {
+    const sessions = loadData('exercise_' + exid, []);
+    sessions.forEach(s => {
+      s.sets.forEach((set, i) => {
+        if (set.weight || set.reps) {
+          allExerciseSessions.push({
+            date: s.date,
+            exercise: exerciseNames[exid] || exid,
+            day: exid.split('-')[0].toUpperCase(),
+            setNum: i+1,
+            weight: set.weight || '',
+            reps: set.reps || ''
+          });
+        }
+      });
+    });
+  });
+  allExerciseSessions.sort((a,b) => b.date.localeCompare(a.date) || a.exercise.localeCompare(b.exercise) || a.setNum - b.setNum);
+
+  // Build multi-sheet Excel HTML
+  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets>
+<x:ExcelWorksheet><x:Name>Exercise Log</x:Name><x:WorksheetOptions><x:Selected/></x:WorksheetOptions></x:ExcelWorksheet>
+<x:ExcelWorksheet><x:Name>Weight History</x:Name><x:WorksheetOptions></x:WorksheetOptions></x:ExcelWorksheet>
+<x:ExcelWorksheet><x:Name>Steps History</x:Name><x:WorksheetOptions></x:WorksheetOptions></x:ExcelWorksheet>
+<x:ExcelWorksheet><x:Name>Day Notes</x:Name><x:WorksheetOptions></x:WorksheetOptions></x:ExcelWorksheet>
+</x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>`;
+
+  // Sheet 1: Exercise Log
+  html += `<table ss:Sheet="Exercise Log" style="mso-sheet-name:'Exercise Log'">
+<tr style="background:#1e1e2e;color:#e8ff47;font-weight:bold;">
+<td>Date</td><td>Day</td><td>Exercise</td><td>Set #</td><td>Weight (kg)</td><td>Reps</td>
+</tr>`;
+  if (allExerciseSessions.length) {
+    allExerciseSessions.forEach(r => {
+      html += `<tr><td>${r.date}</td><td>${r.day}</td><td>${r.exercise}</td><td>${r.setNum}</td><td>${r.weight}</td><td>${r.reps}</td></tr>`;
+    });
+  } else {
+    html += `<tr><td colspan="6">No exercise data logged yet</td></tr>`;
+  }
+  html += `</table>`;
+
+  // Sheet 2: Weight History
+  html += `<table ss:Sheet="Weight History" style="mso-sheet-name:'Weight History'">
+<tr style="background:#1e1e2e;color:#e8ff47;font-weight:bold;">
+<td>Date</td><td>Weight (kg)</td><td>BMI</td>
+</tr>`;
+  if (weightHist.length) {
+    weightHist.forEach(r => {
+      const bmi = (r.weight / (HEIGHT_M * HEIGHT_M)).toFixed(1);
+      html += `<tr><td>${r.date}</td><td>${r.weight}</td><td>${bmi}</td></tr>`;
+    });
+  } else {
+    html += `<tr><td colspan="3">No weight data logged yet</td></tr>`;
+  }
+  html += `</table>`;
+
+  // Sheet 3: Steps History
+  html += `<table ss:Sheet="Steps History" style="mso-sheet-name:'Steps History'">
+<tr style="background:#1e1e2e;color:#e8ff47;font-weight:bold;">
+<td>Date</td><td>Steps</td><td>Goal Met (10,000+)?</td>
+</tr>`;
+  if (stepsHist.length) {
+    stepsHist.forEach(r => {
+      html += `<tr><td>${r.date}</td><td>${r.steps}</td><td>${r.steps >= 10000 ? 'Yes' : 'No'}</td></tr>`;
+    });
+  } else {
+    html += `<tr><td colspan="3">No steps data logged yet</td></tr>`;
+  }
+  html += `</table>`;
+
+  // Sheet 4: Day Notes
+  const dayKeys = ['mon','tue','wed','thu','fri','sat'];
+  const dayFullNames = {mon:'Monday – Push A',tue:'Tuesday – Legs A',wed:'Wednesday – Pull A',thu:'Thursday – Push B',fri:'Friday – Legs B',sat:'Saturday – Pull B'};
+  html += `<table ss:Sheet="Day Notes" style="mso-sheet-name:'Day Notes'">
+<tr style="background:#1e1e2e;color:#e8ff47;font-weight:bold;">
+<td>Day</td><td>Notes / Reps Summary</td>
+</tr>`;
+  let hasNotes = false;
+  dayKeys.forEach(d => {
+    const notes = loadData('daynotes_' + d, '');
+    if (notes) {
+      html += `<tr><td>${dayFullNames[d]}</td><td>${notes.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</td></tr>`;
+      hasNotes = true;
+    }
+  });
+  if (!hasNotes) html += `<tr><td colspan="2">No day notes saved yet</td></tr>`;
+  html += `</table></body></html>`;
+
+  const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'PPL_Training_Log_' + new Date().toISOString().split('T')[0] + '.xls';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ─── DAILY QUOTES ────────────────────────────────────────────────────────────
+const DAILY_QUOTES = [
+  { text: "The body achieves what the mind believes. But the body won't even show up if the mind makes excuses.", author: "— Anonymous" },
+  { text: "Every rep you do while tired is building the version of you that doesn't quit.", author: "— Anonymous" },
+  { text: "You're not tired. You're just not finished yet.", author: "— Anonymous" },
+  { text: "The pain you feel today is the strength you'll use tomorrow.", author: "— Anonymous" },
+  { text: "You don't have to be extreme. You just have to be consistent for longer than you're comfortable with.", author: "— Anonymous" },
+  { text: "Your future self is watching you right now through your memories. Make the memories worth watching.", author: "— Anonymous" },
+  { text: "Training is not punishment. It's proof that you believe in a version of yourself that doesn't exist yet.", author: "— Anonymous" },
+  { text: "If it doesn't challenge you, it doesn't change you. If it doesn't hurt a little, nothing is shifting.", author: "— Anonymous" },
+  { text: "Discipline is just choosing between what you want now and what you want most.", author: "— Abraham Lincoln" },
+  { text: "The hardest part of every session is starting. Everything after that is just deciding not to stop.", author: "— Anonymous" },
+  { text: "One year from now you'll wish you had started today. You already started. Don't waste that.", author: "— Anonymous" },
+  { text: "Most people are stopped by discomfort. A very small number are stopped by actual limits.", author: "— Anonymous" },
+  { text: "Strength is not built in the gym. It's built in the moment you want to stop but don't.", author: "— Anonymous" },
+  { text: "You can be sore tomorrow or you can be sorry tomorrow. Same energy either way.", author: "— Anonymous" },
+  { text: "Progress is not made by the person who works hardest once. It's made by the person who shows up every damn time.", author: "— Anonymous" },
+  { text: "Nobody is born with the body they want. Everybody earns it or doesn't.", author: "— Anonymous" },
+  { text: "There will come a day when you can't do this. Today is not that day.", author: "— Anonymous" },
+  { text: "The goal isn't a number on a scale. The goal is becoming someone who doesn't need motivation to train.", author: "— Anonymous" },
+  { text: "It's supposed to be hard. If it were easy, everyone would look the way you want to look.", author: "— Anonymous" },
+  { text: "The difference between where you are and where you want to be is what you're willing to do consistently.", author: "— Anonymous" },
+  { text: "You're building something. Every session is a brick. Miss a session, you leave a gap. Show up, you close it.", author: "— Anonymous" },
+  { text: "The weights don't care how you feel. But your body will care — in six months — that you showed up anyway.", author: "— Anonymous" },
+  { text: "Most transformations didn't start with inspiration. They started with someone just being fed up enough to go.", author: "— Anonymous" },
+  { text: "Don't train to look good in pictures. Train to feel like you can handle anything.", author: "— Anonymous" },
+  { text: "Momentum is earned, not given. One session doesn't give it to you. Twenty in a row does.", author: "— Anonymous" },
+  { text: "Pain is temporary. The version of you that quit is permanent in your memory.", author: "— Anonymous" },
+  { text: "The gym rewards the boring. Consistent, unglamorous, week-after-week effort wins every time.", author: "— Anonymous" },
+  { text: "There are two types of hard: the hard of training, and the hard of wishing you had. Pick one.", author: "— Anonymous" },
+  { text: "Six months is nothing in a lifetime and everything in a transformation.", author: "— Anonymous" },
+  { text: "You don't rise to the occasion. You fall to the level of your habits. Build better habits.", author: "— Archilochus (adapted)" },
+  { text: "Your body is a direct representation of how seriously you take yourself. Act accordingly.", author: "— Anonymous" },
+  { text: "Motivation gets you started. Hate of being soft keeps you going.", author: "— Anonymous" },
+  { text: "The only workout you'll ever regret is the one you skipped.", author: "— Anonymous" },
+  { text: "Every time you push past the point where lesser people would quit, you put distance between you and them.", author: "— Anonymous" },
+  { text: "You are not built for comfort. You are built for growth. Discomfort is the signal, not the enemy.", author: "— Anonymous" },
+  { text: "It's not about being better than someone else. It's about being better than who you were yesterday.", author: "— Anonymous" },
+  { text: "When you feel like stopping, remember why you started. Now remember that version of you is watching.", author: "— Anonymous" }
+];
+
+function initDailyQuote() {
+  const dayIndex = Math.floor(Date.now() / 86400000) % DAILY_QUOTES.length;
+  const q = DAILY_QUOTES[dayIndex];
+  document.getElementById('daily-quote-text').textContent = '"' + q.text + '"';
+  document.getElementById('daily-quote-author').textContent = q.author;
+}
+
+// ─── TRAIN TODAY ──────────────────────────────────────────────────────────────
+const DAY_MAP = { 1:'mon', 2:'tue', 3:'wed', 4:'thu', 5:'fri', 6:'sat', 0:null };
+const DAY_LABELS = { mon:'PUSH A', tue:'LEGS A', wed:'PULL A', thu:'PUSH B', fri:'LEGS B', sat:'PULL B' };
+
+function initTodayTile() {
+  const dow = new Date().getDay(); // 0=Sun
+  const dayKey = DAY_MAP[dow];
+  const el = document.getElementById('displayTodayDay');
+  if (dayKey && DAY_LABELS[dayKey]) {
+    el.textContent = DAY_LABELS[dayKey];
+  } else {
+    el.textContent = 'REST';
+    el.style.fontSize = '24px';
+  }
+}
+
+function trainToday() {
+  const dow = new Date().getDay();
+  const dayKey = DAY_MAP[dow];
+  // Navigate to Routine section
+  const routineBtn = document.querySelector('.phase-btn[onclick*="routine"]');
+  if (routineBtn) showSection('routine', routineBtn);
+  if (dayKey) {
+    // Open today's day block
+    setTimeout(() => {
+      const body = document.getElementById('day-body-' + dayKey);
+      if (body && !body.classList.contains('open')) toggleDay(dayKey);
+      // Scroll to it
+      const header = document.querySelector('[onclick="toggleDay(\'' + dayKey + '\')"]');
+      if (header) setTimeout(() => header.scrollIntoView({ behavior:'smooth', block:'start' }), 150);
+    }, 80);
+  }
+}
+
+// ─── NAV + UI ─────────────────────────────────────────────────────────────────
+function showSection(id, btn) {
+  document.querySelectorAll('.section, .tracker-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  const nav = document.querySelector('.phase-nav');
+  window.scrollTo({ top: nav.offsetTop - 10, behavior: 'smooth' });
+  if (id === 'tracker') {
+    renderStepsHistory();
+    renderWeightHistory();
+    renderExerciseLog();
+  }
+}
+
+function toggleDay(day) {
+  const body = document.getElementById('day-body-' + day);
+  const chevron = document.getElementById('day-chevron-' + day);
+  const header = chevron.closest('.day-block-header');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+  header.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    // Load saved notes when opening
+    const notes = loadData('daynotes_' + day, '');
+    const el = document.getElementById('day-notes-' + day);
+    if (el && notes) el.value = notes;
+  }
+}
+
+function saveDayNotes(day) {
+  const el = document.getElementById('day-notes-' + day);
+  if (!el) return;
+  saveData('daynotes_' + day, el.value);
+  const msg = document.getElementById('day-notes-saved-' + day);
+  if (msg) { msg.style.display = 'inline'; setTimeout(() => { msg.style.display = 'none'; }, 1800); }
+}
+
+function toggleEx(header) {
+  const body = header.nextElementSibling;
+  const chevron = header.querySelector('.ex-chevron');
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chevron.classList.toggle('open', !isOpen);
+  if (!isOpen) {
+    const card = header.closest('.exercise-card');
+    const exid = card ? card.dataset.exid : null;
+    if (exid) buildTracker(exid);
+  }
+}
+
+// ─── MODAL KEYBOARD + CLICK OUTSIDE ─────────────────────────────────────────
+document.getElementById('weightModal').addEventListener('click', function(e) {
+  if (e.target === this) closeWeightModal();
+});
+document.getElementById('stepsModal').addEventListener('click', function(e) {
+  if (e.target === this) closeStepsModal();
+});
+document.getElementById('weightInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') saveWeight();
+  if (e.key === 'Escape') closeWeightModal();
+});
+document.getElementById('stepsInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') saveSteps();
+  if (e.key === 'Escape') closeStepsModal();
+});
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+(function init() {
+  const savedWeight = loadData('currentWeight', null);
+  if (savedWeight) { currentWeight = savedWeight; updateHeroStats(); }
+  updateTodayStepsDisplay();
+  initTodayTile();
+  initDailyQuote();
+})();
+
+// Also persist currentWeight
+const origSaveWeight = saveWeight;
+// Override: save currentWeight on each update
+const _origUpdateHeroStats = updateHeroStats;
+window.updateHeroStats = function() {
+  saveData('currentWeight', currentWeight);
+  _origUpdateHeroStats();
+};
+</script>
+</body>
+</html>
