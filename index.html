@@ -1149,41 +1149,69 @@ async function loadMealsForDay(dateStr) {
   if (!MEALS_URL) return;
   try {
     const resp = await fetch(MEALS_URL);
-    if (!resp.ok) return;
+    if (!resp.ok) { console.warn('Meals fetch failed:', resp.status); return; }
     const csv = await resp.text();
+ 
+    // Robust CSV parse — log raw headers for debugging
+    const lines = csv.trim().split('\n');
+    if (lines.length < 2) { console.warn('Meals sheet has no data rows'); return; }
+    const rawHeaders = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+    console.log('Meals sheet headers:', rawHeaders);
+ 
     const rows = parseCSV(csv);
+    console.log('Meals total rows:', rows.length, 'Sample:', rows[0]);
+ 
     const personName = personaData[currentPerson]?.name || currentPerson;
-    // Filter rows for this person and date
-    const dayRows = rows.filter(r => r['Person'] === personName && r['Date'] === dateStr);
-    if (!dayRows.length) return;
-    // Rebuild meals structure from sheet rows
+    console.log('Filtering for person:', personName, 'date:', dateStr);
+ 
+    // Flexible column matching — find column keys case-insensitively
+    function col(row, ...candidates) {
+      for (const k of Object.keys(row)) {
+        const kl = k.toLowerCase().trim();
+        for (const c of candidates) {
+          if (kl === c.toLowerCase()) return row[k];
+        }
+      }
+      return '';
+    }
+ 
+    // Flexible person+date match (trim whitespace, case-insensitive person)
+    const dayRows = rows.filter(r => {
+      const rPerson = col(r, 'Person', 'person').trim();
+      const rDate   = col(r, 'Date', 'date').trim();
+      return rPerson.toLowerCase() === personName.toLowerCase() && rDate === dateStr;
+    });
+ 
+    console.log('Rows for this day:', dayRows.length);
+    if (!dayRows.length) return; // Nothing logged for this day — keep defaults
+ 
     const mealsMap = {};
     dayRows.forEach(r => {
       const mealName = r['Meal'] || 'Quick Add';
       if (!mealsMap[mealName]) mealsMap[mealName] = { name: mealName, items: [] };
-      if (r['Food']) {
+      const food = r['Food'];
+      if (food) {
         mealsMap[mealName].items.push({
-          name: r['Food'],
-          serving: +r['Serving'] || 100,
-          protein: +r['Protein (g)'] || 0,
-          carbs: +r['Carbs (g)'] || 0,
-          fat: +r['Fat (g)'] || 0,
-          energy: +r['Calories (kcal)'] || 0
+          name:    food,
+          serving: parseFloat(r['Serving'])        || 100,
+          protein: parseFloat(r['Protein (g)'])    || 0,
+          carbs:   parseFloat(r['Carbs (g)'])      || 0,
+          fat:     parseFloat(r['Fat (g)'])        || 0,
+          energy:  parseFloat(r['Calories (kcal)']) || 0
         });
       }
     });
-    // Build ordered meals — default order first, then any extras from sheet
-    const defaultOrder = ['Breakfast','Lunch','Snacks','Dinner'];
-    const sheetMealNames = Object.keys(mealsMap);
-    const orderedNames = [
-      ...defaultOrder,
-      ...sheetMealNames.filter(n => !defaultOrder.includes(n))
-    ];
+ 
+    // Preserve default meal order, append any extras from sheet
+    const defaultOrder = ['Breakfast', 'Lunch', 'Snacks', 'Dinner'];
+    const sheetExtras = Object.keys(mealsMap).filter(n => !defaultOrder.includes(n));
+    const orderedNames = [...defaultOrder, ...sheetExtras];
     const meals = orderedNames.map(name => mealsMap[name] || { name, items: [] });
-    const data = { meals };
-    saveData(nKey('day_' + dateStr), data);
+ 
+    saveData(nKey('day_' + dateStr), { meals });
+    console.log('Meals loaded from Sheets for', dateStr, ':', meals.map(m => m.name + '(' + m.items.length + ')').join(', '));
   } catch(e) {
-    console.warn('Could not load meals from Sheets:', e);
+    console.warn('loadMealsForDay error:', e);
   }
 }
  
