@@ -1130,7 +1130,7 @@ async function loadNutritionSheet() {
     const rows = parseCSV(csv);
     foodBankData = rows.map(r => ({
       food: r['Food'] || '',
-      weight: r['Weight (g) / Unit'] || r['Weight (g)'] || '100',
+      weight: r['Serving'] || r['Weight (g) / Unit'] || r['Weight (g)'] || '100',
       protein: r['Protein (g)'] || '0',
       calories: r['Calories (kcal)'] || '0',
       carbs: r['Carbs (g)'] || '0',
@@ -1836,9 +1836,13 @@ function searchFoodBank() {
   const el=document.getElementById('n-search-results');
   if (!q||!foodBankData.length) { el.style.display='none'; return; }
   const matches=foodBankData.filter(f=>f.food.toLowerCase().includes(q)).slice(0,10);
-  if (!matches.length) { el.style.display='none'; return; }
   el.style.display='block';
-  el.innerHTML=matches.map(f=>`<div class="n-search-item" onclick="nFillFromFoodBank(${JSON.stringify(f).replace(/"/g,'&quot;')})"><div class="n-search-item-name">${f.food}</div><div class="n-search-item-macros">per ${f.weight}: P ${f.protein}g · C ${f.carbs}g · F ${f.fat}g · ${f.calories} kcal</div></div>`).join('');
+  if (!matches.length) {
+    el.innerHTML=`<div class="n-search-item" onclick="nOpenAddFoodBankFromSearch()" style="color:var(--accent2);display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">＋</span><div><div class="n-search-item-name" style="color:var(--accent2);">Add new food item</div><div class="n-search-item-macros">Not in the list? Add it to the food bank</div></div></div>`;
+    return;
+  }
+  el.innerHTML=matches.map(f=>`<div class="n-search-item" onclick="nFillFromFoodBank(${JSON.stringify(f).replace(/"/g,'&quot;')})"><div class="n-search-item-name">${f.food}</div><div class="n-search-item-macros">per ${f.weight}: P ${f.protein}g · C ${f.carbs}g · F ${f.fat}g · ${f.calories} kcal</div></div>`).join('')
+    + `<div class="n-search-item" onclick="nOpenAddFoodBankFromSearch()" style="border-top:1px solid var(--border);color:var(--accent2);display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">＋</span><div><div class="n-search-item-name" style="color:var(--accent2);">Add new food item</div><div class="n-search-item-macros">Not in the list? Add it to the food bank</div></div></div>`;
 }
 function nFillFromFoodBank(f) {
   nFoodBaseServing=parseFloat(f.weight)||100;
@@ -1928,6 +1932,13 @@ function nQuickAddFromFoodBank(f) {
  
 // ── Food bank — add new item
 let fbServingType='g';
+// Track whether Food Bank add was opened from the Add Food search
+let fbReturnToAddFood = false;
+function nOpenAddFoodBankFromSearch() {
+  fbReturnToAddFood = true;
+  nCloseModal('n-modal-addfood');
+  fbOpenAddModal();
+}
 function fbOpenAddModal() {
   // Reset form and set defaults based on type
   fbServingType='g';
@@ -1970,6 +1981,17 @@ function fbSaveNewItem() {
   // Reset form
   ['fb-new-name','fb-new-serving','fb-new-protein','fb-new-carbs','fb-new-fat','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fb-pcal-display').textContent='—';
+  // If opened from Add Food search, return there with new item pre-filled
+  if (fbReturnToAddFood) {
+    fbReturnToAddFood = false;
+    nOpenAddFood();
+    // Pre-fill the search and fill from the new item
+    setTimeout(() => {
+      document.getElementById('n-food-search').value = name;
+      nFillFromFoodBank(newItem);
+      document.getElementById('n-search-results').style.display = 'none';
+    }, 50);
+  }
 }
  
 // ── Summary tab
