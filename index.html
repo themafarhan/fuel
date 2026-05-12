@@ -924,11 +924,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="n-total-card"><div class="n-total-val" style="color:var(--carbs);" id="nt-carbs">0g</div><div class="n-total-unit">carbs</div><div class="n-total-target" id="nt-carbs-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-carbs" style="background:var(--carbs);width:0%"></div></div></div>
     <div class="n-total-card"><div class="n-total-val" style="color:var(--fat);" id="nt-fat">0g</div><div class="n-total-unit">fat</div><div class="n-total-target" id="nt-fat-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-fat" style="background:var(--fat);width:0%"></div></div></div>
   </div>
-  <div id="n-meals-container"></div>
-  <div class="n-add-row">
-    <button class="n-add-btn" onclick="nOpenAddFood()">+ Add Food Item</button>
-    <button class="n-add-btn" onclick="nOpenModal('n-modal-addmeal')">+ Create Meal</button>
+  <div style="display:flex;gap:10px;margin-bottom:16px;">
+    <button class="btn btn-primary" style="flex:1;padding:11px;" onclick="nOpenAddFood()">+ Add Food Item</button>
+    <button class="btn" style="flex:1;padding:11px;background:rgba(71,200,255,.12);border:1px solid rgba(71,200,255,.3);color:var(--accent2);" onclick="nOpenModal('n-modal-addmeal')">+ Create Meal</button>
   </div>
+  <div id="n-meals-container"></div>
 </div>
  
 <!-- FOOD BANK PANE -->
@@ -1490,7 +1490,17 @@ function nFormatDate(offset) {
   const d=new Date(); d.setDate(d.getDate()+offset);
   return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
 }
-function nGetDayData(offset) { return loadData(nKey('day_'+nGetDateKey(offset)), {meals:[]}); }
+function nGetDayData(offset) {
+  const data = loadData(nKey('day_'+nGetDateKey(offset)), null);
+  if (data) return data;
+  // Default 4 meals for every new day
+  return { meals: [
+    { name:'Breakfast', items:[] },
+    { name:'Lunch',     items:[] },
+    { name:'Snacks',    items:[] },
+    { name:'Dinner',    items:[] }
+  ]};
+}
 function nSetDayData(data, offset) { saveData(nKey('day_'+nGetDateKey(offset)), data); }
  
 // ═══════════════════════════════════════════════════════════════════
@@ -1564,14 +1574,26 @@ function nRenderTotals(data) {
 }
 function nRenderMeals(data) {
   const c=document.getElementById('n-meals-container'); c.innerHTML='';
-  if (!data.meals||!data.meals.length) { c.innerHTML='<div style="text-align:center;padding:40px 0;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">No meals logged yet. Add a food item or create a meal to start.</div>'; return; }
+  if (!data.meals||!data.meals.length) {
+    c.innerHTML='<div style="text-align:center;padding:40px 0;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">No meals yet. Use the buttons above to add food or create a meal.</div>';
+    return;
+  }
   data.meals.forEach((meal,mi)=>{
+    const hasItems = (meal.items||[]).length > 0;
     const mCals=(meal.items||[]).reduce((s,i)=>s+(+i.energy||0),0);
     const mProt=(meal.items||[]).reduce((s,i)=>s+(+i.protein||0),0);
     const block=document.createElement('div'); block.className='n-meal-block';
-    block.innerHTML=`<div class="n-meal-header" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}</div><div style="display:flex;align-items:center;gap:12px;"><span class="n-pill np-p">${Math.round(mProt)}g P</span><span class="n-meal-cals">${Math.round(mCals)} kcal</span><span style="color:var(--muted);font-size:11px;">▾</span></div></div><div class="n-meal-body" id="n-meal-body-${mi}">${
-      (meal.items||[]).map((item,ii)=>`<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit</div></div><div class="n-macros" style="font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted);">${item.protein}g P · ${item.carbs}g C · ${item.fat}g F · ${item.energy} kcal</div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`).join('')
-    }</div>`;
+    // Empty meals are greyed out
+    const headerStyle = hasItems ? '' : 'opacity:0.45;';
+    const pillsHtml = hasItems
+      ? `<span class="n-pill np-p">${Math.round(mProt)}g P</span><span class="n-meal-cals">${Math.round(mCals)} kcal</span>`
+      : `<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">empty</span>`;
+    const foodRowsHtml = (meal.items||[]).map((item,ii)=>
+      `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit</div></div><div class="n-macros" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">${item.protein}g P · ${item.carbs}g C · ${item.fat}g F · ${item.energy} kcal</div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
+    ).join('');
+    // Per-meal Add button (always shown at bottom of meal body)
+    const addRowHtml = `<div style="padding:8px 14px;border-top:1px solid var(--border);"><button style="width:100%;padding:7px;background:rgba(71,200,255,.04);border:1px dashed rgba(71,200,255,.2);border-radius:6px;color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;" onclick="nOpenAddFoodForMeal(${mi})">+ Add Food to ${meal.name}</button></div>`;
+    block.innerHTML=`<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div><div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}${addRowHtml}</div>`;
     c.appendChild(block);
   });
 }
@@ -1650,7 +1672,7 @@ function efSave() {
  
 // ── Add food to log (5. serving-proportional)
 let nFoodBaseServing=100, nFoodBase={protein:0,carbs:0,fat:0,energy:0};
-function nOpenAddFood() {
+function nOpenAddFood(preselectedMealIdx) {
   const data=nGetDayData(nCurrentDayOffset);
   const sel=document.getElementById('n-food-meal-sel'); sel.innerHTML='';
   if (!data.meals||!data.meals.length) { sel.innerHTML='<option value="__new__">+ New Meal (Quick Add)</option>'; }
@@ -1658,6 +1680,8 @@ function nOpenAddFood() {
     data.meals.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m.name; sel.appendChild(o); });
     const o=document.createElement('option'); o.value='__new__'; o.textContent='+ New Meal'; sel.appendChild(o);
   }
+  // Pre-select meal if provided
+  if (preselectedMealIdx !== undefined && preselectedMealIdx !== null) sel.value = preselectedMealIdx;
   document.getElementById('n-food-search').value='';
   document.getElementById('n-food-name').value='';
   document.getElementById('n-food-name-display').textContent='Search above to select';
@@ -1667,6 +1691,12 @@ function nOpenAddFood() {
   ['n-food-protein','n-food-carbs','n-food-fat','n-food-energy'].forEach(id=>document.getElementById(id).value='');
   nFoodBaseServing=100; nFoodBase={protein:0,carbs:0,fat:0,energy:0};
   nOpenModal('n-modal-addfood');
+}
+function nOpenAddFoodForMeal(mi) {
+  // Open meal body if not already open, then open add food with meal pre-selected
+  const body = document.getElementById('n-meal-body-'+mi);
+  if (body && !body.classList.contains('open')) nToggleMeal(mi);
+  nOpenAddFood(mi);
 }
 function nFoodServingChanged() {
   const serving=parseFloat(document.getElementById('n-food-serving').value)||0;
