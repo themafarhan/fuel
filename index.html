@@ -935,7 +935,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 <div class="n-pane" id="n-pane-foodbank">
   <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:8px;">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:1px;">FOOD BANK</div>
-    <button class="btn btn-primary" style="flex:none;padding:10px 20px;" onclick="nOpenModal('n-modal-addfbitem')">+ Add Food</button>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+      <div style="position:relative;">
+        <button class="btn btn-ghost" style="padding:10px 16px;" onclick="toggleSortPanel()">⇅ Sort</button>
+        <div id="fb-sort-panel" style="display:none;position:absolute;right:0;top:110%;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;min-width:220px;z-index:200;box-shadow:0 16px 40px rgba(0,0,0,.5);">
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Sort by</div>
+          <div id="fb-sort-fields" style="display:flex;flex-direction:column;gap:4px;margin-bottom:10px;"></div>
+          <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Order</div>
+          <div style="display:flex;gap:6px;">
+            <button class="n-toggle-opt active" id="sort-asc-btn" onclick="setSortOrder('asc')" style="flex:1;">↑ Asc</button>
+            <button class="n-toggle-opt" id="sort-desc-btn" onclick="setSortOrder('desc')" style="flex:1;">↓ Desc</button>
+          </div>
+        </div>
+      </div>
+      <button class="btn btn-primary" style="flex:none;padding:10px 20px;" onclick="fbOpenAddModal()">+ Add Food</button>
+    </div>
   </div>
   <p style="color:var(--muted);font-size:13px;margin-bottom:20px;">Loaded from your Google Sheets "Nutrition" tab. Click + to add to today's log.</p>
   <div class="n-foodbank-search">
@@ -1193,7 +1207,7 @@ function saveWeight() {
   hist.sort((a,b) => b.date.localeCompare(a.date));
   saveData(tKey('weightHistory'), hist);
   updateHeroStats(); closeWeightModal(); renderWeightHistory();
-  saveToSheets({ type:'weight', person:currentPerson, date:today, weight:w });
+  saveToSheets({ type:'weight', person:personaData[currentPerson]?.name||currentPerson, date:today, weight:w });
 }
 function updateHeroStats() {
   saveData('currentWeight_' + (currentPerson||''), currentWeight);
@@ -1228,7 +1242,7 @@ function saveSteps() {
   hist.sort((a,b) => b.date.localeCompare(a.date));
   saveData(tKey('stepsHistory'), hist);
   closeStepsModal(); renderStepsHistory(); updateTodayStepsDisplay();
-  saveToSheets({ type:'steps', person:currentPerson, date, steps });
+  saveToSheets({ type:'steps', person:personaData[currentPerson]?.name||currentPerson, date, steps });
 }
 function deleteSteps(date) {
   saveData(tKey('stepsHistory'), loadData(tKey('stepsHistory'), []).filter(e => e.date !== date));
@@ -1347,7 +1361,7 @@ function saveSets(exid) {
   const msg = document.getElementById('saved-msg-' + exid);
   msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 2000);
   renderExerciseLog();
-  saveToSheets({ type:'training', person:currentPerson, date, exid, exercise:exerciseNames[exid]||exid, day:exid.split('-')[0].toUpperCase(), sets });
+  saveToSheets({ type:'training', person:personaData[currentPerson]?.name||currentPerson, date, exid, exercise:exerciseNames[exid]||exid, day:exid.split('-')[0].toUpperCase(), sets });
 }
 function renderExerciseLog() {
   const filterDay = document.getElementById('logFilterDay')?.value || '';
@@ -1498,7 +1512,7 @@ function savePersonaField() {
   nCloseModal('n-modal-edit-persona');
   // Map field to Sheets column name
   const fieldMap = { weight:'Weight (kg)', protein:'Protein (g)', maintenance:'Maintainance Calorie (kcal)', cutCalories:'Weight Loss Calorie (kcal)', carbs:'Carbs (g)', fat:'Fat (g)' };
-  saveToSheets({ type:'persona', person:currentPerson, name:personaData[currentPerson].name, field: fieldMap[editingPersonaField]||editingPersonaField, value: val, fullRow: personaData[currentPerson] });
+  saveToSheets({ type:'persona', person:personaData[currentPerson]?.name||currentPerson, name:personaData[currentPerson].name, field: fieldMap[editingPersonaField]||editingPersonaField, value: val, fullRow: personaData[currentPerson] });
 }
  
 // ═══════════════════════════════════════════════════════════════════
@@ -1587,7 +1601,7 @@ function confirmDeleteOk() {
   document.getElementById('confirm-delete-modal').classList.remove('open');
   pendingDeleteMi=null; pendingDeleteIi=null;
   nRenderLog();
-  saveToSheets({type:'meal_delete',person:currentPerson,date:dateKey,itemName:item?.name});
+  saveToSheets({type:'meal_delete',person:personaData[currentPerson]?.name||currentPerson,date:dateKey,itemName:item?.name});
 }
  
 // ── Edit food item in log
@@ -1631,7 +1645,7 @@ function efSave() {
   nSetDayData(data,nCurrentDayOffset);
   nCloseModal('n-modal-editfood');
   nRenderLog();
-  saveToSheets({type:'meal_update',person:currentPerson,date:nGetDateKey(nCurrentDayOffset),item});
+  saveToSheets({type:'meal_update',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),item});
 }
  
 // ── Add food to log (5. serving-proportional)
@@ -1687,7 +1701,7 @@ function nSaveFood() {
   nCloseModal('n-modal-addfood');
   nRenderLog();
   // Save to Meals sheet
-  saveToSheets({type:'meal_add',person:currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:sel==='__new__'?'Quick Add':data.meals[+sel]?.name,item});
+  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:sel==='__new__'?'Quick Add':data.meals[+sel]?.name,item});
 }
 function nSaveMeal() {
   const n=document.getElementById('n-meal-name-inp').value.trim();
@@ -1723,13 +1737,68 @@ function nFillFromFoodBank(f) {
 }
  
 // ── Food bank tab
+// ── Food bank sort state
+let fbSortField = null; // null = original order
+let fbSortOrder = 'asc';
+const FB_SORT_OPTIONS = [
+  { key:'food',    label:'Food Name',      num:false },
+  { key:'weight',  label:'Serving',        num:true  },
+  { key:'protein', label:'Protein',        num:true  },
+  { key:'calories',label:'Calories',       num:true  },
+  { key:'carbs',   label:'Carbs',          num:true  },
+  { key:'fat',     label:'Fat',            num:true  },
+  { key:'pCalRatio',label:'P/Cal Ratio',   num:true  }
+];
+function initSortPanel() {
+  const el = document.getElementById('fb-sort-fields');
+  if (!el || el.dataset.built) return;
+  el.dataset.built = 'true';
+  el.innerHTML = FB_SORT_OPTIONS.map(o =>
+    `<button class="n-toggle-opt" id="sort-field-${o.key}" onclick="setSortField('${o.key}')" style="text-align:left;padding:6px 10px;">${o.label}</button>`
+  ).join('');
+}
+function toggleSortPanel() {
+  const panel = document.getElementById('fb-sort-panel');
+  const isOpen = panel.style.display !== 'none';
+  panel.style.display = isOpen ? 'none' : 'block';
+  if (!isOpen) initSortPanel();
+}
+function setSortField(key) {
+  fbSortField = key;
+  document.querySelectorAll('[id^="sort-field-"]').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('sort-field-' + key);
+  if (btn) btn.classList.add('active');
+  renderFoodBank();
+}
+function setSortOrder(order) {
+  fbSortOrder = order;
+  document.getElementById('sort-asc-btn').classList.toggle('active', order === 'asc');
+  document.getElementById('sort-desc-btn').classList.toggle('active', order === 'desc');
+  renderFoodBank();
+}
+// Close sort panel on outside click
+document.addEventListener('click', e => {
+  const panel = document.getElementById('fb-sort-panel');
+  if (panel && !panel.contains(e.target) && !e.target.closest('[onclick="toggleSortPanel()"]')) {
+    panel.style.display = 'none';
+  }
+});
 function renderFoodBank() {
   const q=(document.getElementById('n-fb-search')?.value||'').toLowerCase();
-  const items=q?foodBankData.filter(f=>f.food.toLowerCase().includes(q)||(f.aminoAcid||'').toLowerCase().includes(q)):foodBankData;
+  let items=q?foodBankData.filter(f=>f.food.toLowerCase().includes(q)||(f.aminoAcid||'').toLowerCase().includes(q)):[...foodBankData];
+  // Apply sort
+  if (fbSortField) {
+    const opt = FB_SORT_OPTIONS.find(o => o.key === fbSortField);
+    items.sort((a, b) => {
+      let av = a[fbSortField]||'', bv = b[fbSortField]||'';
+      if (opt?.num) { av = parseFloat(av)||0; bv = parseFloat(bv)||0; return fbSortOrder==='asc' ? av-bv : bv-av; }
+      return fbSortOrder==='asc' ? String(av).localeCompare(String(bv)) : String(bv).localeCompare(String(av));
+    });
+  }
   const tbody=document.getElementById('n-foodbank-body'), empty=document.getElementById('n-fb-empty');
   if (!foodBankData.length) { if (tbody) tbody.innerHTML=''; if (empty) empty.style.display='block'; return; }
   if (empty) empty.style.display='none';
-  if (tbody) tbody.innerHTML=items.map(f=>`<tr><td style="font-weight:500;">${f.food}</td><td style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">${f.weight}</td><td style="color:var(--protein);font-family:\'DM Mono\',monospace;font-size:11px;">${f.protein}g</td><td style="color:var(--energy);font-family:\'DM Mono\',monospace;font-size:11px;">${f.calories}</td><td style="color:var(--carbs);font-family:\'DM Mono\',monospace;font-size:11px;">${f.carbs}g</td><td style="color:var(--fat);font-family:\'DM Mono\',monospace;font-size:11px;">${f.fat}g</td><td style="font-family:\'DM Mono\',monospace;font-size:10px;color:var(--muted);">${f.pCalRatio}</td><td><button class="n-add-food-quick" onclick='nQuickAddFromFoodBank(${JSON.stringify(f).replace(/'/g,"&#39;")})'>+ Add</button></td></tr>`).join('');
+  if (tbody) tbody.innerHTML=items.map(f=>`<tr><td style="font-weight:500;">${f.food}</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${f.weight}</td><td style="color:var(--protein);font-family:'DM Mono',monospace;font-size:11px;">${f.protein}g</td><td style="color:var(--energy);font-family:'DM Mono',monospace;font-size:11px;">${f.calories}</td><td style="color:var(--carbs);font-family:'DM Mono',monospace;font-size:11px;">${f.carbs}g</td><td style="color:var(--fat);font-family:'DM Mono',monospace;font-size:11px;">${f.fat}g</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">${f.pCalRatio}</td><td><button class="n-add-food-quick" onclick='nQuickAddFromFoodBank(${JSON.stringify(f).replace(/'/g,"&#39;")})'>+ Add</button></td></tr>`).join('');
 }
 function nQuickAddFromFoodBank(f) {
   const data=nGetDayData(nCurrentDayOffset);
@@ -1739,12 +1808,25 @@ function nQuickAddFromFoodBank(f) {
   else data.meals[data.meals.length-1].items.push(item);
   nSetDayData(data,nCurrentDayOffset);
   if (document.getElementById('n-pane-log').classList.contains('active')) nRenderLog();
-  saveToSheets({type:'meal_add',person:currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:'Quick Add',item});
+  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:'Quick Add',item});
 }
  
 // ── Food bank — add new item
 let fbServingType='g';
+function fbOpenAddModal() {
+  // Reset form and set defaults based on type
+  fbServingType='g';
+  document.getElementById('fb-toggle-g').classList.add('active');
+  document.getElementById('fb-toggle-u').classList.remove('active');
+  document.getElementById('fb-serving-unit-label').textContent='(g)';
+  document.getElementById('fb-new-serving').value='100';
+  ['fb-new-name','fb-new-protein','fb-new-carbs','fb-new-fat','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fb-pcal-display').textContent='—';
+  nOpenModal('n-modal-addfbitem');
+}
 function fbToggleServing(t) {
+  // When switching type, update the default serving value
+  document.getElementById('fb-new-serving').value = t==='g' ? '100' : '1';
   fbServingType=t;
   document.getElementById('fb-toggle-g').classList.toggle('active',t==='g');
   document.getElementById('fb-toggle-u').classList.toggle('active',t==='unit');
@@ -1769,7 +1851,7 @@ function fbSaveNewItem() {
   nCloseModal('n-modal-addfbitem');
   renderFoodBank();
   // Save to Nutrition sheet
-  saveToSheets({type:'nutrition_add',person:currentPerson,item:{Food:name,'Weight (g) / Unit':serving+(fbServingType==='unit'?' unit':''),'Protein (g)':protein,'Calories (kcal)':calories,'Carbs (g)':carbs,'Fats (g)':fat,'Protein/Calorie':pCal,'Amino Acid':''}});
+  saveToSheets({type:'nutrition_add',person:personaData[currentPerson]?.name||currentPerson,item:{Food:name,'Weight (g) / Unit':serving+(fbServingType==='unit'?' unit':''),'Protein (g)':protein,'Calories (kcal)':calories,'Carbs (g)':carbs,'Fats (g)':fat,'Protein/Calorie':pCal,'Amino Acid':''}});
   // Reset form
   ['fb-new-name','fb-new-serving','fb-new-protein','fb-new-carbs','fb-new-fat','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fb-pcal-display').textContent='—';
@@ -1841,7 +1923,7 @@ document.getElementById('stepsInput').addEventListener('keydown',e=>{ if(e.key==
   await loadNutritionSheet();
 })();
 </script>
- 
+
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
