@@ -1193,11 +1193,12 @@ async function loadMealsForDay(dateStr) {
       if (food) {
         mealsMap[mealName].items.push({
           name:    food,
-          serving: parseFloat(r['Serving'])        || 100,
-          protein: parseFloat(r['Protein (g)'])    || 0,
-          carbs:   parseFloat(r['Carbs (g)'])      || 0,
-          fat:     parseFloat(r['Fat (g)'])        || 0,
-          energy:  parseFloat(r['Calories (kcal)']) || 0
+          serving: parseFloat(r['Serving'])         || 100,
+          protein: parseFloat(r['Protein (g)'])     || 0,
+          carbs:   parseFloat(r['Carbs (g)'])       || 0,
+          fat:     parseFloat(r['Fat (g)'])         || 0,
+          energy:  parseFloat(r['Calories (kcal)']) || 0,
+          loggedAt: r['Logged At'] || ''
         });
       }
     });
@@ -1706,7 +1707,7 @@ function confirmDeleteOk() {
   document.getElementById('confirm-delete-modal').classList.remove('open');
   pendingDeleteMi=null; pendingDeleteIi=null;
   nRenderLog();
-  saveToSheets({type:'meal_delete',person:personaData[currentPerson]?.name||currentPerson,date:dateKey,mealName,itemName:item?.name});
+  saveToSheets({type:'meal_delete',person:personaData[currentPerson]?.name||currentPerson,date:dateKey,mealName,itemName:item?.name,loggedAt:item?.loggedAt||''});
 }
  
 // ── Edit food item in log
@@ -1803,7 +1804,8 @@ function nSaveFood() {
     protein:+document.getElementById('n-food-protein').value||0,
     carbs:+document.getElementById('n-food-carbs').value||0,
     fat:+document.getElementById('n-food-fat').value||0,
-    energy:+document.getElementById('n-food-energy').value||0
+    energy:+document.getElementById('n-food-energy').value||0,
+    loggedAt: new Date().toLocaleString('en-IN')
   };
   const data=nGetDayData(nCurrentDayOffset);
   if (!data.meals) data.meals=[];
@@ -1916,7 +1918,7 @@ function renderFoodBank() {
 function nQuickAddFromFoodBank(f) {
   const data=nGetDayData(nCurrentDayOffset);
   if (!data.meals) data.meals=[];
-  const item={name:f.food,serving:parseFloat(f.weight)||100,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,energy:+f.calories||0};
+  const item={name:f.food,serving:parseFloat(f.weight)||100,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,energy:+f.calories||0,loggedAt:new Date().toLocaleString('en-IN')};
   if (!data.meals.length) data.meals.push({name:'Quick Add',items:[item]});
   else data.meals[data.meals.length-1].items.push(item);
   nSetDayData(data,nCurrentDayOffset);
