@@ -316,7 +316,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 .n-meal-header:hover{background:var(--surface2);border-color:rgba(71,200,255,.2);}
 .n-meal-header.open{border-radius:10px 10px 0 0;border-bottom-color:transparent;}
 .n-meal-name{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;flex:1;}
-.n-meal-cals{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);}
+.n-meal-cals{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent3);}
 .n-meal-body{display:none;border:1px solid var(--border);border-top:none;border-radius:0 0 10px 10px;background:var(--surface);overflow:hidden;margin-bottom:4px;}
 .n-meal-body.open{display:block;}
 .n-food-row{display:flex;align-items:center;gap:12px;padding:10px 18px;border-bottom:1px solid var(--border);}
@@ -902,12 +902,12 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="n-person-label">FUELLING</div>
   <div class="n-person-name" id="n-person-name-display">—</div>
   <div class="n-stat-grid" id="n-stat-grid">
-    <div class="n-stat" onclick="openPersonaEdit('weight','Weight (kg)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('weight','Weight (kg)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
     <div class="n-stat" onclick="openPersonaEdit('protein','Protein Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--protein);" id="n-stat-protein">—</div><div class="n-stat-label">Protein Target (g)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('maintenance','Maintenance (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('cutCalories','Cut Calories (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--carbs);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('carbs','Carbs Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--fat);" id="n-stat-carbs">—</div><div class="n-stat-label">Carbs Target (g)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('fat','Fat Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:#b47aff;" id="n-stat-fat">—</div><div class="n-stat-label">Fat Target (g)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('maintenance','Maintenance (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('cutCalories','Cut Calories (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('carbs','Carbs Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent2);" id="n-stat-carbs">—</div><div class="n-stat-label">Carbs Target (g)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('fat','Fat Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent2);" id="n-stat-fat">—</div><div class="n-stat-label">Fat Target (g)</div></div>
   </div>
 </div>
  
@@ -919,10 +919,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <button class="n-date-btn" onclick="nChangeDay(1)">›</button>
   </div>
   <div class="n-totals" id="n-totals">
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--energy);" id="nt-energy">0</div><div class="n-total-unit">kcal</div><div class="n-total-target" id="nt-energy-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-energy" style="background:var(--energy);width:0%"></div></div></div>
+    <div class="n-total-card"><div class="n-total-val" style="color:var(--accent3);" id="nt-energy">0</div><div class="n-total-unit">kcal</div><div class="n-total-target" id="nt-energy-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-energy" style="background:var(--accent3);width:0%"></div></div></div>
     <div class="n-total-card"><div class="n-total-val" style="color:var(--protein);" id="nt-protein">0g</div><div class="n-total-unit">protein</div><div class="n-total-target" id="nt-protein-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-protein" style="background:var(--protein);width:0%"></div></div></div>
     <div class="n-total-card"><div class="n-total-val" style="color:var(--carbs);" id="nt-carbs">0g</div><div class="n-total-unit">carbs</div><div class="n-total-target" id="nt-carbs-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-carbs" style="background:var(--carbs);width:0%"></div></div></div>
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--fat);" id="nt-fat">0g</div><div class="n-total-unit">fat</div><div class="n-total-target" id="nt-fat-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-fat" style="background:var(--fat);width:0%"></div></div></div>
+    <div class="n-total-card"><div class="n-total-val" style="color:var(--accent2);" id="nt-fat">0g</div><div class="n-total-unit">fat</div><div class="n-total-target" id="nt-fat-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-fat" style="background:var(--accent2);width:0%"></div></div></div>
   </div>
   <div style="display:flex;gap:10px;margin-bottom:16px;">
     <button class="btn btn-primary" style="flex:1;padding:11px;" onclick="nOpenAddFood()">+ Add Food Item</button>
@@ -997,6 +997,7 @@ const NUTRITION_URL = PUBLISHED_BASE + '?gid=784299290&single=true&output=csv';
 // (see README note at the bottom)
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyum27L_p9vT4zFHWbuJERw9rcdANHAKpK58YnP9Bsg7ipB_4eFodX0F_aIauOzvpLC/exec';
 const MEALS_GID = '731430364';
+const MEALS_URL = PUBLISHED_BASE + '?gid=' + MEALS_GID + '&single=true&output=csv';
  
 // ═══════════════════════════════════════════════════════════════════
 // GLOBAL STATE
@@ -1055,7 +1056,7 @@ function goToNutrition() {
   showScreen('screen-nutrition');
   const p = personaData[currentPerson] || {};
   nRenderHero(p);
-  nRenderLog();
+  fetchAndRenderLog();
   renderFoodBank();
 }
  
@@ -1141,6 +1142,58 @@ async function loadNutritionSheet() {
     foodBankData = [];
     console.error('Nutrition sheet failed:', e);
   }
+}
+ 
+// Load meals for a specific date from the Meals sheet and merge into localStorage
+async function loadMealsForDay(dateStr) {
+  if (!MEALS_URL) return;
+  try {
+    const resp = await fetch(MEALS_URL);
+    if (!resp.ok) return;
+    const csv = await resp.text();
+    const rows = parseCSV(csv);
+    const personName = personaData[currentPerson]?.name || currentPerson;
+    // Filter rows for this person and date
+    const dayRows = rows.filter(r => r['Person'] === personName && r['Date'] === dateStr);
+    if (!dayRows.length) return;
+    // Rebuild meals structure from sheet rows
+    const mealsMap = {};
+    dayRows.forEach(r => {
+      const mealName = r['Meal'] || 'Quick Add';
+      if (!mealsMap[mealName]) mealsMap[mealName] = { name: mealName, items: [] };
+      if (r['Food']) {
+        mealsMap[mealName].items.push({
+          name: r['Food'],
+          serving: +r['Serving'] || 100,
+          protein: +r['Protein (g)'] || 0,
+          carbs: +r['Carbs (g)'] || 0,
+          fat: +r['Fat (g)'] || 0,
+          energy: +r['Calories (kcal)'] || 0
+        });
+      }
+    });
+    // Build ordered meals — default order first, then any extras from sheet
+    const defaultOrder = ['Breakfast','Lunch','Snacks','Dinner'];
+    const sheetMealNames = Object.keys(mealsMap);
+    const orderedNames = [
+      ...defaultOrder,
+      ...sheetMealNames.filter(n => !defaultOrder.includes(n))
+    ];
+    const meals = orderedNames.map(name => mealsMap[name] || { name, items: [] });
+    const data = { meals };
+    saveData(nKey('day_' + dateStr), data);
+  } catch(e) {
+    console.warn('Could not load meals from Sheets:', e);
+  }
+}
+ 
+async function fetchAndRenderLog() {
+  const badge = document.getElementById('n-sync-badge');
+  if (badge) { badge.textContent = '↻ syncing'; badge.className = 'n-sync-badge sync-busy'; }
+  const dateStr = nGetDateKey(nCurrentDayOffset);
+  await loadMealsForDay(dateStr);
+  nRenderLog();
+  if (badge) { badge.textContent = '● synced'; badge.className = 'n-sync-badge sync-ok'; }
 }
  
 // Write to Sheets via Apps Script
@@ -1556,7 +1609,7 @@ function nRenderLog() {
   const data = nGetDayData(nCurrentDayOffset);
   nRenderTotals(data); nRenderMeals(data);
 }
-function nChangeDay(d) { nCurrentDayOffset+=d; nRenderLog(); }
+function nChangeDay(d) { nCurrentDayOffset+=d; fetchAndRenderLog(); }
 function nRenderTotals(data) {
   const t=nCalcTotals(data), tgt=nGetTargets();
   document.getElementById('nt-energy').textContent=Math.round(t.energy)+' kcal';
@@ -1589,11 +1642,12 @@ function nRenderMeals(data) {
       ? `<span class="n-pill np-p">${Math.round(mProt)}g P</span><span class="n-meal-cals">${Math.round(mCals)} kcal</span>`
       : `<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">empty</span>`;
     const foodRowsHtml = (meal.items||[]).map((item,ii)=>
-      `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit</div></div><div class="n-macros" style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">${item.protein}g P · ${item.carbs}g C · ${item.fat}g F · ${item.energy} kcal</div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
+      `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit</div></div><div class="n-macros" style="font-family:'DM Mono',monospace;font-size:9px;"><span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent2)">${item.carbs}g C</span> · <span style="color:var(--accent2)">${item.fat}g F</span> · <span style="color:var(--accent3)">${item.energy} kcal</span></div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
     ).join('');
-    // Per-meal Add button (always shown at bottom of meal body)
-    const addRowHtml = `<div style="padding:8px 14px;border-top:1px solid var(--border);"><button style="width:100%;padding:7px;background:rgba(71,200,255,.04);border:1px dashed rgba(71,200,255,.2);border-radius:6px;color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;" onclick="nOpenAddFoodForMeal(${mi})">+ Add Food to ${meal.name}</button></div>`;
-    block.innerHTML=`<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div><div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}${addRowHtml}</div>`;
+ 
+    // Add button is always visible, placed between header and collapsible body
+    const addBtnHtml = `<button style="width:100%;padding:6px 14px;background:rgba(71,200,255,.06);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.background='rgba(71,200,255,.14)'" onmouseout="this.style.background='rgba(71,200,255,.06)'" onclick="nOpenAddFood(${mi})">＋ Add Food</button>`;
+    block.innerHTML=`<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div>${addBtnHtml}<div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}</div>`;
     c.appendChild(block);
   });
 }
@@ -1931,6 +1985,7 @@ function nRenderHistory() {
 function nSwitchTab(t) {
   document.querySelectorAll('.n-tab').forEach((el,i)=>{ el.classList.toggle('active',['log','foodbank','summary','history'][i]===t); });
   document.querySelectorAll('.n-pane').forEach((el,i)=>{ el.classList.toggle('active',['n-pane-log','n-pane-foodbank','n-pane-summary','n-pane-history'][i]==='n-pane-'+t); });
+  if (t==='log') fetchAndRenderLog();
   if (t==='summary') nRenderSummary();
   if (t==='history') nRenderHistory();
   if (t==='foodbank') renderFoodBank();
