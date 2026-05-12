@@ -981,7 +981,7 @@ const NUTRITION_URL = PUBLISHED_BASE + '?gid=784299290&single=true&output=csv';
  
 // For writing back to Google Sheets, deploy an Apps Script web app and paste URL here:
 // (see README note at the bottom)
-const APPS_SCRIPT_URL = ''; // e.g. 'https://script.google.com/macros/s/YOUR_ID/exec'
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyum27L_p9vT4zFHWbuJERw9rcdANHAKpK58YnP9Bsg7ipB_4eFodX0F_aIauOzvpLC/exec';
 const MEALS_GID = '731430364';
  
 // ═══════════════════════════════════════════════════════════════════
@@ -1841,105 +1841,6 @@ document.getElementById('stepsInput').addEventListener('keydown',e=>{ if(e.key==
   await loadNutritionSheet();
 })();
 </script>
- 
-<!--
-  ══════════════════════════════════════════════════════════════════
-  APPS SCRIPT SETUP — STEP-BY-STEP
-  ══════════════════════════════════════════════════════════════════
-  1. Open your Google Sheet
-  2. Click Extensions → Apps Script
-  3. Delete any existing code, paste this entire block:
- 
-  function doPost(e) {
-    var data = JSON.parse(e.postData.contents);
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var now = new Date().toLocaleString('en-IN');
- 
-    if (data.type === 'training') {
-      var sh = ss.getSheetByName('Training') || ss.insertSheet('Training');
-      if (sh.getLastRow() === 0) sh.appendRow(['Person','Date','Day','Exercise','Set','Weight (kg)','Reps','Logged At']);
-      data.sets.forEach(function(set,i) {
-        if (set.weight||set.reps) sh.appendRow([data.person,data.date,data.day,data.exercise,i+1,set.weight,set.reps,now]);
-      });
- 
-    } else if (data.type === 'weight') {
-      var sh = ss.getSheetByName('Weight') || ss.insertSheet('Weight');
-      if (sh.getLastRow() === 0) sh.appendRow(['Person','Date','Weight (kg)','Logged At']);
-      sh.appendRow([data.person,data.date,data.weight,now]);
- 
-    } else if (data.type === 'steps') {
-      var sh = ss.getSheetByName('Steps') || ss.insertSheet('Steps');
-      if (sh.getLastRow() === 0) sh.appendRow(['Person','Date','Steps','Logged At']);
-      sh.appendRow([data.person,data.date,data.steps,now]);
- 
-    } else if (data.type === 'meal_add') {
-      var sh = ss.getSheetByName('Meals') || ss.insertSheet('Meals');
-      if (sh.getLastRow() === 0) sh.appendRow(['Person','Date','Meal','Food','Serving','Protein (g)','Carbs (g)','Fat (g)','Calories (kcal)','Logged At']);
-      sh.appendRow([data.person,data.date,data.mealName,data.item.name,data.item.serving,data.item.protein,data.item.carbs,data.item.fat,data.item.energy,now]);
- 
-    } else if (data.type === 'meal_delete') {
-      var sh = ss.getSheetByName('Meals');
-      if (!sh) return ContentService.createTextOutput('ok');
-      var rows = sh.getDataRange().getValues();
-      for (var i = rows.length-1; i >= 1; i--) {
-        if (rows[i][0]==data.person && rows[i][1]==data.date && rows[i][3]==data.itemName) {
-          sh.deleteRow(i+1); break;
-        }
-      }
- 
-    } else if (data.type === 'meal_update') {
-      var sh = ss.getSheetByName('Meals');
-      if (!sh) return ContentService.createTextOutput('ok');
-      var rows = sh.getDataRange().getValues();
-      for (var i = rows.length-1; i >= 1; i--) {
-        if (rows[i][0]==data.person && rows[i][1]==data.date && rows[i][3]==data.item.name) {
-          sh.getRange(i+1,5,1,5).setValues([[data.item.serving,data.item.protein,data.item.carbs,data.item.fat,data.item.energy]]);
-          break;
-        }
-      }
- 
-    } else if (data.type === 'persona') {
-      var sh = ss.getSheetByName('Persona');
-      if (!sh) return ContentService.createTextOutput('ok');
-      var rows = sh.getDataRange().getValues();
-      var headers = rows[0];
-      var colIdx = headers.indexOf(data.field);
-      for (var i = 1; i < rows.length; i++) {
-        if (rows[i][0] == data.name) {
-          if (colIdx >= 0) sh.getRange(i+1, colIdx+1).setValue(data.value);
-          break;
-        }
-      }
- 
-    } else if (data.type === 'nutrition_add') {
-      var sh = ss.getSheetByName('Nutrition');
-      if (!sh) return ContentService.createTextOutput('ok');
-      var it = data.item;
-      sh.appendRow([it['Food'],it['Weight (g) / Unit'],it['Protein (g)'],it['Calories (kcal)'],it['Carbs (g)'],it['Fats (g)'],it['Protein/Calorie'],it['Amino Acid']||'']);
-    }
- 
-    return ContentService.createTextOutput('ok');
-  }
- 
-  4. Click Save (Ctrl+S or ⌘+S). Name the project anything e.g. "FuelApp"
-  5. Click Deploy → New Deployment
-  6. Click the gear icon next to "Type" → select Web App
-  7. Set:
-       Description: Fuel App
-       Execute as: Me
-       Who has access: Anyone
-  8. Click Deploy → Authorize → Allow (grant permissions)
-  9. Copy the Web App URL shown (looks like https://script.google.com/macros/s/ABC.../exec)
- 10. Open index.html, find this line near the top of the <script> block:
-         const APPS_SCRIPT_URL = '';
-     Replace with:
-         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_ID/exec';
- 11. Save index.html and re-upload to your server. Done!
- 
-  NOTE: Every time you change the Apps Script code, you must create
-  a NEW deployment (not update existing) for changes to take effect.
-  ══════════════════════════════════════════════════════════════════
--->-->
  
 <script>
 if ('serviceWorker' in navigator) {
