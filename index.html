@@ -58,12 +58,44 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 .mode-card:hover{transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,.5);}
 .mode-card.train:hover{border-color:var(--accent);}
 .mode-card.nutrition:hover{border-color:var(--accent2);}
+.mode-card.mealprep:hover{border-color:var(--purple);}
 .mode-icon{font-size:40px;margin-bottom:16px;}
 .mode-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;margin-bottom:6px;}
 .mode-desc{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
 .back-btn{position:absolute;top:24px;left:24px;background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
 .back-btn:hover{border-color:var(--muted);color:var(--text);}
  
+/* ── MEAL PREP APP WRAPPER ── */
+#screen-mealprep{display:none;}
+#screen-mealprep.active{display:block;}
+
+/* Planner table */
+.mp-th{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;padding:12px 14px;text-align:center;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface2);white-space:nowrap;position:relative;}
+.mp-th:last-child{border-right:none;}
+.mp-th-remove{position:absolute;top:4px;right:6px;background:none;border:none;color:var(--muted);font-size:11px;cursor:pointer;opacity:0;transition:opacity .15s;padding:0 2px;}
+.mp-th:hover .mp-th-remove{opacity:1;}
+.mp-date-cell{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;padding:10px 14px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);background:var(--surface);white-space:nowrap;vertical-align:top;}
+.mp-date-label{font-weight:600;font-size:11px;color:var(--text);}
+.mp-date-sub{color:var(--muted);font-size:9px;margin-top:2px;}
+.mp-cell{padding:8px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);vertical-align:top;min-width:130px;}
+.mp-cell:last-child{border-right:none;}
+.mp-date-cell:last-child{border-right:none;}
+.mp-meal-chip{background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.22);border-radius:6px;padding:5px 10px;margin-bottom:6px;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.mp-meal-chip:hover{background:rgba(180,122,255,.2);border-color:rgba(180,122,255,.4);}
+.mp-meal-chip-name{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.5px;color:var(--purple);flex:1;}
+.mp-meal-chip-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;line-height:1;transition:color .15s;flex-shrink:0;}
+.mp-meal-chip-del:hover{color:var(--accent3);}
+.mp-add-btn{width:100%;padding:5px;background:transparent;border:1px dashed rgba(180,122,255,.2);border-radius:6px;color:rgba(180,122,255,.5);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all .2s;text-align:center;}
+.mp-add-btn:hover{border-color:var(--purple);color:var(--purple);background:rgba(180,122,255,.05);}
+.mp-raw-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(232,255,71,.07);border:1px solid rgba(232,255,71,.15);border-radius:20px;padding:4px 10px;font-family:'DM Mono',monospace;font-size:10px;color:var(--accent);}
+.mp-raw-tag button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0;line-height:1;transition:color .15s;}
+.mp-raw-tag button:hover{color:var(--accent3);}
+.mp-col-tag{display:inline-flex;align-items:center;gap:6px;background:rgba(180,122,255,.08);border:1px solid rgba(180,122,255,.2);border-radius:20px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:10px;color:var(--purple);}
+.mp-col-tag button{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0;line-height:1;}
+.mp-col-tag button:hover{color:var(--accent3);}
+.mp-dup-option{display:flex;align-items:center;gap:10px;padding:9px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .15s;font-family:'DM Mono',monospace;font-size:10px;color:var(--text);}
+.mp-dup-option:hover{border-color:var(--purple);color:var(--purple);background:rgba(180,122,255,.06);}
+
 /* ── TRAINING APP WRAPPER ── */
 #screen-train{display:none;}
 #screen-train.active{display:block;}
@@ -71,6 +103,69 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 /* ── NUTRITION APP WRAPPER ── */
 #screen-nutrition{display:none;}
 #screen-nutrition.active{display:block;}
+
+/* ── MEAL PREP WRAPPER ── */
+#screen-mealprep{display:none;}
+#screen-mealprep.active{display:block;}
+
+/* Meal prep styles */
+.mp-header-wrap{position:sticky;top:0;z-index:100;background:rgba(9,9,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:16px;}
+.mp-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--purple);flex:1;}
+.mp-body{padding:28px 24px;max-width:1200px;margin:0 auto;}
+.mp-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:20px;}
+.mp-section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.mp-date-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:6px;}
+.mp-date-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);min-width:36px;}
+.mp-date-input{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;outline:none;transition:border-color .2s;}
+.mp-date-input:focus{border-color:var(--purple);}
+.mp-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(180,122,255,.08);color:var(--purple);border:1px solid rgba(180,122,255,.18);}
+/* Ingredients */
+.mp-ingr-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
+.mp-ingr-item{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-size:13px;}
+.mp-ingr-name{flex:1;}
+.mp-ingr-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;transition:color .15s;}
+.mp-ingr-del:hover{color:var(--accent3);}
+.mp-add-row{display:flex;gap:8px;}
+.mp-add-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
+.mp-add-input:focus{border-color:var(--purple);}
+.mp-add-btn{padding:9px 18px;background:rgba(180,122,255,.12);border:1px solid rgba(180,122,255,.28);border-radius:7px;color:var(--purple);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.mp-add-btn:hover{background:rgba(180,122,255,.22);}
+/* Meal types */
+.mp-meal-types{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
+.mp-meal-type-tag{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text);}
+.mp-meal-type-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;line-height:1;}
+.mp-meal-type-del:hover{color:var(--accent3);}
+/* Planner table */
+.mp-table-wrap{overflow-x:auto;margin-top:4px;}
+.mp-table{width:100%;border-collapse:collapse;min-width:480px;}
+.mp-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
+.mp-table th:first-child{color:var(--text);min-width:90px;}
+.mp-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
+.mp-table tr:last-child td{border-bottom:none;}
+.mp-table tr:hover td{background:rgba(180,122,255,.02);}
+.mp-date-cell{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;padding-top:12px;}
+.mp-date-cell .mp-day{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);line-height:1;display:block;}
+.mp-cell{min-height:52px;display:flex;flex-direction:column;gap:4px;}
+.mp-meal-chip{background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.22);border-radius:6px;padding:5px 9px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:space-between;gap:6px;}
+.mp-meal-chip:hover{background:rgba(180,122,255,.2);border-color:rgba(180,122,255,.4);}
+.mp-meal-chip-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0 2px;line-height:1;flex-shrink:0;}
+.mp-meal-chip-del:hover{color:var(--accent3);}
+.mp-add-cell-btn{background:transparent;border:1px dashed rgba(180,122,255,.2);border-radius:6px;padding:5px 8px;color:rgba(180,122,255,.5);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all .15s;width:100%;text-align:center;}
+.mp-add-cell-btn:hover{border-color:var(--purple);color:var(--purple);background:rgba(180,122,255,.05);}
+/* Meal prep modals */
+.mp-modal-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(5,5,12,.9);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;}
+.mp-modal-overlay.open{display:flex;}
+.mp-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:400px;max-width:100%;box-shadow:0 40px 80px rgba(0,0,0,.7);max-height:90vh;overflow-y:auto;}
+.mp-modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:6px;}
+.mp-modal-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:18px;}
+.mp-modal-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;margin-top:12px;}
+.mp-modal-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:4px;}
+.mp-modal-input:focus{border-color:var(--purple);}
+.mp-modal-actions{display:flex;gap:10px;margin-top:20px;}
+.mp-day-check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px;}
+.mp-day-check{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
+.mp-day-check.selected{background:rgba(180,122,255,.12);border-color:rgba(180,122,255,.3);color:var(--purple);}
+.mp-day-check input{display:none;}
  
 /* ══════════════════════════════════════════════════
    TRAINING APP STYLES (verbatim from original)
@@ -446,6 +541,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 <body>
  
 <!-- ════════════════════════════════════════
+     GLOBAL WEIGHT MODAL (shared by Train + Meals)
+     ════════════════════════════════════════ -->
+<div class="modal-overlay" id="weightModal">
+  <div class="modal-box">
+    <div class="modal-title">Update Weight</div>
+    <input class="modal-input" id="weightInput" type="number" min="40" max="250" placeholder="95">
+    <div class="modal-unit">kilograms</div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeWeightModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveWeight()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════
      SCREEN 1: PERSON SELECT
      ════════════════════════════════════════ -->
 <div id="screen-person" class="active">
@@ -480,7 +590,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="mode-name" id="mode-person-name">—</div>
     <div class="mode-sub">What are we doing today?</div>
   </div>
-  <div class="mode-cards">
+  <div class="mode-cards" style="grid-template-columns:1fr 1fr;max-width:480px;">
     <div class="mode-card train" onclick="goToTrain()">
       <div class="mode-icon">🏋️</div>
       <div class="mode-title" style="color:var(--accent);">Train</div>
@@ -491,6 +601,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
       <div class="mode-title" style="color:var(--accent2);">Meals</div>
       <div class="mode-desc">Macros · Meals · Daily Log</div>
     </div>
+    <div class="mode-card mealprep" onclick="goToMealPrep()" style="grid-column:1/-1;">
+      <div class="mode-icon">📅</div>
+      <div class="mode-title" style="color:var(--purple);">Weekly Meal Prep</div>
+      <div class="mode-desc">Plan · Prep · Duplicate</div>
+    </div>
   </div>
 </div>
  
@@ -498,19 +613,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
      SCREEN 3: TRAINING APP
      ════════════════════════════════════════ -->
 <div id="screen-train" class="screen">
- 
-<!-- WEIGHT MODAL -->
-<div class="modal-overlay" id="weightModal">
-  <div class="modal-box">
-    <div class="modal-title">Update Weight</div>
-    <input class="modal-input" id="weightInput" type="number" min="40" max="250" placeholder="95">
-    <div class="modal-unit">kilograms</div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeWeightModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveWeight()">Save</button>
-    </div>
-  </div>
-</div>
  
 <!-- STEPS MODAL -->
 <div class="modal-overlay" id="stepsModal">
@@ -793,15 +895,26 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   </div>
 </div>
  
-<!-- NUTRITION HERO / PROFILE -->
-<div class="n-hero" id="n-hero">
-  <div class="n-person-label">FUELLING</div>
-  <div class="n-person-name" id="n-person-name-display">—</div>
-  <div class="n-stat-grid" id="n-stat-grid">
-    <div class="n-stat" onclick="openWeightModal()" style="cursor:pointer;"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
-    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--protein);" id="n-stat-protein">—</div><div class="n-stat-label">Protein Target (g)</div></div>
-    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
-    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
+<!-- NUTRITION WEIGHT TILE (stat-card style, matches Train) -->
+<div style="padding:16px 24px 0;">
+  <div class="stat-grid" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr));">
+    <div class="stat-card clickable" onclick="openWeightModal()">
+      <span class="edit-hint">✎ tap to edit</span>
+      <div class="stat-val" id="n-stat-weight" style="color:#ff6b47;">—<span style="font-size:20px;color:var(--muted);">kg</span></div>
+      <div class="stat-label">Current Weight</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--protein);" id="n-stat-protein">—</div>
+      <div class="stat-label">Protein Target (g)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div>
+      <div class="stat-label">Maintenance (kcal)</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div>
+      <div class="stat-label">Cut Calories (kcal)</div>
+    </div>
   </div>
 </div>
  
@@ -913,6 +1026,102 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 </div>
  
 </div><!-- end screen-nutrition -->
+
+<!-- ════════════════════════════════════════
+     SCREEN 5: WEEKLY MEAL PREP
+     ════════════════════════════════════════ -->
+<div id="screen-mealprep" class="screen">
+
+<!-- ADD MEAL MODAL -->
+<div class="modal-overlay" id="mp-add-meal-modal" style="z-index:3000;">
+  <div class="modal-box" style="max-width:400px;">
+    <div class="modal-title" id="mp-add-meal-title">Add Meal</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;" id="mp-add-meal-context"></div>
+    <input class="modal-input" id="mp-meal-name-input" type="text" placeholder="e.g. Oats & Eggs" style="font-size:22px;text-align:left;padding:12px 16px;">
+    <div style="margin-top:12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">Notes (optional)</div>
+    <textarea id="mp-meal-notes-input" placeholder="Ingredients, prep notes…" style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;resize:vertical;min-height:64px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border)'"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="mpCloseMealModal()">Cancel</button>
+      <button class="btn btn-primary" style="background:var(--purple);color:#0a0a0f;" onclick="mpSaveMeal()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- DUPLICATE MEAL MODAL -->
+<div class="modal-overlay" id="mp-dup-modal" style="z-index:3000;">
+  <div class="modal-box" style="max-width:400px;">
+    <div class="modal-title">Duplicate Meal</div>
+    <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:16px;" id="mp-dup-meal-label"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Copy to</div>
+    <div id="mp-dup-targets" style="display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;"></div>
+    <div class="modal-actions" style="margin-top:16px;">
+      <button class="btn btn-ghost" onclick="mpCloseDupModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div style="position:sticky;top:0;z-index:100;background:rgba(9,9,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+  <button class="back-btn" onclick="goToModeSelect()" style="position:static;">← Mode</button>
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--purple);">WEEKLY MEAL PREP</div>
+  <div style="width:80px;"></div>
+</div>
+
+<div style="padding:24px 24px 60px;max-width:1100px;margin:0 auto;">
+
+  <!-- DATE RANGE PICKER -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px;">Prep Period</div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <input type="date" id="mp-start-date" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;outline:none;" onchange="mpRebuild()">
+        <span style="color:var(--muted);font-family:'DM Mono',monospace;font-size:11px;">→</span>
+        <input type="date" id="mp-end-date" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;outline:none;" onchange="mpRebuild()">
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-ghost" style="padding:8px 16px;font-size:10px;" onclick="mpSetThisWeek()">This Week</button>
+      <button class="btn btn-ghost" style="padding:8px 16px;font-size:10px;" onclick="mpSetNextWeek()">Next Week</button>
+    </div>
+  </div>
+
+  <!-- MEAL COLUMNS MANAGER -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;">Meal Columns</div>
+      <button onclick="mpAddMealColumn()" style="background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.25);color:var(--purple);border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;">+ Add Column</button>
+    </div>
+    <div id="mp-col-tags" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- RAW MATERIALS -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;">Raw Materials</div>
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);margin-top:2px;">Reference list · resets each week</div>
+      </div>
+      <button onclick="mpClearRawMaterials()" style="background:rgba(255,107,71,.07);border:1px solid rgba(255,107,71,.18);color:var(--accent3);border-radius:6px;padding:6px 14px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;">Clear List</button>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px;">
+      <input id="mp-raw-input" type="text" placeholder="e.g. Chicken breast, oats…" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;" onfocus="this.style.borderColor='var(--purple)'" onblur="this.style.borderColor='var(--border)'" onkeydown="if(event.key==='Enter')mpAddRawMaterial()">
+      <button onclick="mpAddRawMaterial()" style="background:rgba(180,122,255,.12);border:1px solid rgba(180,122,255,.28);color:var(--purple);border-radius:8px;padding:10px 18px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;white-space:nowrap;">+ Add</button>
+    </div>
+    <div id="mp-raw-list" style="display:flex;gap:8px;flex-wrap:wrap;min-height:32px;"></div>
+  </div>
+
+  <!-- PLANNER TABLE -->
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;">
+    <div style="padding:20px 24px 14px;border-bottom:1px solid var(--border);">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;">Meal Planner</div>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table id="mp-table" style="width:100%;border-collapse:collapse;min-width:500px;"></table>
+    </div>
+  </div>
+
+</div>
+</div><!-- end screen-mealprep -->
  
 <script>
 // ═══════════════════════════════════════════════════════════════════
@@ -987,6 +1196,301 @@ function goToNutrition() {
   fetchAndRenderLog();
   renderFoodBank();
 }
+
+function goToMealPrep() {
+  showScreen('screen-mealprep');
+  mpInit();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// WEEKLY MEAL PREP
+// ═══════════════════════════════════════════════════════════════════
+
+// ── Storage helpers
+function mpKey(k) { return currentPerson ? `mp_${currentPerson}_${k}` : `mp_${k}`; }
+
+// ── State
+let mpData = null; // { startDate, endDate, columns:[], rawMaterials:[], meals:{} }
+// meals = { "YYYY-MM-DD_ColIdx": [{name, notes}] }
+
+function mpGetWeekKey(startDate) { return startDate; }
+
+function mpInit() {
+  // Default: next Monday → Sunday
+  const dates = mpGetDefaultWeek();
+  document.getElementById('mp-start-date').value = dates.start;
+  document.getElementById('mp-end-date').value = dates.end;
+  mpLoad(dates.start, dates.end);
+}
+
+function mpGetDefaultWeek() {
+  const today = new Date();
+  const dow = today.getDay(); // 0=Sun
+  const daysToMon = dow === 0 ? 1 : (8 - dow) % 7 || 7;
+  const mon = new Date(today); mon.setDate(today.getDate() + daysToMon);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  return { start: mon.toISOString().slice(0,10), end: sun.toISOString().slice(0,10) };
+}
+
+function mpSetThisWeek() {
+  const today = new Date();
+  const dow = today.getDay();
+  const mon = new Date(today); mon.setDate(today.getDate() - (dow === 0 ? 6 : dow - 1));
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  document.getElementById('mp-start-date').value = mon.toISOString().slice(0,10);
+  document.getElementById('mp-end-date').value = sun.toISOString().slice(0,10);
+  mpRebuild();
+}
+
+function mpSetNextWeek() {
+  const d = mpGetDefaultWeek();
+  document.getElementById('mp-start-date').value = d.start;
+  document.getElementById('mp-end-date').value = d.end;
+  mpRebuild();
+}
+
+function mpLoad(startDate, endDate) {
+  const weekKey = mpGetWeekKey(startDate);
+  const saved = loadData(mpKey('week_' + weekKey), null);
+  if (saved) {
+    mpData = saved;
+    // Update end date from saved data in case it changed
+    mpData.startDate = startDate;
+    mpData.endDate = endDate;
+  } else {
+    mpData = {
+      startDate, endDate,
+      columns: ['Breakfast', 'Lunch', 'Dinner'],
+      rawMaterials: [],
+      meals: {}
+    };
+  }
+  mpRender();
+}
+
+function mpSave() {
+  if (!mpData) return;
+  saveData(mpKey('week_' + mpData.startDate), mpData);
+}
+
+function mpRebuild() {
+  const s = document.getElementById('mp-start-date').value;
+  const e = document.getElementById('mp-end-date').value;
+  if (!s || !e || s > e) return;
+  mpLoad(s, e);
+}
+
+function mpRender() {
+  if (!mpData) return;
+  mpRenderColTags();
+  mpRenderRawMaterials();
+  mpRenderTable();
+}
+
+// ── Date helpers
+function mpGetDates() {
+  const dates = [];
+  const s = new Date(mpData.startDate + 'T12:00:00');
+  const e = new Date(mpData.endDate + 'T12:00:00');
+  for (let d = new Date(s); d <= e; d.setDate(d.getDate() + 1)) {
+    dates.push(d.toISOString().slice(0,10));
+  }
+  return dates;
+}
+
+function mpFmtDate(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const day = d.toLocaleDateString('en-GB', {weekday:'short'}).toUpperCase();
+  const date = d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
+  return { day, date };
+}
+
+// ── Columns
+function mpRenderColTags() {
+  const el = document.getElementById('mp-col-tags');
+  el.innerHTML = mpData.columns.map((col, ci) =>
+    `<span class="mp-col-tag">${col}<button onclick="mpRemoveColumn(${ci})" title="Remove">✕</button></span>`
+  ).join('');
+}
+
+function mpAddMealColumn() {
+  const name = prompt('Column name (e.g. Snack, Pre-Workout):');
+  if (!name || !name.trim()) return;
+  mpData.columns.push(name.trim());
+  mpSave();
+  mpRender();
+}
+
+function mpRemoveColumn(ci) {
+  if (!confirm(`Remove column "${mpData.columns[ci]}"? Meals in this column will be deleted.`)) return;
+  // Remove all meals for this column
+  const dates = mpGetDates();
+  dates.forEach(d => { delete mpData.meals[d + '_' + ci]; });
+  // Shift indices for columns after ci
+  dates.forEach(d => {
+    for (let i = ci + 1; i < mpData.columns.length; i++) {
+      const old = mpData.meals[d + '_' + i];
+      if (old) mpData.meals[d + '_' + (i-1)] = old;
+      delete mpData.meals[d + '_' + i];
+    }
+  });
+  mpData.columns.splice(ci, 1);
+  mpSave();
+  mpRender();
+}
+
+// ── Raw materials
+function mpRenderRawMaterials() {
+  const el = document.getElementById('mp-raw-list');
+  el.innerHTML = (mpData.rawMaterials||[]).map((item, i) =>
+    `<span class="mp-raw-tag">${item}<button onclick="mpRemoveRaw(${i})" title="Remove">✕</button></span>`
+  ).join('') || `<span style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">No items yet. Type above and press Enter or click + Add.</span>`;
+}
+
+function mpAddRawMaterial() {
+  const inp = document.getElementById('mp-raw-input');
+  const vals = inp.value.split(',').map(v => v.trim()).filter(Boolean);
+  if (!vals.length) return;
+  mpData.rawMaterials.push(...vals);
+  inp.value = '';
+  mpSave();
+  mpRenderRawMaterials();
+}
+
+function mpRemoveRaw(i) {
+  mpData.rawMaterials.splice(i, 1);
+  mpSave();
+  mpRenderRawMaterials();
+}
+
+function mpClearRawMaterials() {
+  if (!confirm('Clear all raw materials?')) return;
+  mpData.rawMaterials = [];
+  mpSave();
+  mpRenderRawMaterials();
+}
+
+// ── Table
+function mpRenderTable() {
+  const table = document.getElementById('mp-table');
+  const dates = mpGetDates();
+  const cols = mpData.columns;
+
+  // Header row
+  let html = '<thead><tr>';
+  html += '<th class="mp-th" style="text-align:left;min-width:100px;">Date</th>';
+  cols.forEach((col, ci) => {
+    html += `<th class="mp-th">${col}<button class="mp-th-remove" onclick="mpRemoveColumn(${ci})" title="Remove column">✕</button></th>`;
+  });
+  html += '</tr></thead><tbody>';
+
+  // Data rows
+  dates.forEach(dateStr => {
+    const { day, date } = mpFmtDate(dateStr);
+    const isToday = dateStr === new Date().toISOString().slice(0,10);
+    html += `<tr>`;
+    html += `<td class="mp-date-cell" style="${isToday ? 'border-left:2px solid var(--purple);' : ''}">
+      <div class="mp-date-label" style="${isToday ? 'color:var(--purple);' : ''}">${day}</div>
+      <div class="mp-date-sub">${date}</div>
+    </td>`;
+    cols.forEach((col, ci) => {
+      const cellKey = dateStr + '_' + ci;
+      const meals = mpData.meals[cellKey] || [];
+      const chipsHtml = meals.map((m, mi) =>
+        `<div class="mp-meal-chip" onclick="mpOpenDupModal('${cellKey}',${mi})">
+          <span class="mp-meal-chip-name">${m.name}</span>
+          <button class="mp-meal-chip-del" onclick="event.stopPropagation();mpDeleteMeal('${cellKey}',${mi})" title="Delete">✕</button>
+        </div>`
+      ).join('');
+      html += `<td class="mp-cell">${chipsHtml}<button class="mp-add-btn" onclick="mpOpenMealModal('${cellKey}','${day} ${date}','${col}')">+ add</button></td>`;
+    });
+    html += `</tr>`;
+  });
+
+  html += '</tbody>';
+  table.innerHTML = html;
+}
+
+// ── Add meal modal
+let mpActiveCellKey = null;
+function mpOpenMealModal(cellKey, dateLabel, colName) {
+  mpActiveCellKey = cellKey;
+  document.getElementById('mp-add-meal-title').textContent = 'Add Meal';
+  document.getElementById('mp-add-meal-context').textContent = `${dateLabel} · ${colName}`;
+  document.getElementById('mp-meal-name-input').value = '';
+  document.getElementById('mp-meal-notes-input').value = '';
+  document.getElementById('mp-add-meal-modal').classList.add('open');
+  setTimeout(() => document.getElementById('mp-meal-name-input').focus(), 80);
+}
+function mpCloseMealModal() {
+  document.getElementById('mp-add-meal-modal').classList.remove('open');
+  mpActiveCellKey = null;
+}
+function mpSaveMeal() {
+  const name = document.getElementById('mp-meal-name-input').value.trim();
+  if (!name) { document.getElementById('mp-meal-name-input').focus(); return; }
+  const notes = document.getElementById('mp-meal-notes-input').value.trim();
+  if (!mpData.meals[mpActiveCellKey]) mpData.meals[mpActiveCellKey] = [];
+  mpData.meals[mpActiveCellKey].push({ name, notes });
+  mpSave();
+  mpCloseMealModal();
+  mpRenderTable();
+}
+
+function mpDeleteMeal(cellKey, mi) {
+  if (!mpData.meals[cellKey]) return;
+  mpData.meals[cellKey].splice(mi, 1);
+  if (!mpData.meals[cellKey].length) delete mpData.meals[cellKey];
+  mpSave();
+  mpRenderTable();
+}
+
+// ── Duplicate meal modal
+let mpDupSource = null; // { cellKey, mi }
+function mpOpenDupModal(cellKey, mi) {
+  const meal = mpData.meals[cellKey]?.[mi];
+  if (!meal) return;
+  mpDupSource = { cellKey, mi };
+  document.getElementById('mp-dup-meal-label').textContent = `"${meal.name}" → copy to:`;
+  const dates = mpGetDates();
+  const cols = mpData.columns;
+  const el = document.getElementById('mp-dup-targets');
+  let optionsHtml = '';
+  dates.forEach(dateStr => {
+    const { day, date } = mpFmtDate(dateStr);
+    cols.forEach((col, ci) => {
+      const targetKey = dateStr + '_' + ci;
+      if (targetKey === cellKey) return; // skip same cell
+      optionsHtml += `<div class="mp-dup-option" onclick="mpDuplicateTo('${targetKey}')">
+        <span style="color:var(--purple);font-size:13px;">📋</span>
+        <span>${day} ${date} — ${col}</span>
+      </div>`;
+    });
+  });
+  el.innerHTML = optionsHtml || '<div style="color:var(--muted);font-size:12px;padding:8px;">No other cells available.</div>';
+  document.getElementById('mp-dup-modal').classList.add('open');
+}
+function mpCloseDupModal() {
+  document.getElementById('mp-dup-modal').classList.remove('open');
+  mpDupSource = null;
+}
+function mpDuplicateTo(targetKey) {
+  if (!mpDupSource) return;
+  const { cellKey, mi } = mpDupSource;
+  const meal = mpData.meals[cellKey]?.[mi];
+  if (!meal) return;
+  if (!mpData.meals[targetKey]) mpData.meals[targetKey] = [];
+  mpData.meals[targetKey].push({ ...meal });
+  mpSave();
+  mpCloseDupModal();
+  mpRenderTable();
+}
+
+// Close modals on overlay click
+document.getElementById('mp-add-meal-modal').addEventListener('click', e => { if (e.target === document.getElementById('mp-add-meal-modal')) mpCloseMealModal(); });
+document.getElementById('mp-dup-modal').addEventListener('click', e => { if (e.target === document.getElementById('mp-dup-modal')) mpCloseDupModal(); });
+// Enter key on meal name input
+document.getElementById('mp-meal-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') mpSaveMeal(); });
  
 // ═══════════════════════════════════════════════════════════════════
 // FETCH PERSONA + FOOD BANK FROM SHEETS
