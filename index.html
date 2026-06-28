@@ -104,68 +104,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 #screen-nutrition{display:none;}
 #screen-nutrition.active{display:block;}
 
-/* ── MEAL PREP WRAPPER ── */
-#screen-mealprep{display:none;}
-#screen-mealprep.active{display:block;}
-
-/* Meal prep styles */
-.mp-header-wrap{position:sticky;top:0;z-index:100;background:rgba(9,9,16,.97);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:16px;}
-.mp-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:var(--purple);flex:1;}
-.mp-body{padding:28px 24px;max-width:1200px;margin:0 auto;}
-.mp-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:20px;}
-.mp-section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:10px;}
-.mp-date-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:6px;}
-.mp-date-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);min-width:36px;}
-.mp-date-input{background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 12px;color:var(--text);font-family:'DM Mono',monospace;font-size:12px;outline:none;transition:border-color .2s;}
-.mp-date-input:focus{border-color:var(--purple);}
-.mp-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:rgba(180,122,255,.08);color:var(--purple);border:1px solid rgba(180,122,255,.18);}
-/* Ingredients */
-.mp-ingr-list{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;}
-.mp-ingr-item{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:8px 12px;font-size:13px;}
-.mp-ingr-name{flex:1;}
-.mp-ingr-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;transition:color .15s;}
-.mp-ingr-del:hover{color:var(--accent3);}
-.mp-add-row{display:flex;gap:8px;}
-.mp-add-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:7px;padding:9px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;}
-.mp-add-input:focus{border-color:var(--purple);}
-.mp-add-btn{padding:9px 18px;background:rgba(180,122,255,.12);border:1px solid rgba(180,122,255,.28);border-radius:7px;color:var(--purple);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.mp-add-btn:hover{background:rgba(180,122,255,.22);}
-/* Meal types */
-.mp-meal-types{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;}
-.mp-meal-type-tag{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--text);}
-.mp-meal-type-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0 2px;line-height:1;}
-.mp-meal-type-del:hover{color:var(--accent3);}
-/* Planner table */
-.mp-table-wrap{overflow-x:auto;margin-top:4px;}
-.mp-table{width:100%;border-collapse:collapse;min-width:480px;}
-.mp-table th{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:10px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;}
-.mp-table th:first-child{color:var(--text);min-width:90px;}
-.mp-table td{padding:8px 10px;border-bottom:1px solid var(--border);vertical-align:top;}
-.mp-table tr:last-child td{border-bottom:none;}
-.mp-table tr:hover td{background:rgba(180,122,255,.02);}
-.mp-date-cell{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap;padding-top:12px;}
-.mp-date-cell .mp-day{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--text);line-height:1;display:block;}
-.mp-cell{min-height:52px;display:flex;flex-direction:column;gap:4px;}
-.mp-meal-chip{background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.22);border-radius:6px;padding:5px 9px;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;display:flex;align-items:center;justify-content:space-between;gap:6px;}
-.mp-meal-chip:hover{background:rgba(180,122,255,.2);border-color:rgba(180,122,255,.4);}
-.mp-meal-chip-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:11px;padding:0 2px;line-height:1;flex-shrink:0;}
-.mp-meal-chip-del:hover{color:var(--accent3);}
-.mp-add-cell-btn{background:transparent;border:1px dashed rgba(180,122,255,.2);border-radius:6px;padding:5px 8px;color:rgba(180,122,255,.5);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all .15s;width:100%;text-align:center;}
-.mp-add-cell-btn:hover{border-color:var(--purple);color:var(--purple);background:rgba(180,122,255,.05);}
-/* Meal prep modals */
-.mp-modal-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(5,5,12,.9);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px;}
-.mp-modal-overlay.open{display:flex;}
-.mp-modal-box{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:400px;max-width:100%;box-shadow:0 40px 80px rgba(0,0,0,.7);max-height:90vh;overflow-y:auto;}
-.mp-modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:6px;}
-.mp-modal-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:18px;}
-.mp-modal-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;margin-top:12px;}
-.mp-modal-input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:4px;}
-.mp-modal-input:focus{border-color:var(--purple);}
-.mp-modal-actions{display:flex;gap:10px;margin-top:20px;}
-.mp-day-check-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:4px;}
-.mp-day-check{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;background:var(--surface2);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:all .15s;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);}
-.mp-day-check.selected{background:rgba(180,122,255,.12);border-color:rgba(180,122,255,.3);color:var(--purple);}
-.mp-day-check input{display:none;}
  
 /* ══════════════════════════════════════════════════
    TRAINING APP STYLES (verbatim from original)
@@ -1709,7 +1647,7 @@ function saveWeight() {
   saveData(tKey('weightHistory'), hist);
   updateHeroStats(); closeWeightModal(); renderWeightHistory();
   const nStatW = document.getElementById('n-stat-weight');
-  if (nStatW) nStatW.textContent = w;
+  if (nStatW) nStatW.innerHTML = w + '<span style="font-size:20px;color:var(--muted);">kg</span>';
   saveToSheets({ type:'weight', person:personaData[currentPerson]?.name||currentPerson, date:today, weight:w });
 }
 function updateHeroStats() {
@@ -2013,12 +1951,15 @@ function savePersonaField() {
 // ═══════════════════════════════════════════════════════════════════
 function nRenderHero(p) {
   if (!p || !p.name) return;
-  document.getElementById('n-person-name-display').textContent = p.name.toUpperCase();
   const w = currentWeight || parseFloat(p.weight) || 0;
-  document.getElementById('n-stat-weight').textContent = w || p.weight || '—';
-  document.getElementById('n-stat-protein').textContent = p.protein||'—';
-  document.getElementById('n-stat-maint').textContent = p.maintenance||'—';
-  document.getElementById('n-stat-cut').textContent = p.cutCalories||'—';
+  const wEl = document.getElementById('n-stat-weight');
+  if (wEl) wEl.innerHTML = (w || p.weight || '—') + '<span style="font-size:20px;color:var(--muted);">kg</span>';
+  const protEl = document.getElementById('n-stat-protein');
+  if (protEl) protEl.textContent = p.protein||'—';
+  const maintEl = document.getElementById('n-stat-maint');
+  if (maintEl) maintEl.textContent = p.maintenance||'—';
+  const cutEl = document.getElementById('n-stat-cut');
+  if (cutEl) cutEl.textContent = p.cutCalories||'—';
 }
 function nGetTargets() {
   const p = personaData[currentPerson]||{};
