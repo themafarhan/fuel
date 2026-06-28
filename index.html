@@ -300,15 +300,26 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 .n-date-label{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;flex:1;}
  
 /* Daily totals bar */
-.n-totals{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:24px;}
-.n-total-card{background:var(--surface);border:1px solid var(--border);padding:16px;text-align:center;}
-.n-total-card:first-child{border-radius:12px 0 0 12px;}
-.n-total-card:last-child{border-radius:0 12px 12px 0;}
-.n-total-val{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:1;}
-.n-total-unit{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:2px;}
-.n-total-target{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);margin-top:4px;}
-.n-prog-bar{height:3px;border-radius:2px;margin-top:6px;background:var(--border);overflow:hidden;}
+.n-totals{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px;}
+.n-total-card{background:var(--surface);border:1px solid var(--border);padding:16px;border-radius:10px;}
+.n-total-card-title{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.n-pa-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+.n-pa-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);min-width:52px;}
+.n-pa-val{font-family:'Bebas Neue',sans-serif;font-size:22px;line-height:1;flex:1;}
+.n-pa-tgt{font-family:'DM Mono',monospace;font-size:8px;color:var(--muted);}
+.n-prog-bar{height:3px;border-radius:2px;margin-top:3px;background:var(--border);overflow:hidden;}
 .n-prog-fill{height:100%;border-radius:2px;transition:width .4s;}
+.n-log-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;}
+.n-log-tab{flex:1;padding:10px;background:transparent;border:none;color:var(--muted);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.n-log-tab.active{background:rgba(232,255,71,.1);color:var(--accent);}
+.n-confirm-btn{padding:7px 14px;background:rgba(71,200,255,.08);border:1px solid rgba(71,200,255,.2);border-radius:6px;color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.n-confirm-btn:hover{background:rgba(71,200,255,.18);}
+.n-confirm-btn.confirmed{background:rgba(232,255,71,.08);border-color:rgba(232,255,71,.2);color:var(--accent);}
+.n-meal-mode-badge{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-left:6px;}
+.badge-planned{background:rgba(180,122,255,.1);color:var(--purple);border:1px solid rgba(180,122,255,.2);}
+.badge-actual{background:rgba(71,200,255,.1);color:var(--accent2);border:1px solid rgba(71,200,255,.2);}
+ 
+ 
  
 /* Meal sections */
 .n-meal-block{margin-bottom:10px;}
@@ -373,10 +384,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 .n-header-row2{display:flex;gap:0;overflow-x:auto;padding:0 24px;border-top:1px solid var(--border);}
 .n-header-row2::-webkit-scrollbar{height:0;}
 /* Edit-in-place stat tiles */
-.n-stat{cursor:pointer;transition:border-color .2s,background .2s;}
-.n-stat:hover{border-color:rgba(71,200,255,.3);background:rgba(71,200,255,.03);}
-.n-stat-edit-hint{position:absolute;top:6px;right:8px;font-family:'DM Mono',monospace;font-size:8px;color:var(--accent2);opacity:0;transition:opacity .2s;letter-spacing:1px;}
-.n-stat:hover .n-stat-edit-hint{opacity:1;}
+.n-stat{transition:border-color .2s,background .2s;}
+.n-stat[onclick]{cursor:pointer;}
+.n-stat[onclick]:hover{border-color:rgba(71,200,255,.3);background:rgba(71,200,255,.03);}
+.n-stat[onclick]:hover .n-stat-edit-hint{opacity:1;}
 /* Confirm delete modal */
 .confirm-overlay{display:none;position:fixed;inset:0;z-index:3000;background:rgba(5,5,12,.92);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;}
 .confirm-overlay.open{display:flex;}
@@ -521,20 +532,13 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   </div>
 </div>
  
-<!-- HERO -->
-<div class="hero">
-  <button class="back-btn" onclick="goToModeSelect()" style="position:absolute;top:24px;left:24px;">← Mode</button>
-  <div class="hero-label" id="train-hero-label">⚡ 6-Month PPL Transformation · Gym Edition</div>
-  <h1>PUSH.<br>LEGS.<br><span>PULL.</span></h1>
-  <div id="daily-quote-block" style="margin-bottom:20px;max-width:560px;padding:14px 18px;background:rgba(180,122,255,.05);border:1px solid rgba(180,122,255,.14);border-radius:10px;">
-    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:6px;">Daily Fuel</div>
-    <div id="daily-quote-text" style="font-size:13px;color:#c8c0e0;line-height:1.7;font-style:italic;"></div>
-    <div id="daily-quote-author" style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:6px;"></div>
-  </div>
+<!-- STATS TILES -->
+<div style="padding:20px 40px 0;position:relative;">
+  <button class="back-btn" onclick="goToModeSelect()" style="position:static;margin-bottom:16px;display:inline-block;">← Mode</button>
   <div class="stat-grid">
-    <div class="stat-card clickable" onclick="trainToday()" style="border-color:rgba(232,255,71,.2);background:rgba(232,255,71,.03);">
-      <span class="edit-hint" style="color:var(--accent);">→ go</span>
-      <div class="stat-val" style="color:var(--accent);font-size:32px;line-height:1.1;" id="displayTodayDay">—</div>
+    <div class="stat-card clickable" onclick="openMovementModal()" style="border-color:rgba(232,255,71,.2);background:rgba(232,255,71,.03);">
+      <span class="edit-hint" style="color:var(--accent);">→ train</span>
+      <div class="stat-val" style="color:var(--accent);font-size:28px;line-height:1.1;" id="displayTodayDay">What's today?</div>
       <div class="stat-label" style="color:var(--accent);opacity:.7;">Train Today</div>
     </div>
     <div class="stat-card clickable" onclick="openWeightModal()">
@@ -548,15 +552,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
       <div class="stat-label">Today's Steps</div>
     </div>
     <div class="stat-card">
-      <div class="stat-val" id="displayBMI" style="color:#ffc83c;">28.4</div>
+      <div class="stat-val" id="displayBMI" style="color:#ffc83c;">—</div>
       <div class="stat-label">BMI · Indian std</div>
     </div>
     <div class="stat-card">
-      <div class="stat-val" style="color:#47c8ff;">6'0"</div>
+      <div class="stat-val" id="displayHeight" style="color:#47c8ff;">—</div>
       <div class="stat-label">Height</div>
     </div>
     <div class="stat-card">
-      <div class="stat-val" id="displayProtein" style="color:#b47aff;">152<span style="font-size:20px;color:var(--muted);">g</span></div>
+      <div class="stat-val" id="displayProtein" style="color:#b47aff;">—<span style="font-size:20px;color:var(--muted);">g</span></div>
       <div class="stat-label">Daily Protein Target</div>
     </div>
   </div>
@@ -564,177 +568,58 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
  
 <!-- NAV -->
 <nav class="phase-nav">
-  <button class="phase-btn active" onclick="showSection('overview',this)">Overview</button>
-  <button class="phase-btn" onclick="showSection('routine',this)">Routine</button>
-  <button class="phase-btn" onclick="showSection('phase2',this)">Progression</button>
-  <button class="phase-btn" onclick="showSection('recovery',this)">Recovery</button>
-  <button class="phase-btn" onclick="showSection('milestones',this)">Milestones</button>
+  <button class="phase-btn active" onclick="showSection('routine',this)">Routine</button>
   <button class="phase-btn" onclick="showSection('tracker',this)">📊 Tracker</button>
 </nav>
  
-<!-- OVERVIEW -->
-<div id="overview" class="section active">
-  <span class="phase-tag tag-1">Program Structure</span>
-  <div class="section-title">THE PPL SYSTEM</div>
-  <p class="section-desc">Push-Pull-Legs, 6 days a week. Each muscle group trains twice per week with adequate recovery. All working sets are 11+ reps for hypertrophy. Every session ends with a 10-min treadmill walk. Total time: under 55 minutes.</p>
-  <div class="info-box info-y"><strong>Why PPL works best:</strong> Heavy compound lifts trigger the highest anabolic hormone response of any training style. More muscle = higher resting metabolism = fat burning 24/7. The treadmill finisher keeps cardiovascular fitness improving without interfering with lifting recovery. 11+ rep targets build both strength and hypertrophy simultaneously.</div>
-  <div class="block-title">Weekly Schedule — Mon to Sat</div>
-  <div class="week-grid">
-    <div class="day-card push-day"><div class="day-header"><div class="day-name">MON</div><div class="day-type">Push A</div></div><div class="day-content"><span class="day-pill">Chest · Triceps · Side Delts</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-    <div class="day-card leg-day"><div class="day-header"><div class="day-name">TUE</div><div class="day-type">Legs A</div></div><div class="day-content"><span class="day-pill">Quads · Hamstrings · Calves</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-    <div class="day-card pull-day"><div class="day-header"><div class="day-name">WED</div><div class="day-type">Pull A</div></div><div class="day-content"><span class="day-pill">Back · Rear Delts · Biceps</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-    <div class="day-card push-day"><div class="day-header"><div class="day-name">THU</div><div class="day-type">Push B</div></div><div class="day-content"><span class="day-pill">Chest · Triceps · Side Delts</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-    <div class="day-card leg-day"><div class="day-header"><div class="day-name">FRI</div><div class="day-type">Legs B</div></div><div class="day-content"><span class="day-pill">Quads · Hamstrings · Calves</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-    <div class="day-card pull-day"><div class="day-header"><div class="day-name">SAT</div><div class="day-type">Pull B</div></div><div class="day-content"><span class="day-pill">Back · Rear Delts · Biceps</span><span class="day-pill" style="color:#ffc83c;font-size:10px;">+ Treadmill 10 min</span></div></div>
-  </div>
-  <div class="info-box info-b"><strong>Session structure (every day):</strong> 5 min warm-up → 35–40 min lifting → 10 min treadmill walk finisher → cool-down. All working sets target 11+ reps. Hit the top range 2 sessions in a row → add weight.</div>
-  <div class="block-title">3-Phase Progression</div>
-  <div class="prog-grid">
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase1)">Ph 1</div><div class="prog-sub">Months 1–2 · Foundation</div><div class="prog-item">Learn all movements with perfect form</div><div class="prog-item">Light–moderate weight, 11–15 reps</div><div class="prog-item">Treadmill: brisk walk, 4–5 km/h</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase2)">Ph 2</div><div class="prog-sub">Months 3–4 · Hypertrophy</div><div class="prog-item">Moderate–heavy weight, 11–13 reps</div><div class="prog-item">Progressive overload every session</div><div class="prog-item">Track every set, weight, and rep</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase3)">Ph 3</div><div class="prog-sub">Months 5–6 · Strength</div><div class="prog-item">Heavy compounds, 8–11 reps</div><div class="prog-item">Treadmill: jog intervals</div><div class="prog-item">Visible muscle definition</div></div>
-  </div>
-</div>
- 
 <!-- ROUTINE -->
-<div id="routine" class="section">
-  <span class="phase-tag tag-1">Your Weekly Workout</span>
-  <div class="section-title">THE ROUTINE</div>
-  <p class="section-desc">6 days, PPL split. Click any exercise to expand its tracking. Sets are saved to Google Sheets automatically when you click Save Sets.</p>
+<div id="routine" class="section active">
  
-  <!-- MON -->
+  <!-- PUSH DAY -->
   <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('mon')"><div class="day-block-title"><span style="color:#ff9060;">MON</span> — Push A</div><div class="day-block-meta">Chest · Triceps · Side Delts</div><span class="day-block-chevron" id="day-chevron-mon">▼</span></div>
-  <div class="day-block-body" id="day-body-mon">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-mon" placeholder="e.g. Bench: 3×12 @ 60kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('mon')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-mon">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min dynamic arm swings + shoulder circles</div>
-  <div class="exercise-card" data-exid="mon-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Flat Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Lie flat. Grip slightly wider than shoulder-width. Lower bar to nipple line with 3 sec control, press back up. 5 points of contact. Elbows 45–60° to body.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-mon-01"></div></div></div>
-  <div class="exercise-card" data-exid="mon-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Incline Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Upper Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Bench at 30°. Bar to upper chest. Same blade positioning as flat bench. Expect to lift 10–15% less than flat.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-mon-02"></div></div></div>
-  <div class="exercise-card" data-exid="mon-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Elbows at shoulder height. Squeeze pecs to bring arms together. Hold 1 sec at centre. Control the return.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-mon-03"></div></div></div>
-  <div class="exercise-card" data-exid="mon-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Overhead Tricep Rope Extension</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Cable set low. Grip rope overhead, elbows close to head. Extend arms fully, spreading rope at top. Lower with control.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-mon-04"></div></div></div>
-  <div class="exercise-card" data-exid="mon-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Lateral Dumbbell Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Side Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Slight forward lean. Raise arms to shoulder height, lead with elbows. Slow 3-sec descent.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-mon-05"></div></div></div>
-  <div class="exercise-card" data-exid="mon-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Cable set high. Upper arms pinned to sides. Push down until fully extended. Slowly return.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-mon-06"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk (incline 3–5%)</div>
+  <div class="day-block-header" onclick="toggleDay('push')"><div class="day-block-title"><span style="color:#ff9060;">PUSH</span> — Chest · Triceps · Side Delts</div><div class="day-block-meta">Push Day</div><span class="day-block-chevron" id="day-chevron-push">▼</span></div>
+  <div class="day-block-body" id="day-body-push">
+  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-push" placeholder="e.g. Bench: 3×12 @ 60kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('push')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-push">✓ Saved</span></div></div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Pre-Workout: 5 min dynamic arm swings + shoulder circles</div>
+  <div class="exercise-card" data-exid="push-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Flat Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-push-01"></div></div></div>
+  <div class="exercise-card" data-exid="push-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Incline Dumbbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Upper Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-push-02"></div></div></div>
+  <div class="exercise-card" data-exid="push-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-push-03"></div></div></div>
+  <div class="exercise-card" data-exid="push-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Overhead Tricep Rope Extension</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-push-04"></div></div></div>
+  <div class="exercise-card" data-exid="push-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Lateral Dumbbell Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Side Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-push-05"></div></div></div>
+  <div class="exercise-card" data-exid="push-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-push-06"></div></div></div>
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min static chest + shoulder stretches</div>
   </div></div><div class="divider"></div>
  
-  <!-- TUE -->
+  <!-- LEGS DAY -->
   <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('tue')"><div class="day-block-title"><span style="color:#e8ff47;">TUE</span> — Legs A</div><div class="day-block-meta">Quads · Hamstrings · Calves</div><span class="day-block-chevron" id="day-chevron-tue">▼</span></div>
-  <div class="day-block-body" id="day-body-tue">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-tue" placeholder="e.g. Leg press: 5×12 @ 80kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('tue')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-tue">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min leg swings, hip circles</div>
-  <div class="exercise-card" data-exid="tue-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Seated Hamstring Curl</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Hamstrings</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Sit upright, pad just above ankles. Curl through full range. 3–4 sec eccentric. Don't let hips lift.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-tue-01"></div></div></div>
-  <div class="exercise-card" data-exid="tue-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Seated Leg Extension</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Extend legs fully, squeeze quads. Lower with 3–4 sec control. Hold 1–2 sec at top.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-tue-02"></div></div></div>
-  <div class="exercise-card" data-exid="tue-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">Target: 5 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Mid foot on platform. Lower until 90° at knee, press through heels. Never lock knees.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-tue-03"></div></div></div>
-  <div class="exercise-card" data-exid="tue-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Single Leg Standing Calf Raises</div><div class="ex-meta">Target: 5 × 11+ each leg</div></div><span class="ex-badge badge-leg">Calves</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Full stretch at bottom, rise fully on toes, pause at top. 3 sec descent.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-tue-04"></div></div></div>
-  <div class="exercise-card" data-exid="tue-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Calf Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Calves (Soleus)</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Seated calf raise machine. Knees bent 90°. Full stretch and rise. Hold peak 1–2 sec.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-tue-05"></div></div></div>
-  <div class="exercise-card" data-exid="tue-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Back support. Press overhead until arms nearly extended. Lower to ear level.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-tue-06"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk</div>
+  <div class="day-block-header" onclick="toggleDay('legs')"><div class="day-block-title"><span style="color:#e8ff47;">LEGS</span> — Quads · Hamstrings · Calves</div><div class="day-block-meta">Legs Day</div><span class="day-block-chevron" id="day-chevron-legs">▼</span></div>
+  <div class="day-block-body" id="day-body-legs">
+  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-legs" placeholder="e.g. Leg press: 5×12 @ 80kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('legs')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-legs">✓ Saved</span></div></div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Pre-Workout: 5 min leg swings, hip circles</div>
+  <div class="exercise-card" data-exid="legs-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Seated Hamstring Curl</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Hamstrings</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-legs-01"></div></div></div>
+  <div class="exercise-card" data-exid="legs-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Seated Leg Extension</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-legs-02"></div></div></div>
+  <div class="exercise-card" data-exid="legs-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Leg Press</div><div class="ex-meta">Target: 5 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-legs-03"></div></div></div>
+  <div class="exercise-card" data-exid="legs-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Single Leg Standing Calf Raises</div><div class="ex-meta">Target: 5 × 11+ each leg</div></div><span class="ex-badge badge-leg">Calves</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-legs-04"></div></div></div>
+  <div class="exercise-card" data-exid="legs-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Calf Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Calves (Soleus)</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-legs-05"></div></div></div>
+  <div class="exercise-card" data-exid="legs-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-legs-06"></div></div></div>
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min quad, hamstring + calf stretches</div>
   </div></div><div class="divider"></div>
  
-  <!-- WED -->
+  <!-- PULL DAY -->
   <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('wed')"><div class="day-block-title"><span style="color:#47c8ff;">WED</span> — Pull A</div><div class="day-block-meta">Back · Rear Delts · Biceps</div><span class="day-block-chevron" id="day-chevron-wed">▼</span></div>
-  <div class="day-block-body" id="day-body-wed">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-wed" placeholder="e.g. Pulldown: 4×12 @ 55kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('wed')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-wed">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min band pull-aparts + shoulder rotations</div>
-  <div class="exercise-card" data-exid="wed-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Lat Pulldown</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Wide overhand grip. Lean back 10–15°. Pull bar to upper chest, elbows toward floor. Full extension at top.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-wed-01"></div></div></div>
-  <div class="exercise-card" data-exid="wed-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Single Hand Seated Cable Row</div><div class="ex-meta">Target: 4 × 11+ each arm</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Pull to hip, elbow driving back. No torso rotation. Full stretch on return.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-wed-02"></div></div></div>
-  <div class="exercise-card" data-exid="wed-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pullover</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Arms extended overhead. Pull in arc from overhead to hips. Squeeze lats at bottom. Stretch fully at top.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-wed-03"></div></div></div>
-  <div class="exercise-card" data-exid="wed-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Rear Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Face the pec deck. Pull arms back and out. Squeeze rear delts. Control return.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-wed-04"></div></div></div>
-  <div class="exercise-card" data-exid="wed-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Arms braced. Full range of motion. Squeeze at top, slow controlled descent.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-wed-05"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk</div>
-  </div></div><div class="divider"></div>
- 
-  <!-- THU -->
-  <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('thu')"><div class="day-block-title"><span style="color:#ff9060;">THU</span> — Push B</div><div class="day-block-meta">Chest · Triceps · Side Delts</div><span class="day-block-chevron" id="day-chevron-thu">▼</span></div>
-  <div class="day-block-body" id="day-body-thu">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-thu" placeholder="e.g. Push B notes..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('thu')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-thu">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min dynamic arm swings</div>
-  <div class="exercise-card" data-exid="thu-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Flat Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Monday. Focus on progressive overload — try to beat Monday's weight or reps.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-thu-01"></div></div></div>
-  <div class="exercise-card" data-exid="thu-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Incline Barbell Bench Press</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Upper Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Monday. Focus on upper chest squeeze at the top.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-thu-02"></div></div></div>
-  <div class="exercise-card" data-exid="thu-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Chest</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same cues as Monday. Aim for same or higher weight.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-thu-03"></div></div></div>
-  <div class="exercise-card" data-exid="thu-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Overhead Tricep Rope Extension</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Monday. Elbows fixed, only forearms move.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-thu-04"></div></div></div>
-  <div class="exercise-card" data-exid="thu-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Lateral Dumbbell Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Side Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Monday. Side delts respond to volume and frequency.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-thu-05"></div></div></div>
-  <div class="exercise-card" data-exid="thu-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Monday. Focus on full lockout and slow return.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-thu-06"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk</div>
-  </div></div><div class="divider"></div>
- 
-  <!-- FRI -->
-  <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('fri')"><div class="day-block-title"><span style="color:#e8ff47;">FRI</span> — Legs B</div><div class="day-block-meta">Quads · Hamstrings · Calves</div><span class="day-block-chevron" id="day-chevron-fri">▼</span></div>
-  <div class="day-block-body" id="day-body-fri">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-fri" placeholder="e.g. Hack squat notes..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('fri')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-fri">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min leg swings + dynamic stretches</div>
-  <div class="exercise-card" data-exid="fri-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Seated Hamstring Curl</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Hamstrings</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Tuesday. Beat Tuesday's performance.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-fri-01"></div></div></div>
-  <div class="exercise-card" data-exid="fri-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Seated Leg Extension</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same cues as Tuesday.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-fri-02"></div></div></div>
-  <div class="exercise-card" data-exid="fri-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Hack Squat</div><div class="ex-meta">Target: 5 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-leg">Quads</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Feet shoulder-width on platform. Full depth, push through heels. Keep chest up and lower back against pad.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-fri-03"></div></div></div>
-  <div class="exercise-card" data-exid="fri-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Single Leg Standing Calf Raises</div><div class="ex-meta">Target: 5 × 11+ each leg</div></div><span class="ex-badge badge-leg">Calves</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Tuesday. Full range, controlled tempo.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-fri-04"></div></div></div>
-  <div class="exercise-card" data-exid="fri-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Calf Raises</div><div class="ex-meta">Target: 5 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-leg">Calves (Soleus)</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Tuesday. Pair with standing to hit full calf complex.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-fri-05"></div></div></div>
-  <div class="exercise-card" data-exid="fri-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Tuesday. Core braced throughout.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-fri-06"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk</div>
-  </div></div><div class="divider"></div>
- 
-  <!-- SAT -->
-  <div class="day-block">
-  <div class="day-block-header" onclick="toggleDay('sat')"><div class="day-block-title"><span style="color:#47c8ff;">SAT</span> — Pull B</div><div class="day-block-meta">Back · Rear Delts · Biceps</div><span class="day-block-chevron" id="day-chevron-sat">▼</span></div>
-  <div class="day-block-body" id="day-body-sat">
-  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-sat" placeholder="e.g. Pull B notes..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('sat')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-sat">✓ Saved</span></div></div>
-  <div class="warmup-card"><span class="warmup-icon">🔥</span>Warm-up: 5 min band pull-aparts + rotations</div>
-  <div class="exercise-card" data-exid="sat-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Lat Pulldown</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Wednesday. Beat Wednesday's weight or reps.</div><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-sat-01"></div></div></div>
-  <div class="exercise-card" data-exid="sat-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Single Hand Seated Cable Row</div><div class="ex-meta">Target: 4 × 11+ each arm</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Wednesday. Focus on elbow drive and full stretch.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-sat-02"></div></div></div>
-  <div class="exercise-card" data-exid="sat-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pullover</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Wednesday. Great for lat width.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-sat-03"></div></div></div>
-  <div class="exercise-card" data-exid="sat-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Rear Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Wednesday. Critical for shoulder balance.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-sat-04"></div></div></div>
-  <div class="exercise-card" data-exid="sat-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same as Wednesday. Controlled tempo, full squeeze at top.</div><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-sat-05"></div></div></div>
-  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🏃</span>Finisher: 10 min treadmill walk</div>
+  <div class="day-block-header" onclick="toggleDay('pull')"><div class="day-block-title"><span style="color:#47c8ff;">PULL</span> — Back · Rear Delts · Biceps</div><div class="day-block-meta">Pull Day</div><span class="day-block-chevron" id="day-chevron-pull">▼</span></div>
+  <div class="day-block-body" id="day-body-pull">
+  <div class="day-notes-row"><div class="day-notes-label">📝 Day Notes</div><textarea class="day-notes-input" id="day-notes-pull" placeholder="e.g. Pulldown: 4×12 @ 55kg..."></textarea><div style="display:flex;align-items:center;margin-top:4px;"><button class="day-notes-save" onclick="saveDayNotes('pull')">Save Notes</button><span class="day-notes-saved" id="day-notes-saved-pull">✓ Saved</span></div></div>
+  <div class="warmup-card"><span class="warmup-icon">🔥</span>Pre-Workout: 5 min band pull-aparts + shoulder rotations</div>
+  <div class="exercise-card" data-exid="pull-01"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">01</div><div class="ex-info"><div class="ex-name">Lat Pulldown</div><div class="ex-meta">Target: 4 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-pull-01"></div></div></div>
+  <div class="exercise-card" data-exid="pull-02"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">02</div><div class="ex-info"><div class="ex-name">Seated Cable Row</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-pull-02"></div></div></div>
+  <div class="exercise-card" data-exid="pull-03"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">03</div><div class="ex-info"><div class="ex-name">Lat Pullover</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Back</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-pull-03"></div></div></div>
+  <div class="exercise-card" data-exid="pull-04"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">04</div><div class="ex-info"><div class="ex-name">Reverse Pec Deck</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Rear Delts</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-pull-04"></div></div></div>
+  <div class="exercise-card" data-exid="pull-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-pull-05"></div></div></div>
+  <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min lat, bicep + rear delt stretches</div>
   </div></div>
+ 
 </div><!-- end routine -->
- 
-<!-- PHASE 2 / PROGRESSION -->
-<div id="phase2" class="section">
-  <span class="phase-tag tag-2">Progressive Overload</span>
-  <div class="section-title">PROGRESSION</div>
-  <p class="section-desc">How to keep gaining after the initial adaptation phase.</p>
-  <div class="exercise-card"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">▶</div><div class="ex-info"><div class="ex-name">The 2-for-2 Rule</div><div class="ex-meta">Core overload principle</div></div><span class="ex-badge badge-core">Overload</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Hit the top rep range (e.g. 13+ reps) for 2 consecutive sessions with the same exercise → add weight next session. This is non-negotiable. No rep records = no weight increases.</div></div></div>
-  <div class="exercise-card"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">▶</div><div class="ex-info"><div class="ex-name">Weight Increments</div><div class="ex-meta">How much to add</div></div><span class="ex-badge badge-push">Load</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-section-title">Weight Increments</div><ul class="tip-list"><li>Barbell compounds (bench, incline): +2.5 kg per progression</li><li>Leg Press: +5 kg · Hack Squat: +5 kg</li><li>Calf raises: +2 kg · Leg curls/extensions: +2 kg</li><li>Cables and dumbbells: +1–2 kg</li><li>Overhead press: +2 kg per progression</li></ul></div></div>
-  <div class="exercise-card"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">▶</div><div class="ex-info"><div class="ex-name">Deload Week — Every 4 Weeks</div><div class="ex-meta">Weeks 4, 8, 12, 16, 20, 24</div></div><span class="ex-badge badge-core">Recovery</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="ex-text">Same PPL structure. Drop all weights 40%. Cut 1 set per exercise. No max effort. You always come back stronger after a deload.</div></div></div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;font-size:13px;color:#b0b0c0;line-height:2.2;margin-top:20px;">
-    <strong style="color:var(--accent)">The 2-for-2 Rule:</strong> 2 sessions in a row hitting top reps → add weight.<br>
-    <strong style="color:var(--accent)">Deload:</strong> Every 4 weeks, drop 40% weight, reduce sets by 1.<br>
-    <strong style="color:var(--accent)">Track everything:</strong> Log reps, sets, weight every session in the Tracker tab.<br>
-    <strong style="color:var(--accent)">Regress when:</strong> Form breaks down or joint pain appears. Drop 20%.
-  </div>
-</div>
- 
-<!-- RECOVERY -->
-<div id="recovery" class="section">
-  <span class="phase-tag tag-3">Recovery System</span>
-  <div class="section-title">RECOVER<br><span style="color:var(--accent3)">OR FAIL</span></div>
-  <p class="section-desc">Lifting 6 days per week is high volume. Without systematic recovery, you'll overtrain, plateau, and get injured.</p>
-  <div class="rec-grid">
-    <div class="rec-card"><div class="rec-icon">😴</div><div class="rec-title">Sleep 7–9 Hours</div><div class="rec-text">Growth hormone peaks during deep sleep. Same wake time daily, dark room, no screens 60 min before.</div></div>
-    <div class="rec-card"><div class="rec-icon">🥩</div><div class="rec-title">Protein — <span id="recProtein">152</span>g/day</div><div class="rec-text">1.6g per kg bodyweight, spread across 4–5 meals. Within 90 min post-training for maximum muscle protein synthesis.</div></div>
-    <div class="rec-card"><div class="rec-icon">💧</div><div class="rec-title">Hydration 3.5–4L/day</div><div class="rec-text">Add 750ml per training hour. 2% dehydration = 10–15% strength loss.</div></div>
-    <div class="rec-card"><div class="rec-icon">🔄</div><div class="rec-title">Foam Rolling 10 min/day</div><div class="rec-text">Priority: IT band, quads, upper back, lats. 45–60 sec per area.</div></div>
-    <div class="rec-card"><div class="rec-icon">💊</div><div class="rec-title">Evidence-Based Supplements</div><div class="rec-text">Creatine monohydrate 5g/day. Vitamin D3 + K2. Magnesium glycinate. Omega-3.</div></div>
-    <div class="rec-card"><div class="rec-icon">🧘</div><div class="rec-title">Sunday — Full Rest</div><div class="rec-text">No gym. High cortisol from overtraining blocks fat loss and muscle gain.</div></div>
-  </div>
-</div>
- 
-<!-- MILESTONES -->
-<div id="milestones" class="section">
-  <span class="phase-tag tag-2">6-Month Roadmap</span>
-  <div class="section-title">MONTHLY<br><span style="color:var(--accent2)">TARGETS</span></div>
-  <div class="prog-grid">
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase1)">M1</div><div class="prog-sub">Month 1 · Learn</div><div class="prog-item">All PPL movements with correct form</div><div class="prog-item">6 gym sessions per week</div><div class="prog-item">-1.5 to -2 kg lost</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase1)">M2</div><div class="prog-sub">Month 2 · Base</div><div class="prog-item">Bench 30 kg · Lat Pulldown 40 kg</div><div class="prog-item">Leg Press 80 kg</div><div class="prog-item">-3 to -4 kg total</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase2)">M3</div><div class="prog-sub">Month 3 · Hypertrophy</div><div class="prog-item">Bench 40 kg · Pulldown 55 kg</div><div class="prog-item">Visible shape change</div><div class="prog-item">-5 to -7 kg total</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase2)">M4</div><div class="prog-sub">Month 4 · Strength Rising</div><div class="prog-item">Bench 50 kg · Pulldown 65 kg</div><div class="prog-item">Posture noticeably improved</div><div class="prog-item">-8 to -10 kg total</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase3)">M5</div><div class="prog-sub">Month 5 · Power</div><div class="prog-item">Bench 62 kg · Pulldown 75 kg</div><div class="prog-item">No chronic body pain</div><div class="prog-item">-11 to -13 kg total</div></div>
-    <div class="prog-card"><div class="prog-month" style="color:var(--phase3)">M6</div><div class="prog-sub">Month 6 · New Body</div><div class="prog-item">Bench 70 kg · Pulldown 85 kg</div><div class="prog-item">Visible muscle definition</div><div class="prog-item">-14 to -16 kg total</div></div>
-  </div>
-</div>
  
 <!-- TRACKER -->
 <div id="tracker" class="tracker-section">
@@ -757,8 +642,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
       <span>🏋️ Exercise Log</span>
       <select id="logFilterDay" onchange="renderExerciseLog()" style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:6px 10px;color:var(--text);font-family:'DM Mono',monospace;font-size:10px;outline:none;">
         <option value="">All Days</option>
-        <option value="mon">Monday</option><option value="tue">Tuesday</option><option value="wed">Wednesday</option>
-        <option value="thu">Thursday</option><option value="fri">Friday</option><option value="sat">Saturday</option>
+        <option value="push">Push</option><option value="legs">Legs</option><option value="pull">Pull</option>
       </select>
     </div>
     <div id="exerciseLogEl" style="margin-top:14px;"><div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:center;padding:20px;">No exercises logged yet.</div></div>
@@ -767,6 +651,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="download-title">📥 Export Data</div>
     <div class="download-desc">Download all tracked data as an Excel file.</div>
     <button class="download-btn" onclick="downloadExcel()">⬇ Download Excel (.xlsx)</button>
+  </div>
+</div>
+ <!-- MOVEMENT MODAL -->
+<div class="modal-overlay" id="movementModal">
+  <div class="modal-box" style="text-align:center;">
+    <div class="modal-title">What are you training?</div>
+    <div class="modal-sub">Select today's movement</div>
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+      <button class="btn btn-primary" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:16px;" onclick="trainMovement('push')">🔥 PUSH — Chest · Triceps · Side Delts</button>
+      <button class="btn btn-primary" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:16px;background:rgba(232,255,71,.15);border:1px solid rgba(232,255,71,.3);color:var(--accent);" onclick="trainMovement('legs')">🦵 LEGS — Quads · Hamstrings · Calves</button>
+      <button class="btn btn-primary" style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:2px;padding:16px;background:rgba(71,200,255,.12);border:1px solid rgba(71,200,255,.3);color:var(--accent2);" onclick="trainMovement('pull')">💪 PULL — Back · Rear Delts · Biceps</button>
+    </div>
+    <div style="margin-top:16px;"><button class="btn btn-ghost" onclick="closeMovementModal()">Cancel</button></div>
   </div>
 </div>
  
@@ -809,8 +706,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="n-form-group"><label class="n-form-label">Serving (g/unit) — editable</label><input class="n-form-input" id="ef-serving" type="number" oninput="efRecalcMacros()"/></div>
     <div class="n-form-grid">
       <div class="n-form-group"><label class="n-form-label">Protein (g)</label><div class="n-readonly-input" id="ef-protein-display">—</div></div>
-      <div class="n-form-group"><label class="n-form-label">Carbs (g)</label><div class="n-readonly-input" id="ef-carbs-display">—</div></div>
-      <div class="n-form-group"><label class="n-form-label">Fat (g)</label><div class="n-readonly-input" id="ef-fat-display">—</div></div>
       <div class="n-form-group"><label class="n-form-label">Calories (kcal)</label><div class="n-readonly-input" id="ef-energy-display">—</div></div>
     </div>
     <div class="n-modal-actions">
@@ -835,8 +730,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="n-form-group"><label class="n-form-label">Serving size <span id="fb-serving-unit-label">(g)</span></label><input class="n-form-input" id="fb-new-serving" type="number" placeholder="100"/></div>
     <div class="n-form-grid">
       <div class="n-form-group"><label class="n-form-label">Protein (g)</label><input class="n-form-input" id="fb-new-protein" type="number" placeholder="0" oninput="fbCalcPCal()"/></div>
-      <div class="n-form-group"><label class="n-form-label">Carbs (g)</label><input class="n-form-input" id="fb-new-carbs" type="number" placeholder="0"/></div>
-      <div class="n-form-group"><label class="n-form-label">Fat (g)</label><input class="n-form-input" id="fb-new-fat" type="number" placeholder="0"/></div>
       <div class="n-form-group"><label class="n-form-label">Calories (kcal)</label><input class="n-form-input" id="fb-new-calories" type="number" placeholder="0" oninput="fbCalcPCal()"/></div>
     </div>
     <div class="n-form-group"><label class="n-form-label">Protein / Calorie (auto)</label><div class="n-readonly-input" id="fb-pcal-display">—</div></div>
@@ -861,8 +754,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="n-form-group"><label class="n-form-label">Serving (g/unit) — editable</label><input class="n-form-input" id="n-food-serving" type="number" placeholder="100" oninput="nFoodServingChanged()"/></div>
     <div class="n-form-grid">
       <div class="n-form-group"><label class="n-form-label">Protein (g)</label><div class="n-readonly-input" id="n-food-protein-display">—</div><input type="hidden" id="n-food-protein"/></div>
-      <div class="n-form-group"><label class="n-form-label">Carbs (g)</label><div class="n-readonly-input" id="n-food-carbs-display">—</div><input type="hidden" id="n-food-carbs"/></div>
-      <div class="n-form-group"><label class="n-form-label">Fat (g)</label><div class="n-readonly-input" id="n-food-fat-display">—</div><input type="hidden" id="n-food-fat"/></div>
       <div class="n-form-group"><label class="n-form-label">Calories (kcal)</label><div class="n-readonly-input" id="n-food-energy-display">—</div><input type="hidden" id="n-food-energy"/></div>
     </div>
     <div class="n-modal-actions">
@@ -902,12 +793,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="n-person-label">FUELLING</div>
   <div class="n-person-name" id="n-person-name-display">—</div>
   <div class="n-stat-grid" id="n-stat-grid">
-    <div class="n-stat" onclick="openPersonaEdit('weight','Weight (kg)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('protein','Protein Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--protein);" id="n-stat-protein">—</div><div class="n-stat-label">Protein Target (g)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('maintenance','Maintenance (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('cutCalories','Cut Calories (kcal)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('carbs','Carbs Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent2);" id="n-stat-carbs">—</div><div class="n-stat-label">Carbs Target (g)</div></div>
-    <div class="n-stat" onclick="openPersonaEdit('fat','Fat Target (g)')"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--accent2);" id="n-stat-fat">—</div><div class="n-stat-label">Fat Target (g)</div></div>
+    <div class="n-stat" onclick="openPersonaEdit('weight','Weight (kg)')" style="cursor:pointer;"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
+    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--protein);" id="n-stat-protein">—</div><div class="n-stat-label">Protein Target (g)</div></div>
+    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
+    <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
   </div>
 </div>
  
@@ -918,15 +807,51 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div class="n-date-label" id="n-date-display">Today</div>
     <button class="n-date-btn" onclick="nChangeDay(1)">›</button>
   </div>
+  <!-- Planned vs Actual totals -->
   <div class="n-totals" id="n-totals">
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--accent3);" id="nt-energy">0</div><div class="n-total-unit">kcal</div><div class="n-total-target" id="nt-energy-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-energy" style="background:var(--accent3);width:0%"></div></div></div>
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--protein);" id="nt-protein">0g</div><div class="n-total-unit">protein</div><div class="n-total-target" id="nt-protein-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-protein" style="background:var(--protein);width:0%"></div></div></div>
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--carbs);" id="nt-carbs">0g</div><div class="n-total-unit">carbs</div><div class="n-total-target" id="nt-carbs-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-carbs" style="background:var(--carbs);width:0%"></div></div></div>
-    <div class="n-total-card"><div class="n-total-val" style="color:var(--accent2);" id="nt-fat">0g</div><div class="n-total-unit">fat</div><div class="n-total-target" id="nt-fat-tgt"></div><div class="n-prog-bar"><div class="n-prog-fill" id="np-fat" style="background:var(--accent2);width:0%"></div></div></div>
+    <div class="n-total-card">
+      <div class="n-total-card-title">⚡ Calories</div>
+      <div class="n-pa-row">
+        <span class="n-pa-label" style="color:var(--purple);">Planned</span>
+        <span class="n-pa-val" style="color:var(--purple);" id="nt-energy-planned">0</span>
+        <span class="n-pa-tgt" id="nt-energy-tgt-planned"></span>
+      </div>
+      <div class="n-prog-bar"><div class="n-prog-fill" id="np-energy-planned" style="background:var(--purple);width:0%"></div></div>
+      <div class="n-pa-row" style="margin-top:8px;">
+        <span class="n-pa-label" style="color:var(--accent3);">Actual</span>
+        <span class="n-pa-val" style="color:var(--accent3);" id="nt-energy-actual">0</span>
+        <span class="n-pa-tgt" id="nt-energy-tgt-actual"></span>
+      </div>
+      <div class="n-prog-bar"><div class="n-prog-fill" id="np-energy-actual" style="background:var(--accent3);width:0%"></div></div>
+    </div>
+    <div class="n-total-card">
+      <div class="n-total-card-title">💪 Protein</div>
+      <div class="n-pa-row">
+        <span class="n-pa-label" style="color:var(--purple);">Planned</span>
+        <span class="n-pa-val" style="color:var(--purple);" id="nt-protein-planned">0g</span>
+        <span class="n-pa-tgt" id="nt-protein-tgt-planned"></span>
+      </div>
+      <div class="n-prog-bar"><div class="n-prog-fill" id="np-protein-planned" style="background:var(--purple);width:0%"></div></div>
+      <div class="n-pa-row" style="margin-top:8px;">
+        <span class="n-pa-label" style="color:var(--protein);">Actual</span>
+        <span class="n-pa-val" style="color:var(--protein);" id="nt-protein-actual">0g</span>
+        <span class="n-pa-tgt" id="nt-protein-tgt-actual"></span>
+      </div>
+      <div class="n-prog-bar"><div class="n-prog-fill" id="np-protein-actual" style="background:var(--protein);width:0%"></div></div>
+    </div>
   </div>
-  <div style="display:flex;gap:10px;margin-bottom:16px;">
+  <!-- Planned / Actual tabs -->
+  <div class="n-log-tabs">
+    <button class="n-log-tab active" id="n-logtab-planned" onclick="nSwitchLogMode('planned')">📋 Planned</button>
+    <button class="n-log-tab" id="n-logtab-actual" onclick="nSwitchLogMode('actual')">✅ Actual</button>
+  </div>
+  <div style="display:flex;gap:10px;margin-bottom:16px;" id="n-log-action-row">
     <button class="btn btn-primary" style="flex:1;padding:11px;" onclick="nOpenAddFood()">+ Add Food Item</button>
     <button class="btn" style="flex:1;padding:11px;background:rgba(71,200,255,.12);border:1px solid rgba(71,200,255,.3);color:var(--accent2);" onclick="nOpenModal('n-modal-addmeal')">+ Create Meal</button>
+  </div>
+  <!-- Confirm-all button (shown in actual mode) -->
+  <div id="n-confirm-all-row" style="display:none;margin-bottom:12px;">
+    <button class="n-confirm-btn" style="width:100%;padding:11px;" onclick="nConfirmAllPlanned()">✓ Confirm all planned meals as actual</button>
   </div>
   <div id="n-meals-container"></div>
 </div>
@@ -958,7 +883,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div style="overflow-x:auto;">
     <table class="n-foodbank-table" id="n-foodbank-table">
       <thead><tr>
-        <th>Food</th><th>Serving (g/unit)</th><th>Protein</th><th>Calories</th><th>Carbs</th><th>Fats</th><th>P/Cal</th><th></th>
+        <th>Food</th><th>Serving (g/unit)</th><th>Protein</th><th>Calories</th><th>P/Cal</th><th></th>
       </tr></thead>
       <tbody id="n-foodbank-body"></tbody>
     </table>
@@ -1027,13 +952,12 @@ function selectPerson(gender) {
 function goToPersonSelect() { showScreen('screen-person'); }
  
 function goToModeSelect() {
-  // reset nav states
   document.querySelectorAll('.phase-btn').forEach(b => b.classList.remove('active'));
   const firstBtn = document.querySelector('.phase-btn');
   if (firstBtn) firstBtn.classList.add('active');
   document.querySelectorAll('.section, .tracker-section').forEach(s => s.classList.remove('active'));
-  const overviewEl = document.getElementById('overview');
-  if (overviewEl) overviewEl.classList.add('active');
+  const routineEl = document.getElementById('routine');
+  if (routineEl) routineEl.classList.add('active');
   showScreen('screen-mode');
 }
  
@@ -1042,13 +966,12 @@ function goToTrain() {
   const p = personaData[currentPerson] || {};
   if (p.weight) {
     currentWeight = parseFloat(p.weight) || currentWeight;
-    updateHeroStats();
   }
-  initTodayTile();
-  initDailyQuote();
-  updateTodayStepsDisplay();
   const savedWeight = loadData('currentWeight_' + currentPerson, null);
-  if (savedWeight) { currentWeight = savedWeight; updateHeroStats(); }
+  if (savedWeight) currentWeight = savedWeight;
+  updateHeroStats();
+  initTodayTile();
+  updateTodayStepsDisplay();
   updateSheetsSyncStatus();
 }
  
@@ -1096,6 +1019,8 @@ async function loadPersonaSheet() {
         name,
         gender: row['Gender'],
         weight: row['Weight (kg)'],
+        bmi: row['BMI'],
+        height: row['Height (cm)'],
         protein: row['Protein (g)'],
         maintenance: row['Maintainance Calorie (kcal)'] || row['Maintenance Calorie (kcal)'],
         cutCalories: row['Weight Loss Calorie (kcal)'],
@@ -1254,7 +1179,6 @@ function tKey(k) { return currentPerson ? `${currentPerson}_${k}` : k; }
 // ═══════════════════════════════════════════════════════════════════
 // TRAINING APP — WEIGHT / BMI
 // ═══════════════════════════════════════════════════════════════════
-const HEIGHT_M = 1.8288;
 let currentWeight = 95;
  
 function openWeightModal() {
@@ -1268,7 +1192,7 @@ function calcModalBMI() {
   const w = parseFloat(document.getElementById('weightInput').value);
   const box = document.getElementById('modalBmiBox');
   if (!w || w < 30 || w > 300) { box.innerHTML = 'Enter weight above to see BMI'; return; }
-  const bmi = (w / (HEIGHT_M * HEIGHT_M)).toFixed(1);
+  const heightM = personaData[currentPerson]?.height ? parseFloat(personaData[currentPerson].height)/100 : 1.8288; const bmi = (w / (heightM * heightM)).toFixed(1);
   const protein = Math.round(w * 1.6);
   let cat, col;
   if (bmi < 18.5) { cat='Underweight'; col='#47c8ff'; }
@@ -1293,14 +1217,29 @@ function saveWeight() {
 }
 function updateHeroStats() {
   saveData('currentWeight_' + (currentPerson||''), currentWeight);
-  const w = currentWeight, bmi = (w / (HEIGHT_M * HEIGHT_M)).toFixed(1), protein = Math.round(w * 1.6);
+  const p = personaData[currentPerson] || {};
+  const w = currentWeight;
   document.getElementById('displayWeight').innerHTML = w + '<span style="font-size:20px;color:var(--muted);">kg</span>';
+ 
+  // BMI from sheets
+  const bmiVal = p.bmi ? parseFloat(p.bmi) : null;
+  const bmiDisplay = bmiVal ? bmiVal.toFixed(1) : (w && p.height ? (w / Math.pow(parseFloat(p.height)/100, 2)).toFixed(1) : '—');
   let col = '#ffc83c';
-  if (bmi < 18.5) col = '#47c8ff'; else if (bmi < 23) col = '#e8ff47'; else if (bmi >= 27.5) col = '#ff6b47';
-  document.getElementById('displayBMI').textContent = bmi;
+  if (bmiDisplay !== '—') {
+    const b = parseFloat(bmiDisplay);
+    if (b < 18.5) col = '#47c8ff'; else if (b < 23) col = '#e8ff47'; else if (b >= 27.5) col = '#ff6b47';
+  }
+  document.getElementById('displayBMI').textContent = bmiDisplay;
   document.getElementById('displayBMI').style.color = col;
-  document.getElementById('displayProtein').innerHTML = protein + '<span style="font-size:20px;color:var(--muted);">g</span>';
-  document.getElementById('recProtein').textContent = protein;
+ 
+  // Height from sheets
+  const heightCm = p.height ? parseFloat(p.height) : null;
+  const heightDisplay = heightCm ? heightCm + ' cm' : '—';
+  document.getElementById('displayHeight').textContent = heightDisplay;
+ 
+  // Protein from sheets
+  const proteinVal = p.protein || '—';
+  document.getElementById('displayProtein').innerHTML = proteinVal + '<span style="font-size:20px;color:var(--muted);">g</span>';
 }
  
 // ═══════════════════════════════════════════════════════════════════
@@ -1358,7 +1297,7 @@ function renderWeightHistory() {
   el.innerHTML = hist.slice(0,30).map(e => {
     const d = new Date(e.date+'T12:00:00');
     const label = d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
-    const bmi = (e.weight/(HEIGHT_M*HEIGHT_M)).toFixed(1);
+    const hM = personaData[currentPerson]?.height ? parseFloat(personaData[currentPerson].height)/100 : 1.8288; const bmi = (e.weight/(hM*hM)).toFixed(1);
     const pct = Math.max(5,Math.min(95,Math.round(((e.weight-minW)/(maxW-minW))*100)));
     return `<div class="steps-history-item"><span class="steps-date">${label}</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:#ff6b47;line-height:1;">${e.weight}<span style="font-size:12px;color:var(--muted);">kg</span></span><div class="steps-bar"><div class="steps-bar-fill" style="width:${pct}%;background:#ff6b47;"></div></div><span style="font-family:\'DM Mono\',monospace;font-size:9px;color:var(--muted);">BMI ${bmi}</span></div>`;
   }).join('');
@@ -1368,25 +1307,18 @@ function renderWeightHistory() {
 // TRAINING APP — SET TRACKER
 // ═══════════════════════════════════════════════════════════════════
 const defaultSets = {
-  'mon-01':4,'mon-02':4,'mon-03':4,'mon-04':4,'mon-05':5,'mon-06':4,
-  'tue-01':5,'tue-02':5,'tue-03':5,'tue-04':5,'tue-05':5,'tue-06':3,
-  'wed-01':4,'wed-02':4,'wed-03':4,'wed-04':4,'wed-05':4,
-  'thu-01':4,'thu-02':4,'thu-03':4,'thu-04':4,'thu-05':5,'thu-06':4,
-  'fri-01':5,'fri-02':5,'fri-03':4,'fri-04':5,'fri-05':5,'fri-06':3,
-  'sat-01':4,'sat-02':4,'sat-03':4,'sat-04':4,'sat-05':4
+  'push-01':4,'push-02':4,'push-03':4,'push-04':4,'push-05':5,'push-06':4,
+  'legs-01':5,'legs-02':5,'legs-03':5,'legs-04':5,'legs-05':5,'legs-06':3,
+  'pull-01':4,'pull-02':4,'pull-03':4,'pull-04':4,'pull-05':4
 };
 const exerciseNames = {
-  'mon-01':'Flat Barbell Bench Press','mon-02':'Incline Barbell Bench Press','mon-03':'Pec Deck','mon-04':'Overhead Tricep Rope Extension','mon-05':'Lateral Dumbbell Raises','mon-06':'Tricep Rope Pushdown',
-  'tue-01':'Seated Hamstring Curl','tue-02':'Seated Leg Extension','tue-03':'Leg Press','tue-04':'Single Leg Standing Calf Raises','tue-05':'Sitting Calf Raises','tue-06':'Seated Dumbbell Overhead Press',
-  'wed-01':'Lat Pulldown','wed-02':'Single Hand Seated Cable Row','wed-03':'Lat Pullover','wed-04':'Reverse Pec Deck','wed-05':'Sitting Machine Bicep Curls',
-  'thu-01':'Flat Barbell Bench Press (Thu)','thu-02':'Incline Barbell Bench Press (Thu)','thu-03':'Pec Deck (Thu)','thu-04':'Overhead Tricep Rope Extension (Thu)','thu-05':'Lateral Dumbbell Raises (Thu)','thu-06':'Tricep Rope Pushdown (Thu)',
-  'fri-01':'Seated Hamstring Curl (Fri)','fri-02':'Seated Leg Extension (Fri)','fri-03':'Hack Squat','fri-04':'Single Leg Standing Calf Raises (Fri)','fri-05':'Sitting Calf Raises (Fri)','fri-06':'Seated Dumbbell Overhead Press (Fri)',
-  'sat-01':'Lat Pulldown (Sat)','sat-02':'Single Hand Seated Cable Row (Sat)','sat-03':'Lat Pullover (Sat)','sat-04':'Reverse Pec Deck (Sat)','sat-05':'Sitting Machine Bicep Curls (Sat)'
+  'push-01':'Flat Barbell Bench Press','push-02':'Incline Dumbbell Bench Press','push-03':'Pec Deck','push-04':'Overhead Tricep Rope Extension','push-05':'Lateral Dumbbell Raises','push-06':'Tricep Rope Pushdown',
+  'legs-01':'Seated Hamstring Curl','legs-02':'Seated Leg Extension','legs-03':'Leg Press','legs-04':'Single Leg Standing Calf Raises','legs-05':'Sitting Calf Raises','legs-06':'Seated Dumbbell Overhead Press',
+  'pull-01':'Lat Pulldown','pull-02':'Seated Cable Row','pull-03':'Lat Pullover','pull-04':'Reverse Pec Deck','pull-05':'Sitting Machine Bicep Curls'
 };
 const dayLabels = {
-  mon:{label:'MON',color:'#ff9060'},tue:{label:'TUE',color:'#e8ff47'},
-  wed:{label:'WED',color:'#47c8ff'},thu:{label:'THU',color:'#ff9060'},
-  fri:{label:'FRI',color:'#e8ff47'},sat:{label:'SAT',color:'#47c8ff'}
+  push:{label:'PUSH',color:'#ff9060'},legs:{label:'LEGS',color:'#e8ff47'},
+  pull:{label:'PULL',color:'#47c8ff'}
 };
  
 function buildTracker(exid) {
@@ -1460,9 +1392,7 @@ function renderExerciseLog() {
   el.innerHTML = Object.keys(grouped).sort((a,b)=>b.localeCompare(a)).map(date => {
     const d = new Date(date+'T12:00:00');
     const dateLabel = d.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
-    const dayKey = d.toLocaleDateString('en-US',{weekday:'short'}).toLowerCase().substring(0,3);
-    const dayInfo = dayLabels[dayKey]||{};
-    return `<div class="log-entry"><div class="log-entry-header"><span class="log-date-badge">${dateLabel}</span>${dayInfo.label?`<span class="log-day-badge" style="background:rgba(${hexToRgb(dayInfo.color||'#fff')},.1);border:1px solid rgba(${hexToRgb(dayInfo.color||'#fff')},.2);color:${dayInfo.color||'#fff'};">${dayInfo.label}</span>`:''}</div>${grouped[date].map(e=>`<div style="margin-bottom:8px;"><div class="log-ex-name">${e.name||e.exid}</div><div class="log-sets-row">${e.sets.map((s,i)=>`<span class="log-set-pill">S${i+1}: ${s.weight?s.weight+'kg':'—'} × ${s.reps||'—'}</span>`).join('')}</div></div>`).join('')}</div>`;
+    return `<div class="log-entry"><div class="log-entry-header"><span class="log-date-badge">${dateLabel}</span></div>${grouped[date].map(e=>{const dk=e.exid?e.exid.split('-')[0]:'';const di=dayLabels[dk]||{};return `<div style="margin-bottom:8px;"><div class="log-ex-name">${di.label?`<span style="font-family:'DM Mono',monospace;font-size:9px;padding:2px 6px;border-radius:4px;background:rgba(${hexToRgb(di.color||'#fff')},.1);color:${di.color||'#fff'};margin-right:6px;">${di.label}</span>`:''}${e.name||e.exid}</div><div class="log-sets-row">${e.sets.map((s,i)=>`<span class="log-set-pill">S${i+1}: ${s.weight?s.weight+'kg':'—'} × ${s.reps||'—'}</span>`).join('')}</div></div>`;}).join('')}</div>`;
   }).join('');
 }
 function hexToRgb(hex) { const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex); return r?`${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}`:'255,255,255'; }
@@ -1481,7 +1411,7 @@ function downloadExcel() {
   html += `<table><tr style="font-weight:bold;"><td>Date</td><td>Day</td><td>Exercise</td><td>Set #</td><td>Weight (kg)</td><td>Reps</td></tr>`;
   rows.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.day}</td><td>${r.exercise}</td><td>${r.setNum}</td><td>${r.weight}</td><td>${r.reps}</td></tr>`; });
   html += `</table><table><tr style="font-weight:bold;"><td>Date</td><td>Weight (kg)</td><td>BMI</td></tr>`;
-  weightHist.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.weight}</td><td>${(r.weight/(HEIGHT_M*HEIGHT_M)).toFixed(1)}</td></tr>`; });
+  weightHist.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.weight}</td><td>${(r.weight/Math.pow(personaData[currentPerson]?.height ? parseFloat(personaData[currentPerson].height)/100 : 1.8288, 2)).toFixed(1)}</td></tr>`; });
   html += `</table><table><tr style="font-weight:bold;"><td>Date</td><td>Steps</td><td>10k Goal</td></tr>`;
   stepsHist.forEach(r => { html += `<tr><td>${r.date}</td><td>${r.steps}</td><td>${r.steps>=10000?'Yes':'No'}</td></tr>`; });
   html += `</table></body></html>`;
@@ -1494,25 +1424,28 @@ function downloadExcel() {
 // ═══════════════════════════════════════════════════════════════════
 // TRAINING APP — NAV / SECTIONS
 // ═══════════════════════════════════════════════════════════════════
-const DAY_MAP = {1:'mon',2:'tue',3:'wed',4:'thu',5:'fri',6:'sat',0:null};
-const DAY_LABELS_T = {mon:'PUSH A',tue:'LEGS A',wed:'PULL A',thu:'PUSH B',fri:'LEGS B',sat:'PULL B'};
 function initTodayTile() {
-  const dow = new Date().getDay(), dayKey = DAY_MAP[dow];
   const el = document.getElementById('displayTodayDay');
-  if (el) el.textContent = dayKey && DAY_LABELS_T[dayKey] ? DAY_LABELS_T[dayKey] : 'REST';
+  if (el) el.textContent = 'What\'s today?';
 }
-function trainToday() {
-  const dow = new Date().getDay(), dayKey = DAY_MAP[dow];
+function openMovementModal() {
+  document.getElementById('movementModal').classList.add('open');
+}
+function closeMovementModal() {
+  document.getElementById('movementModal').classList.remove('open');
+}
+function trainMovement(type) {
+  closeMovementModal();
+  const el = document.getElementById('displayTodayDay');
+  if (el) el.textContent = type.toUpperCase();
   const routineBtn = document.querySelector('.phase-btn[onclick*="routine"]');
   if (routineBtn) showSection('routine', routineBtn);
-  if (dayKey) {
-    setTimeout(() => {
-      const body = document.getElementById('day-body-'+dayKey);
-      if (body && !body.classList.contains('open')) toggleDay(dayKey);
-      const header = document.querySelector('[onclick="toggleDay(\''+dayKey+'\')"]');
-      if (header) setTimeout(() => header.scrollIntoView({behavior:'smooth',block:'start'}), 150);
-    }, 80);
-  }
+  setTimeout(() => {
+    const body = document.getElementById('day-body-'+type);
+    if (body && !body.classList.contains('open')) toggleDay(type);
+    const header = document.querySelector('[onclick="toggleDay(\''+type+'\')"]');
+    if (header) setTimeout(() => header.scrollIntoView({behavior:'smooth',block:'start'}), 150);
+  }, 80);
 }
 function showSection(id, btn) {
   document.querySelectorAll('.section, .tracker-section').forEach(s=>s.classList.remove('active'));
@@ -1541,26 +1474,6 @@ function toggleEx(header) {
   if (!isOpen) { const card = header.closest('.exercise-card'); const exid = card?.dataset.exid; if (exid) buildTracker(exid); }
 }
  
-// ═══════════════════════════════════════════════════════════════════
-// TRAINING APP — DAILY QUOTES
-// ═══════════════════════════════════════════════════════════════════
-const DAILY_QUOTES = [
-  {text:"Every rep you do while tired is building the version of you that doesn't quit.",author:"— Anonymous"},
-  {text:"The pain you feel today is the strength you'll use tomorrow.",author:"— Anonymous"},
-  {text:"Discipline is just choosing between what you want now and what you want most.",author:"— Abraham Lincoln"},
-  {text:"The hardest part of every session is starting. Everything after that is just deciding not to stop.",author:"— Anonymous"},
-  {text:"Progress is not made by the person who works hardest once. It's made by the person who shows up every damn time.",author:"— Anonymous"},
-  {text:"You don't rise to the occasion. You fall to the level of your habits. Build better habits.",author:"— Archilochus (adapted)"},
-  {text:"There will come a day when you can't do this. Today is not that day.",author:"— Anonymous"},
-  {text:"Six months is nothing in a lifetime and everything in a transformation.",author:"— Anonymous"},
-  {text:"The gym rewards the boring. Consistent, unglamorous, week-after-week effort wins every time.",author:"— Anonymous"},
-  {text:"You are not built for comfort. You are built for growth.",author:"— Anonymous"}
-];
-function initDailyQuote() {
-  const q = DAILY_QUOTES[Math.floor(Date.now()/86400000) % DAILY_QUOTES.length];
-  const t = document.getElementById('daily-quote-text'), a = document.getElementById('daily-quote-author');
-  if (t) t.textContent = '"'+q.text+'"'; if (a) a.textContent = q.author;
-}
  
 // ═══════════════════════════════════════════════════════════════════
 // NUTRITION APP — STORAGE
@@ -1617,66 +1530,137 @@ function nRenderHero(p) {
   document.getElementById('n-stat-protein').textContent = p.protein||'—';
   document.getElementById('n-stat-maint').textContent = p.maintenance||'—';
   document.getElementById('n-stat-cut').textContent = p.cutCalories||'—';
-  document.getElementById('n-stat-carbs').textContent = p.carbs||'—';
-  document.getElementById('n-stat-fat').textContent = p.fat||'—';
 }
 function nGetTargets() {
   const p = personaData[currentPerson]||{};
-  return { energy:parseFloat(p.maintenance)||2000, protein:parseFloat(p.protein)||150, carbs:parseFloat(p.carbs)||200, fat:parseFloat(p.fat)||65 };
+  return { energy:parseFloat(p.cutCalories)||parseFloat(p.maintenance)||2000, protein:parseFloat(p.protein)||150 };
 }
  
 // ═══════════════════════════════════════════════════════════════════
 // NUTRITION APP — LOG
 // ═══════════════════════════════════════════════════════════════════
-function nCalcTotals(data) {
-  let t={energy:0,protein:0,carbs:0,fat:0};
-  (data.meals||[]).forEach(m=>(m.items||[]).forEach(item=>{t.energy+=+item.energy||0;t.protein+=+item.protein||0;t.carbs+=+item.carbs||0;t.fat+=+item.fat||0;}));
+let nLogMode = 'planned'; // 'planned' | 'actual'
+ 
+function nCalcTotals(meals) {
+  let t={energy:0,protein:0};
+  (meals||[]).forEach(m=>(m.items||[]).forEach(item=>{t.energy+=+item.energy||0;t.protein+=+item.protein||0;}));
   return t;
 }
+ 
+function nGetDayDataBoth() {
+  // Returns {planned: {meals:[]}, actual: {meals:[]}}
+  const dateKey = nGetDateKey(nCurrentDayOffset);
+  const planned = loadData(nKey('planned_' + dateKey), null) || loadData(nKey('day_' + dateKey), null) || { meals: getDefaultMeals() };
+  const actual  = loadData(nKey('actual_' + dateKey),  null) || { meals: [] };
+  return { planned, actual };
+}
+ 
+function getDefaultMeals() {
+  return [
+    { name:'Breakfast', items:[] },
+    { name:'Lunch',     items:[] },
+    { name:'Snacks',    items:[] },
+    { name:'Dinner',    items:[] }
+  ];
+}
+ 
+function nSetModeData(data) {
+  const dateKey = nGetDateKey(nCurrentDayOffset);
+  saveData(nKey(nLogMode + '_' + dateKey), data);
+}
+ 
+function nGetModeData() {
+  const dateKey = nGetDateKey(nCurrentDayOffset);
+  if (nLogMode === 'planned') {
+    return loadData(nKey('planned_' + dateKey), null) || loadData(nKey('day_' + dateKey), null) || { meals: getDefaultMeals() };
+  } else {
+    return loadData(nKey('actual_' + dateKey), null) || { meals: [] };
+  }
+}
+ 
+function nSwitchLogMode(mode) {
+  nLogMode = mode;
+  document.getElementById('n-logtab-planned').classList.toggle('active', mode === 'planned');
+  document.getElementById('n-logtab-actual').classList.toggle('active', mode === 'actual');
+  document.getElementById('n-log-action-row').style.display = 'flex';
+  document.getElementById('n-confirm-all-row').style.display = mode === 'actual' ? 'block' : 'none';
+  nRenderMealsOnly();
+}
+ 
+function nConfirmAllPlanned() {
+  const dateKey = nGetDateKey(nCurrentDayOffset);
+  const planned = loadData(nKey('planned_' + dateKey), null) || loadData(nKey('day_' + dateKey), null) || { meals: getDefaultMeals() };
+  // Deep copy planned → actual
+  const actualCopy = JSON.parse(JSON.stringify(planned));
+  saveData(nKey('actual_' + dateKey), actualCopy);
+  nRenderLog();
+  saveToSheets({ type:'confirm_planned', person:personaData[currentPerson]?.name||currentPerson, date:dateKey });
+}
+ 
 function nRenderLog() {
   document.getElementById('n-date-display').textContent = nFormatDate(nCurrentDayOffset);
-  const data = nGetDayData(nCurrentDayOffset);
-  nRenderTotals(data); nRenderMeals(data);
+  nRenderTotals();
+  nRenderMealsOnly();
 }
 function nChangeDay(d) { nCurrentDayOffset+=d; fetchAndRenderLog(); }
-function nRenderTotals(data) {
-  const t=nCalcTotals(data), tgt=nGetTargets();
-  document.getElementById('nt-energy').textContent=Math.round(t.energy)+' kcal';
-  document.getElementById('nt-protein').textContent=Math.round(t.protein)+'g';
-  document.getElementById('nt-carbs').textContent=Math.round(t.carbs)+'g';
-  document.getElementById('nt-fat').textContent=Math.round(t.fat)+'g';
-  document.getElementById('nt-energy-tgt').textContent='/ '+tgt.energy+' kcal';
-  document.getElementById('nt-protein-tgt').textContent='/ '+tgt.protein+'g';
-  document.getElementById('nt-carbs-tgt').textContent='/ '+tgt.carbs+'g';
-  document.getElementById('nt-fat-tgt').textContent='/ '+tgt.fat+'g';
-  ['energy','protein','carbs','fat'].forEach(m=>{
-    const pct=tgt[m]?Math.min(100,Math.round(t[m]/tgt[m]*100)):0;
-    document.getElementById('np-'+m).style.width=pct+'%';
-  });
+ 
+function nRenderTotals() {
+  const tgt = nGetTargets();
+  const both = nGetDayDataBoth();
+  const tp = nCalcTotals(both.planned.meals);
+  const ta = nCalcTotals(both.actual.meals);
+ 
+  const tgtLabel = '/ ' + tgt.energy + ' kcal';
+  const tgtLabelP = '/ ' + tgt.protein + 'g';
+ 
+  document.getElementById('nt-energy-planned').textContent = Math.round(tp.energy) + ' kcal';
+  document.getElementById('nt-energy-tgt-planned').textContent = tgtLabel;
+  document.getElementById('np-energy-planned').style.width = tgt.energy ? Math.min(100, Math.round(tp.energy/tgt.energy*100)) + '%' : '0%';
+ 
+  document.getElementById('nt-energy-actual').textContent = Math.round(ta.energy) + ' kcal';
+  document.getElementById('nt-energy-tgt-actual').textContent = tgtLabel;
+  document.getElementById('np-energy-actual').style.width = tgt.energy ? Math.min(100, Math.round(ta.energy/tgt.energy*100)) + '%' : '0%';
+ 
+  document.getElementById('nt-protein-planned').textContent = Math.round(tp.protein) + 'g';
+  document.getElementById('nt-protein-tgt-planned').textContent = tgtLabelP;
+  document.getElementById('np-protein-planned').style.width = tgt.protein ? Math.min(100, Math.round(tp.protein/tgt.protein*100)) + '%' : '0%';
+ 
+  document.getElementById('nt-protein-actual').textContent = Math.round(ta.protein) + 'g';
+  document.getElementById('nt-protein-tgt-actual').textContent = tgtLabelP;
+  document.getElementById('np-protein-actual').style.width = tgt.protein ? Math.min(100, Math.round(ta.protein/tgt.protein*100)) + '%' : '0%';
 }
-function nRenderMeals(data) {
-  const c=document.getElementById('n-meals-container'); c.innerHTML='';
-  if (!data.meals||!data.meals.length) {
-    c.innerHTML='<div style="text-align:center;padding:40px 0;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">No meals yet. Use the buttons above to add food or create a meal.</div>';
+ 
+function nRenderMealsOnly() {
+  const data = nGetModeData();
+  const c = document.getElementById('n-meals-container');
+  c.innerHTML = '';
+  if (!data.meals || !data.meals.length) {
+    if (nLogMode === 'actual') {
+      c.innerHTML = '<div style="text-align:center;padding:32px 0;"><div style="font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);margin-bottom:16px;">No actual meals logged yet.</div><button class="n-confirm-btn" style="padding:12px 24px;" onclick="nConfirmAllPlanned()">✓ Copy from Planned</button></div>';
+    } else {
+      c.innerHTML = '<div style="text-align:center;padding:40px 0;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">No meals yet. Use the buttons above to add food or create a meal.</div>';
+    }
     return;
   }
-  data.meals.forEach((meal,mi)=>{
+  const modeBadge = nLogMode === 'planned'
+    ? '<span class="n-meal-mode-badge badge-planned">Planned</span>'
+    : '<span class="n-meal-mode-badge badge-actual">Actual</span>';
+ 
+  data.meals.forEach((meal, mi) => {
     const hasItems = (meal.items||[]).length > 0;
-    const mCals=(meal.items||[]).reduce((s,i)=>s+(+i.energy||0),0);
-    const mProt=(meal.items||[]).reduce((s,i)=>s+(+i.protein||0),0);
-    const block=document.createElement('div'); block.className='n-meal-block';
-    // Empty meals are greyed out
+    const mCals = (meal.items||[]).reduce((s,i)=>s+(+i.energy||0),0);
+    const mProt = (meal.items||[]).reduce((s,i)=>s+(+i.protein||0),0);
+    const block = document.createElement('div');
+    block.className = 'n-meal-block';
     const headerStyle = hasItems ? '' : 'opacity:0.45;';
     const pillsHtml = hasItems
       ? `<span class="n-pill np-p">${Math.round(mProt)}g P</span><span class="n-meal-cals">${Math.round(mCals)} kcal</span>`
       : `<span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">empty</span>`;
-    const foodRowsHtml = (meal.items||[]).map((item,ii)=>
-      `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit</div></div><div class="n-macros" style="font-family:'DM Mono',monospace;font-size:9px;"><span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent2)">${item.carbs}g C</span> · <span style="color:var(--accent2)">${item.fat}g F</span> · <span style="color:var(--accent3)">${item.energy} kcal</span></div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
+    const foodRowsHtml = (meal.items||[]).map((item,ii) =>
+      `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit · <span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent3)">${item.energy} kcal</span></div></div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
     ).join('');
- 
-    // Add button is always visible, placed between header and collapsible body
     const addBtnHtml = `<button style="width:100%;padding:6px 14px;background:rgba(71,200,255,.06);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.background='rgba(71,200,255,.14)'" onmouseout="this.style.background='rgba(71,200,255,.06)'" onclick="nOpenAddFood(${mi})">＋ Add Food</button>`;
-    block.innerHTML=`<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div>${addBtnHtml}<div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}</div>`;
+    block.innerHTML = `<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}${modeBadge}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div>${addBtnHtml}<div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}</div>`;
     c.appendChild(block);
   });
 }
@@ -1689,41 +1673,39 @@ function nToggleMeal(mi) {
 let pendingDeleteMi=null, pendingDeleteIi=null;
 function nConfirmDelete(mi,ii) {
   pendingDeleteMi=mi; pendingDeleteIi=ii;
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   const item=data.meals[mi]?.items[ii];
-  document.getElementById('confirm-delete-msg').textContent=`Delete "${item?.name||'this item'}"? This will also remove it from Google Sheets.`;
+  document.getElementById('confirm-delete-msg').textContent=`Delete "${item?.name||'this item'}"?`;
   document.getElementById('confirm-delete-modal').classList.add('open');
 }
 function confirmDeleteCancel() { document.getElementById('confirm-delete-modal').classList.remove('open'); pendingDeleteMi=null; pendingDeleteIi=null; }
 function confirmDeleteOk() {
   if (pendingDeleteMi===null) return;
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   const item=data.meals[pendingDeleteMi]?.items[pendingDeleteIi];
   const mealName=data.meals[pendingDeleteMi]?.name||'';
   const dateKey=nGetDateKey(nCurrentDayOffset);
-  // Remove item from local data
   data.meals[pendingDeleteMi].items.splice(pendingDeleteIi,1);
-  nSetDayData(data,nCurrentDayOffset);
+  nSetModeData(data);
   document.getElementById('confirm-delete-modal').classList.remove('open');
   pendingDeleteMi=null; pendingDeleteIi=null;
   nRenderLog();
-  saveToSheets({type:'meal_delete',person:personaData[currentPerson]?.name||currentPerson,date:dateKey,mealName,itemName:item?.name,loggedAt:item?.loggedAt||''});
+  saveToSheets({type:'meal_delete',person:personaData[currentPerson]?.name||currentPerson,date:dateKey,mode:nLogMode,mealName,itemName:item?.name,loggedAt:item?.loggedAt||''});
 }
  
 // ── Edit food item in log
-let editFoodMi=null, editFoodIi=null, editFoodBaseServing=100, editFoodBase={protein:0,carbs:0,fat:0,energy:0};
+let editFoodMi=null, editFoodIi=null, editFoodBaseServing=100, editFoodBase={protein:0,energy:0};
 function nOpenEditFood(mi,ii) {
   editFoodMi=mi; editFoodIi=ii;
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   const item=data.meals[mi].items[ii];
-  // Find base macros from foodbank or use current as base
   const fb=foodBankData.find(f=>f.food===item.name);
   if (fb) {
     editFoodBaseServing=parseFloat(fb.weight)||100;
-    editFoodBase={protein:+fb.protein,carbs:+fb.carbs,fat:+fb.fat,energy:+fb.calories};
+    editFoodBase={protein:+fb.protein,energy:+fb.calories};
   } else {
     editFoodBaseServing=+item.serving||100;
-    editFoodBase={protein:+item.protein,carbs:+item.carbs,fat:+item.fat,energy:+item.energy};
+    editFoodBase={protein:+item.protein,energy:+item.energy};
   }
   document.getElementById('ef-name-display').textContent=item.name;
   document.getElementById('ef-serving').value=item.serving||editFoodBaseServing;
@@ -1734,50 +1716,44 @@ function efRecalcMacros() {
   const serving=parseFloat(document.getElementById('ef-serving').value)||editFoodBaseServing;
   const ratio=serving/editFoodBaseServing;
   document.getElementById('ef-protein-display').textContent=Math.round(editFoodBase.protein*ratio*10)/10+'g';
-  document.getElementById('ef-carbs-display').textContent=Math.round(editFoodBase.carbs*ratio*10)/10+'g';
-  document.getElementById('ef-fat-display').textContent=Math.round(editFoodBase.fat*ratio*10)/10+'g';
   document.getElementById('ef-energy-display').textContent=Math.round(editFoodBase.energy*ratio)+' kcal';
 }
 function efSave() {
   const serving=parseFloat(document.getElementById('ef-serving').value)||editFoodBaseServing;
   const ratio=serving/editFoodBaseServing;
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   const item=data.meals[editFoodMi].items[editFoodIi];
   item.serving=serving;
   item.protein=Math.round(editFoodBase.protein*ratio*10)/10;
-  item.carbs=Math.round(editFoodBase.carbs*ratio*10)/10;
-  item.fat=Math.round(editFoodBase.fat*ratio*10)/10;
   item.energy=Math.round(editFoodBase.energy*ratio);
-  nSetDayData(data,nCurrentDayOffset);
+  nSetModeData(data);
   nCloseModal('n-modal-editfood');
   nRenderLog();
-  saveToSheets({type:'meal_update',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),item});
+  saveToSheets({type:'meal_update',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mode:nLogMode,item});
 }
  
-// ── Add food to log (5. serving-proportional)
-let nFoodBaseServing=100, nFoodBase={protein:0,carbs:0,fat:0,energy:0};
+// ── Add food to log
+let nFoodBaseServing=100, nFoodBase={protein:0,energy:0};
 function nOpenAddFood(preselectedMealIdx) {
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   const sel=document.getElementById('n-food-meal-sel'); sel.innerHTML='';
   if (!data.meals||!data.meals.length) { sel.innerHTML='<option value="__new__">+ New Meal (Quick Add)</option>'; }
   else {
     data.meals.forEach((m,i)=>{ const o=document.createElement('option'); o.value=i; o.textContent=m.name; sel.appendChild(o); });
     const o=document.createElement('option'); o.value='__new__'; o.textContent='+ New Meal'; sel.appendChild(o);
   }
-  // Pre-select meal if provided
   if (preselectedMealIdx !== undefined && preselectedMealIdx !== null) sel.value = preselectedMealIdx;
   document.getElementById('n-food-search').value='';
   document.getElementById('n-food-name').value='';
   document.getElementById('n-food-name-display').textContent='Search above to select';
   document.getElementById('n-food-serving').value='';
   document.getElementById('n-search-results').style.display='none';
-  ['n-food-protein-display','n-food-carbs-display','n-food-fat-display','n-food-energy-display'].forEach(id=>document.getElementById(id).textContent='—');
-  ['n-food-protein','n-food-carbs','n-food-fat','n-food-energy'].forEach(id=>document.getElementById(id).value='');
-  nFoodBaseServing=100; nFoodBase={protein:0,carbs:0,fat:0,energy:0};
+  ['n-food-protein-display','n-food-energy-display'].forEach(id=>document.getElementById(id).textContent='—');
+  ['n-food-protein','n-food-energy'].forEach(id=>document.getElementById(id).value='');
+  nFoodBaseServing=100; nFoodBase={protein:0,energy:0};
   nOpenModal('n-modal-addfood');
 }
 function nOpenAddFoodForMeal(mi) {
-  // Open meal body if not already open, then open add food with meal pre-selected
   const body = document.getElementById('n-meal-body-'+mi);
   if (body && !body.classList.contains('open')) nToggleMeal(mi);
   nOpenAddFood(mi);
@@ -1786,14 +1762,10 @@ function nFoodServingChanged() {
   const serving=parseFloat(document.getElementById('n-food-serving').value)||0;
   if (!serving||!nFoodBase.energy) return;
   const ratio=serving/nFoodBaseServing;
-  const p=Math.round(nFoodBase.protein*ratio*10)/10, c=Math.round(nFoodBase.carbs*ratio*10)/10, f=Math.round(nFoodBase.fat*ratio*10)/10, e=Math.round(nFoodBase.energy*ratio);
+  const p=Math.round(nFoodBase.protein*ratio*10)/10, e=Math.round(nFoodBase.energy*ratio);
   document.getElementById('n-food-protein-display').textContent=p+'g';
-  document.getElementById('n-food-carbs-display').textContent=c+'g';
-  document.getElementById('n-food-fat-display').textContent=f+'g';
   document.getElementById('n-food-energy-display').textContent=e+' kcal';
   document.getElementById('n-food-protein').value=p;
-  document.getElementById('n-food-carbs').value=c;
-  document.getElementById('n-food-fat').value=f;
   document.getElementById('n-food-energy').value=e;
 }
 function nSaveFood() {
@@ -1802,29 +1774,26 @@ function nSaveFood() {
   const item={
     name, serving:+document.getElementById('n-food-serving').value||nFoodBaseServing,
     protein:+document.getElementById('n-food-protein').value||0,
-    carbs:+document.getElementById('n-food-carbs').value||0,
-    fat:+document.getElementById('n-food-fat').value||0,
     energy:+document.getElementById('n-food-energy').value||0,
     loggedAt: new Date().toLocaleString('en-IN')
   };
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   if (!data.meals) data.meals=[];
   const sel=document.getElementById('n-food-meal-sel').value;
   if (sel==='__new__') data.meals.push({name:'Quick Add',items:[item]});
   else data.meals[+sel].items.push(item);
-  nSetDayData(data,nCurrentDayOffset);
+  nSetModeData(data);
   nCloseModal('n-modal-addfood');
   nRenderLog();
-  // Save to Meals sheet
-  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:sel==='__new__'?'Quick Add':data.meals[+sel]?.name,item});
+  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mode:nLogMode,mealName:sel==='__new__'?'Quick Add':data.meals[+sel]?.name,item});
 }
 function nSaveMeal() {
   const n=document.getElementById('n-meal-name-inp').value.trim();
   if (!n) { alert('Enter meal name'); return; }
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   if (!data.meals) data.meals=[];
   data.meals.push({name:n,items:[]});
-  nSetDayData(data,nCurrentDayOffset);
+  nSetModeData(data);
   nCloseModal('n-modal-addmeal');
   nRenderLog();
   document.getElementById('n-meal-name-inp').value='';
@@ -1841,12 +1810,12 @@ function searchFoodBank() {
     el.innerHTML=`<div class="n-search-item" onclick="nOpenAddFoodBankFromSearch()" style="color:var(--accent2);display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">＋</span><div><div class="n-search-item-name" style="color:var(--accent2);">Add new food item</div><div class="n-search-item-macros">Not in the list? Add it to the food bank</div></div></div>`;
     return;
   }
-  el.innerHTML=matches.map(f=>`<div class="n-search-item" onclick="nFillFromFoodBank(${JSON.stringify(f).replace(/"/g,'&quot;')})"><div class="n-search-item-name">${f.food}</div><div class="n-search-item-macros">per ${f.weight}: P ${f.protein}g · C ${f.carbs}g · F ${f.fat}g · ${f.calories} kcal</div></div>`).join('')
+  el.innerHTML=matches.map(f=>`<div class="n-search-item" onclick="nFillFromFoodBank(${JSON.stringify(f).replace(/"/g,'&quot;')})"><div class="n-search-item-name">${f.food}</div><div class="n-search-item-macros">per ${f.weight}: P ${f.protein}g · ${f.calories} kcal</div></div>`).join('')
     + `<div class="n-search-item" onclick="nOpenAddFoodBankFromSearch()" style="border-top:1px solid var(--border);color:var(--accent2);display:flex;align-items:center;gap:8px;"><span style="font-size:16px;">＋</span><div><div class="n-search-item-name" style="color:var(--accent2);">Add new food item</div><div class="n-search-item-macros">Not in the list? Add it to the food bank</div></div></div>`;
 }
 function nFillFromFoodBank(f) {
   nFoodBaseServing=parseFloat(f.weight)||100;
-  nFoodBase={protein:+f.protein,carbs:+f.carbs,fat:+f.fat,energy:+f.calories};
+  nFoodBase={protein:+f.protein,energy:+f.calories};
   document.getElementById('n-food-name').value=f.food;
   document.getElementById('n-food-name-display').textContent=f.food;
   document.getElementById('n-food-serving').value=nFoodBaseServing;
@@ -1917,17 +1886,17 @@ function renderFoodBank() {
   const tbody=document.getElementById('n-foodbank-body'), empty=document.getElementById('n-fb-empty');
   if (!foodBankData.length) { if (tbody) tbody.innerHTML=''; if (empty) empty.style.display='block'; return; }
   if (empty) empty.style.display='none';
-  if (tbody) tbody.innerHTML=items.map(f=>`<tr><td style="font-weight:500;">${f.food}</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${f.weight}</td><td style="color:var(--protein);font-family:'DM Mono',monospace;font-size:11px;">${f.protein}g</td><td style="color:var(--energy);font-family:'DM Mono',monospace;font-size:11px;">${f.calories}</td><td style="color:var(--carbs);font-family:'DM Mono',monospace;font-size:11px;">${f.carbs}g</td><td style="color:var(--fat);font-family:'DM Mono',monospace;font-size:11px;">${f.fat}g</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">${f.pCalRatio}</td><td><button class="n-add-food-quick" onclick='nQuickAddFromFoodBank(${JSON.stringify(f).replace(/'/g,"&#39;")})'>+ Add</button></td></tr>`).join('');
+  if (tbody) tbody.innerHTML=items.map(f=>`<tr><td style="font-weight:500;">${f.food}</td><td style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">${f.weight}</td><td style="color:var(--protein);font-family:'DM Mono',monospace;font-size:11px;">${f.protein}g</td><td style="color:var(--energy);font-family:'DM Mono',monospace;font-size:11px;">${f.calories}</td><td style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);">${f.pCalRatio}</td><td><button class="n-add-food-quick" onclick='nQuickAddFromFoodBank(${JSON.stringify(f).replace(/'/g,"&#39;")})'>+ Add</button></td></tr>`).join('');
 }
 function nQuickAddFromFoodBank(f) {
-  const data=nGetDayData(nCurrentDayOffset);
+  const data=nGetModeData();
   if (!data.meals) data.meals=[];
-  const item={name:f.food,serving:parseFloat(f.weight)||100,protein:+f.protein||0,carbs:+f.carbs||0,fat:+f.fat||0,energy:+f.calories||0,loggedAt:new Date().toLocaleString('en-IN')};
+  const item={name:f.food,serving:parseFloat(f.weight)||100,protein:+f.protein||0,energy:+f.calories||0,loggedAt:new Date().toLocaleString('en-IN')};
   if (!data.meals.length) data.meals.push({name:'Quick Add',items:[item]});
   else data.meals[data.meals.length-1].items.push(item);
-  nSetDayData(data,nCurrentDayOffset);
+  nSetModeData(data);
   if (document.getElementById('n-pane-log').classList.contains('active')) nRenderLog();
-  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mealName:'Quick Add',item});
+  saveToSheets({type:'meal_add',person:personaData[currentPerson]?.name||currentPerson,date:nGetDateKey(nCurrentDayOffset),mode:nLogMode,mealName:'Quick Add',item});
 }
  
 // ── Food bank — add new item
@@ -1946,7 +1915,7 @@ function fbOpenAddModal() {
   document.getElementById('fb-toggle-u').classList.remove('active');
   document.getElementById('fb-serving-unit-label').textContent='(g)';
   document.getElementById('fb-new-serving').value='100';
-  ['fb-new-name','fb-new-protein','fb-new-carbs','fb-new-fat','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
+  ['fb-new-name','fb-new-protein','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fb-pcal-display').textContent='—';
   nOpenModal('n-modal-addfbitem');
 }
@@ -1967,25 +1936,19 @@ function fbSaveNewItem() {
   const name=document.getElementById('fb-new-name').value.trim();
   const serving=document.getElementById('fb-new-serving').value;
   const protein=document.getElementById('fb-new-protein').value||'0';
-  const carbs=document.getElementById('fb-new-carbs').value||'0';
-  const fat=document.getElementById('fb-new-fat').value||'0';
   const calories=document.getElementById('fb-new-calories').value||'0';
   const pCal=parseFloat(calories)>0?(parseFloat(protein)/parseFloat(calories)).toFixed(3):'0';
   if (!name||!serving) { alert('Enter food name and serving size'); return; }
-  const newItem={food:name,weight:serving+(fbServingType==='unit'?' unit':''),protein,calories,carbs,fat,pCalRatio:pCal,aminoAcid:''};
+  const newItem={food:name,weight:serving+(fbServingType==='unit'?' unit':''),protein,calories,carbs:'0',fat:'0',pCalRatio:pCal,aminoAcid:''};
   foodBankData.push(newItem);
   nCloseModal('n-modal-addfbitem');
   renderFoodBank();
-  // Save to Nutrition sheet
-  saveToSheets({type:'nutrition_add',person:personaData[currentPerson]?.name||currentPerson,item:{Food:name,'Weight (g) / Unit':serving+(fbServingType==='unit'?' unit':''),'Protein (g)':protein,'Calories (kcal)':calories,'Carbs (g)':carbs,'Fats (g)':fat,'Protein/Calorie':pCal,'Amino Acid':''}});
-  // Reset form
-  ['fb-new-name','fb-new-serving','fb-new-protein','fb-new-carbs','fb-new-fat','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
+  saveToSheets({type:'nutrition_add',person:personaData[currentPerson]?.name||currentPerson,item:{Food:name,'Weight (g) / Unit':serving+(fbServingType==='unit'?' unit':''),'Protein (g)':protein,'Calories (kcal)':calories,'Carbs (g)':'0','Fats (g)':'0','Protein/Calorie':pCal,'Amino Acid':''}});
+  ['fb-new-name','fb-new-serving','fb-new-protein','fb-new-calories'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('fb-pcal-display').textContent='—';
-  // If opened from Add Food search, return there with new item pre-filled
   if (fbReturnToAddFood) {
     fbReturnToAddFood = false;
     nOpenAddFood();
-    // Pre-fill the search and fill from the new item
     setTimeout(() => {
       document.getElementById('n-food-search').value = name;
       nFillFromFoodBank(newItem);
@@ -1996,18 +1959,21 @@ function fbSaveNewItem() {
  
 // ── Summary tab
 function nRenderSummary() {
-  const data=nGetDayData(0), t=nCalcTotals(data), tgt=nGetTargets();
+  const tgt=nGetTargets();
+  const both=nGetDayDataBoth();
+  const tp=nCalcTotals(both.planned.meals);
+  const ta=nCalcTotals(both.actual.meals);
   const gg=document.getElementById('n-gauge-grid');
-  const macros=[
-    {label:'Energy',val:t.energy,tgt:tgt.energy,unit:'kcal',color:'var(--energy)'},
-    {label:'Protein',val:t.protein,tgt:tgt.protein,unit:'g',color:'var(--protein)'},
-    {label:'Carbs',val:t.carbs,tgt:tgt.carbs,unit:'g',color:'var(--carbs)'},
-    {label:'Fat',val:t.fat,tgt:tgt.fat,unit:'g',color:'var(--fat)'}
+  const metrics=[
+    {label:'Energy — Planned',val:tp.energy,tgt:tgt.energy,unit:'kcal',color:'var(--purple)'},
+    {label:'Energy — Actual',val:ta.energy,tgt:tgt.energy,unit:'kcal',color:'var(--accent3)'},
+    {label:'Protein — Planned',val:tp.protein,tgt:tgt.protein,unit:'g',color:'var(--purple)'},
+    {label:'Protein — Actual',val:ta.protein,tgt:tgt.protein,unit:'g',color:'var(--protein)'}
   ];
-  gg.innerHTML=macros.map(({label,val,tgt:t2,unit,color})=>{
+  gg.innerHTML=metrics.map(({label,val,tgt:t2,unit,color})=>{
     const pct=t2?Math.min(100,Math.round(val/t2*100)):0;
     const r=35, circ=2*Math.PI*r;
-    return `<div class="n-gauge-card"><div class="n-gauge-label">${label}</div><div style="position:relative;width:100px;height:100px;margin:0 auto;"><svg viewBox="0 0 100 100" width="100" height="100" style="transform:rotate(-90deg)"><circle cx="50" cy="50" r="${r}" fill="none" stroke="#1e1e2e" stroke-width="9"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${color}" stroke-width="9" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-pct/100)}" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:${color};">${pct}%</span></div></div><div class="n-gauge-pct" style="color:${color}">${Math.round(val)}<span style="font-size:14px;color:var(--muted);"> ${unit}</span></div><div class="n-gauge-sub">target: ${t2} ${unit}</div></div>`;
+    return `<div class="n-gauge-card"><div class="n-gauge-label">${label}</div><div style="position:relative;width:100px;height:100px;margin:0 auto;"><svg viewBox="0 0 100 100" width="100" height="100" style="transform:rotate(-90deg)"><circle cx="50" cy="50" r="${r}" fill="none" stroke="#1e1e2e" stroke-width="9"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${color}" stroke-width="9" stroke-dasharray="${circ}" stroke-dashoffset="${circ*(1-pct/100)}" stroke-linecap="round"/></svg><div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span style="font-family:'Bebas Neue',sans-serif;font-size:22px;color:${color};">${pct}%</span></div></div><div class="n-gauge-pct" style="color:${color}">${Math.round(val)}<span style="font-size:14px;color:var(--muted);"> ${unit}</span></div><div class="n-gauge-sub">target: ${t2} ${unit}</div></div>`;
   }).join('');
   // 7-day bars
   const wb=document.getElementById('n-week-bars');
@@ -2029,8 +1995,11 @@ function nRenderHistory() {
   for (let i=-1;i>=-30;i--) {
     const d=new Date(); d.setDate(d.getDate()+i);
     const label=d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
-    const dd=nGetDayData(i), t=nCalcTotals(dd);
-    if (t.energy>0) html+=`<div class="n-history-entry"><div class="n-history-date"><span>${label}</span><span style="font-family:\'Bebas Neue\',sans-serif;font-size:22px;color:var(--energy);">${Math.round(t.energy)} kcal</span></div><div class="n-history-macros"><span class="n-pill np-p">P: ${Math.round(t.protein)}g</span><span class="n-pill np-c">C: ${Math.round(t.carbs)}g</span><span class="n-pill np-f">F: ${Math.round(t.fat)}g</span></div></div>`;
+    const dateKey=d.toISOString().slice(0,10);
+    const planned=loadData(nKey('planned_'+dateKey),null)||loadData(nKey('day_'+dateKey),null)||{meals:[]};
+    const actual=loadData(nKey('actual_'+dateKey),null)||{meals:[]};
+    const tp=nCalcTotals(planned.meals), ta=nCalcTotals(actual.meals);
+    if (tp.energy>0||ta.energy>0) html+=`<div class="n-history-entry"><div class="n-history-date"><span>${label}</span></div><div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;"><div><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--purple);text-transform:uppercase;margin-bottom:4px;">Planned</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><span class="n-pill" style="background:rgba(180,122,255,.08);color:var(--purple);border:1px solid rgba(180,122,255,.15);">P: ${Math.round(tp.protein)}g</span><span class="n-pill" style="background:rgba(180,122,255,.08);color:var(--purple);border:1px solid rgba(180,122,255,.15);">${Math.round(tp.energy)} kcal</span></div></div><div><div style="font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;color:var(--accent2);text-transform:uppercase;margin-bottom:4px;">Actual</div><div style="display:flex;gap:8px;flex-wrap:wrap;"><span class="n-pill np-p">P: ${Math.round(ta.protein)}g</span><span class="n-pill" style="background:rgba(255,107,71,.08);color:var(--accent3);border:1px solid rgba(255,107,71,.15);">${Math.round(ta.energy)} kcal</span></div></div></div></div>`;
   }
   list.innerHTML=html||'<div style="text-align:center;padding:40px;font-family:\'DM Mono\',monospace;font-size:11px;color:var(--muted);">No history yet. Start logging meals.</div>';
 }
@@ -2050,6 +2019,7 @@ document.querySelectorAll('.n-modal-overlay,.confirm-overlay').forEach(el=>el.ad
 // Modal keyboard handlers
 document.getElementById('weightModal').addEventListener('click',e=>{ if(e.target===document.getElementById('weightModal')) closeWeightModal(); });
 document.getElementById('stepsModal').addEventListener('click',e=>{ if(e.target===document.getElementById('stepsModal')) closeStepsModal(); });
+document.getElementById('movementModal').addEventListener('click',e=>{ if(e.target===document.getElementById('movementModal')) closeMovementModal(); });
 document.getElementById('weightInput').addEventListener('keydown',e=>{ if(e.key==='Enter') saveWeight(); if(e.key==='Escape') closeWeightModal(); });
 document.getElementById('stepsInput').addEventListener('keydown',e=>{ if(e.key==='Enter') saveSteps(); if(e.key==='Escape') closeStepsModal(); });
  
@@ -2061,7 +2031,7 @@ document.getElementById('stepsInput').addEventListener('keydown',e=>{ if(e.key==
   await loadNutritionSheet();
 })();
 </script>
-
+ 
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
