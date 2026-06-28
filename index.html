@@ -319,7 +319,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 .badge-planned{background:rgba(180,122,255,.1);color:var(--purple);border:1px solid rgba(180,122,255,.2);}
 .badge-actual{background:rgba(71,200,255,.1);color:var(--accent2);border:1px solid rgba(71,200,255,.2);}
  
- 
+
  
 /* Meal sections */
 .n-meal-block{margin-bottom:10px;}
@@ -503,10 +503,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
 <div class="modal-overlay" id="weightModal">
   <div class="modal-box">
     <div class="modal-title">Update Weight</div>
-    <div class="modal-sub">Enter your current weight to recalculate BMI and daily protein target.</div>
-    <input class="modal-input" id="weightInput" type="number" min="40" max="250" placeholder="95" oninput="calcModalBMI()">
+    <input class="modal-input" id="weightInput" type="number" min="40" max="250" placeholder="95">
     <div class="modal-unit">kilograms</div>
-    <div class="modal-bmi" id="modalBmiBox">Enter weight to see BMI</div>
     <div class="modal-actions">
       <button class="btn btn-ghost" onclick="closeWeightModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveWeight()">Save</button>
@@ -555,14 +553,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
       <div class="stat-val" id="displayBMI" style="color:#ffc83c;">—</div>
       <div class="stat-label">BMI · Indian std</div>
     </div>
-    <div class="stat-card">
-      <div class="stat-val" id="displayHeight" style="color:#47c8ff;">—</div>
-      <div class="stat-label">Height</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-val" id="displayProtein" style="color:#b47aff;">—<span style="font-size:20px;color:var(--muted);">g</span></div>
-      <div class="stat-label">Daily Protein Target</div>
-    </div>
   </div>
 </div>
  
@@ -574,7 +564,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
  
 <!-- ROUTINE -->
 <div id="routine" class="section active">
- 
+
   <!-- PUSH DAY -->
   <div class="day-block">
   <div class="day-block-header" onclick="toggleDay('push')"><div class="day-block-title"><span style="color:#ff9060;">PUSH</span> — Chest · Triceps · Side Delts</div><div class="day-block-meta">Push Day</div><span class="day-block-chevron" id="day-chevron-push">▼</span></div>
@@ -589,7 +579,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="exercise-card" data-exid="push-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Tricep Rope Pushdown</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-push">Triceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-push-06"></div></div></div>
   <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min static chest + shoulder stretches</div>
   </div></div><div class="divider"></div>
- 
+
   <!-- LEGS DAY -->
   <div class="day-block">
   <div class="day-block-header" onclick="toggleDay('legs')"><div class="day-block-title"><span style="color:#e8ff47;">LEGS</span> — Quads · Hamstrings · Calves</div><div class="day-block-meta">Legs Day</div><span class="day-block-chevron" id="day-chevron-legs">▼</span></div>
@@ -604,7 +594,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="exercise-card" data-exid="legs-06"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">06</div><div class="ex-info"><div class="ex-name">Seated Dumbbell Overhead Press</div><div class="ex-meta">Target: 3 × 11+ · Rest 90 sec</div></div><span class="ex-badge badge-push">Shoulders</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 90 sec rest</div><div id="tracker-legs-06"></div></div></div>
   <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min quad, hamstring + calf stretches</div>
   </div></div><div class="divider"></div>
- 
+
   <!-- PULL DAY -->
   <div class="day-block">
   <div class="day-block-header" onclick="toggleDay('pull')"><div class="day-block-title"><span style="color:#47c8ff;">PULL</span> — Back · Rear Delts · Biceps</div><div class="day-block-meta">Pull Day</div><span class="day-block-chevron" id="day-chevron-pull">▼</span></div>
@@ -618,7 +608,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="exercise-card" data-exid="pull-05"><div class="ex-header" onclick="toggleEx(this)"><div class="ex-num">05</div><div class="ex-info"><div class="ex-name">Sitting Machine Bicep Curls</div><div class="ex-meta">Target: 4 × 11+ · Rest 60 sec</div></div><span class="ex-badge badge-pull">Biceps</span><span class="ex-chevron">▼</span></div><div class="ex-body"><div class="rest-badge">⏱ 60 sec rest</div><div id="tracker-pull-05"></div></div></div>
   <div class="warmup-card" style="margin-top:16px;"><span class="warmup-icon">🧘</span>Post-Workout: 5 min lat, bicep + rear delt stretches</div>
   </div></div>
- 
+
 </div><!-- end routine -->
  
 <!-- TRACKER -->
@@ -666,7 +656,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
     <div style="margin-top:16px;"><button class="btn btn-ghost" onclick="closeMovementModal()">Cancel</button></div>
   </div>
 </div>
- 
+
 </div><!-- end screen-train -->
  
 <!-- ════════════════════════════════════════
@@ -674,6 +664,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
      ════════════════════════════════════════ -->
 <div id="screen-nutrition" class="screen">
  
+<!-- ── MOVE TO ACTUAL MODAL ── -->
+<div class="n-modal-overlay" id="mta-modal">
+  <div class="n-modal-box">
+    <div class="n-modal-title">Move to Actual</div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;">Meal</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:16px;" id="mta-meal-name"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Edit servings if needed</div>
+    <div id="mta-items-body" style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:16px;"></div>
+    <div class="n-modal-actions">
+      <button class="btn btn-ghost" onclick="nCloseMtaModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="nConfirmMoveToActual()">✓ Confirm as Actual</button>
+    </div>
+  </div>
+</div>
+
 <!-- ── CONFIRM DELETE MODAL ── -->
 <div class="confirm-overlay" id="confirm-delete-modal">
   <div class="confirm-box">
@@ -793,7 +798,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;lin
   <div class="n-person-label">FUELLING</div>
   <div class="n-person-name" id="n-person-name-display">—</div>
   <div class="n-stat-grid" id="n-stat-grid">
-    <div class="n-stat" onclick="openPersonaEdit('weight','Weight (kg)')" style="cursor:pointer;"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
+    <div class="n-stat" onclick="openWeightModal()" style="cursor:pointer;"><span class="n-stat-edit-hint">✎ edit</span><div class="n-stat-val" style="color:var(--energy);" id="n-stat-weight">—</div><div class="n-stat-label">Weight (kg)</div></div>
     <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--protein);" id="n-stat-protein">—</div><div class="n-stat-label">Protein Target (g)</div></div>
     <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-maint">—</div><div class="n-stat-label">Maintenance (kcal)</div></div>
     <div class="n-stat" style="cursor:default;"><div class="n-stat-val" style="color:var(--accent3);" id="n-stat-cut">—</div><div class="n-stat-label">Cut Calories (kcal)</div></div>
@@ -1183,24 +1188,10 @@ let currentWeight = 95;
  
 function openWeightModal() {
   document.getElementById('weightInput').value = currentWeight;
-  calcModalBMI();
   document.getElementById('weightModal').classList.add('open');
   setTimeout(() => document.getElementById('weightInput').focus(), 80);
 }
 function closeWeightModal() { document.getElementById('weightModal').classList.remove('open'); }
-function calcModalBMI() {
-  const w = parseFloat(document.getElementById('weightInput').value);
-  const box = document.getElementById('modalBmiBox');
-  if (!w || w < 30 || w > 300) { box.innerHTML = 'Enter weight above to see BMI'; return; }
-  const heightM = personaData[currentPerson]?.height ? parseFloat(personaData[currentPerson].height)/100 : 1.8288; const bmi = (w / (heightM * heightM)).toFixed(1);
-  const protein = Math.round(w * 1.6);
-  let cat, col;
-  if (bmi < 18.5) { cat='Underweight'; col='#47c8ff'; }
-  else if (bmi < 23) { cat='Normal (Indian std)'; col='#e8ff47'; }
-  else if (bmi < 27.5) { cat='Overweight (Indian std)'; col='#ffc83c'; }
-  else { cat='Obese (Indian std)'; col='#ff6b47'; }
-  box.innerHTML = `BMI <strong style="color:${col};font-size:20px;">${bmi}</strong> &nbsp;·&nbsp; ${cat}<br><span style="font-size:10px;letter-spacing:1px;">Protein target: ${protein}g / day</span>`;
-}
 function saveWeight() {
   const w = parseFloat(document.getElementById('weightInput').value);
   if (!w || w < 30 || w > 300) return;
@@ -1213,6 +1204,8 @@ function saveWeight() {
   hist.sort((a,b) => b.date.localeCompare(a.date));
   saveData(tKey('weightHistory'), hist);
   updateHeroStats(); closeWeightModal(); renderWeightHistory();
+  const nStatW = document.getElementById('n-stat-weight');
+  if (nStatW) nStatW.textContent = w;
   saveToSheets({ type:'weight', person:personaData[currentPerson]?.name||currentPerson, date:today, weight:w });
 }
 function updateHeroStats() {
@@ -1220,7 +1213,7 @@ function updateHeroStats() {
   const p = personaData[currentPerson] || {};
   const w = currentWeight;
   document.getElementById('displayWeight').innerHTML = w + '<span style="font-size:20px;color:var(--muted);">kg</span>';
- 
+
   // BMI from sheets
   const bmiVal = p.bmi ? parseFloat(p.bmi) : null;
   const bmiDisplay = bmiVal ? bmiVal.toFixed(1) : (w && p.height ? (w / Math.pow(parseFloat(p.height)/100, 2)).toFixed(1) : '—');
@@ -1231,15 +1224,6 @@ function updateHeroStats() {
   }
   document.getElementById('displayBMI').textContent = bmiDisplay;
   document.getElementById('displayBMI').style.color = col;
- 
-  // Height from sheets
-  const heightCm = p.height ? parseFloat(p.height) : null;
-  const heightDisplay = heightCm ? heightCm + ' cm' : '—';
-  document.getElementById('displayHeight').textContent = heightDisplay;
- 
-  // Protein from sheets
-  const proteinVal = p.protein || '—';
-  document.getElementById('displayProtein').innerHTML = proteinVal + '<span style="font-size:20px;color:var(--muted);">g</span>';
 }
  
 // ═══════════════════════════════════════════════════════════════════
@@ -1474,7 +1458,7 @@ function toggleEx(header) {
   if (!isOpen) { const card = header.closest('.exercise-card'); const exid = card?.dataset.exid; if (exid) buildTracker(exid); }
 }
  
- 
+
 // ═══════════════════════════════════════════════════════════════════
 // NUTRITION APP — STORAGE
 // ═══════════════════════════════════════════════════════════════════
@@ -1526,7 +1510,8 @@ function savePersonaField() {
 function nRenderHero(p) {
   if (!p || !p.name) return;
   document.getElementById('n-person-name-display').textContent = p.name.toUpperCase();
-  document.getElementById('n-stat-weight').textContent = p.weight||'—';
+  const w = currentWeight || parseFloat(p.weight) || 0;
+  document.getElementById('n-stat-weight').textContent = w || p.weight || '—';
   document.getElementById('n-stat-protein').textContent = p.protein||'—';
   document.getElementById('n-stat-maint').textContent = p.maintenance||'—';
   document.getElementById('n-stat-cut').textContent = p.cutCalories||'—';
@@ -1540,13 +1525,13 @@ function nGetTargets() {
 // NUTRITION APP — LOG
 // ═══════════════════════════════════════════════════════════════════
 let nLogMode = 'planned'; // 'planned' | 'actual'
- 
+
 function nCalcTotals(meals) {
   let t={energy:0,protein:0};
   (meals||[]).forEach(m=>(m.items||[]).forEach(item=>{t.energy+=+item.energy||0;t.protein+=+item.protein||0;}));
   return t;
 }
- 
+
 function nGetDayDataBoth() {
   // Returns {planned: {meals:[]}, actual: {meals:[]}}
   const dateKey = nGetDateKey(nCurrentDayOffset);
@@ -1554,7 +1539,7 @@ function nGetDayDataBoth() {
   const actual  = loadData(nKey('actual_' + dateKey),  null) || { meals: [] };
   return { planned, actual };
 }
- 
+
 function getDefaultMeals() {
   return [
     { name:'Breakfast', items:[] },
@@ -1563,12 +1548,12 @@ function getDefaultMeals() {
     { name:'Dinner',    items:[] }
   ];
 }
- 
+
 function nSetModeData(data) {
   const dateKey = nGetDateKey(nCurrentDayOffset);
   saveData(nKey(nLogMode + '_' + dateKey), data);
 }
- 
+
 function nGetModeData() {
   const dateKey = nGetDateKey(nCurrentDayOffset);
   if (nLogMode === 'planned') {
@@ -1577,7 +1562,7 @@ function nGetModeData() {
     return loadData(nKey('actual_' + dateKey), null) || { meals: [] };
   }
 }
- 
+
 function nSwitchLogMode(mode) {
   nLogMode = mode;
   document.getElementById('n-logtab-planned').classList.toggle('active', mode === 'planned');
@@ -1586,7 +1571,7 @@ function nSwitchLogMode(mode) {
   document.getElementById('n-confirm-all-row').style.display = mode === 'actual' ? 'block' : 'none';
   nRenderMealsOnly();
 }
- 
+
 function nConfirmAllPlanned() {
   const dateKey = nGetDateKey(nCurrentDayOffset);
   const planned = loadData(nKey('planned_' + dateKey), null) || loadData(nKey('day_' + dateKey), null) || { meals: getDefaultMeals() };
@@ -1596,40 +1581,40 @@ function nConfirmAllPlanned() {
   nRenderLog();
   saveToSheets({ type:'confirm_planned', person:personaData[currentPerson]?.name||currentPerson, date:dateKey });
 }
- 
+
 function nRenderLog() {
   document.getElementById('n-date-display').textContent = nFormatDate(nCurrentDayOffset);
   nRenderTotals();
   nRenderMealsOnly();
 }
 function nChangeDay(d) { nCurrentDayOffset+=d; fetchAndRenderLog(); }
- 
+
 function nRenderTotals() {
   const tgt = nGetTargets();
   const both = nGetDayDataBoth();
   const tp = nCalcTotals(both.planned.meals);
   const ta = nCalcTotals(both.actual.meals);
- 
+
   const tgtLabel = '/ ' + tgt.energy + ' kcal';
   const tgtLabelP = '/ ' + tgt.protein + 'g';
- 
+
   document.getElementById('nt-energy-planned').textContent = Math.round(tp.energy) + ' kcal';
   document.getElementById('nt-energy-tgt-planned').textContent = tgtLabel;
   document.getElementById('np-energy-planned').style.width = tgt.energy ? Math.min(100, Math.round(tp.energy/tgt.energy*100)) + '%' : '0%';
- 
+
   document.getElementById('nt-energy-actual').textContent = Math.round(ta.energy) + ' kcal';
   document.getElementById('nt-energy-tgt-actual').textContent = tgtLabel;
   document.getElementById('np-energy-actual').style.width = tgt.energy ? Math.min(100, Math.round(ta.energy/tgt.energy*100)) + '%' : '0%';
- 
+
   document.getElementById('nt-protein-planned').textContent = Math.round(tp.protein) + 'g';
   document.getElementById('nt-protein-tgt-planned').textContent = tgtLabelP;
   document.getElementById('np-protein-planned').style.width = tgt.protein ? Math.min(100, Math.round(tp.protein/tgt.protein*100)) + '%' : '0%';
- 
+
   document.getElementById('nt-protein-actual').textContent = Math.round(ta.protein) + 'g';
   document.getElementById('nt-protein-tgt-actual').textContent = tgtLabelP;
   document.getElementById('np-protein-actual').style.width = tgt.protein ? Math.min(100, Math.round(ta.protein/tgt.protein*100)) + '%' : '0%';
 }
- 
+
 function nRenderMealsOnly() {
   const data = nGetModeData();
   const c = document.getElementById('n-meals-container');
@@ -1645,7 +1630,7 @@ function nRenderMealsOnly() {
   const modeBadge = nLogMode === 'planned'
     ? '<span class="n-meal-mode-badge badge-planned">Planned</span>'
     : '<span class="n-meal-mode-badge badge-actual">Actual</span>';
- 
+
   data.meals.forEach((meal, mi) => {
     const hasItems = (meal.items||[]).length > 0;
     const mCals = (meal.items||[]).reduce((s,i)=>s+(+i.energy||0),0);
@@ -1660,9 +1645,81 @@ function nRenderMealsOnly() {
       `<div class="n-food-row"><div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub">${item.serving||'—'} g/unit · <span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent3)">${item.energy} kcal</span></div></div><div style="display:flex;gap:4px;flex-shrink:0;"><button style="background:none;border:1px solid rgba(71,200,255,.2);color:var(--accent2);border-radius:5px;padding:3px 8px;font-size:11px;cursor:pointer;" onclick="nOpenEditFood(${mi},${ii})">✎</button><button class="n-del-btn" onclick="nConfirmDelete(${mi},${ii})">✕</button></div></div>`
     ).join('');
     const addBtnHtml = `<button style="width:100%;padding:6px 14px;background:rgba(71,200,255,.06);border:none;border-left:1px solid var(--border);border-right:1px solid var(--border);color:var(--accent2);font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:background .15s;display:flex;align-items:center;justify-content:center;gap:6px;" onmouseover="this.style.background='rgba(71,200,255,.14)'" onmouseout="this.style.background='rgba(71,200,255,.06)'" onclick="nOpenAddFood(${mi})">＋ Add Food</button>`;
-    block.innerHTML = `<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name">${meal.name}${modeBadge}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div>${addBtnHtml}<div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}</div>`;
+    // "→ Actual" button only on planned meals
+    const moveBtn = nLogMode === 'planned'
+      ? `<button style="background:rgba(180,122,255,.1);border:1px solid rgba(180,122,255,.25);color:var(--purple);border-radius:5px;padding:3px 9px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;cursor:pointer;white-space:nowrap;transition:background .15s;" onmouseover="this.style.background='rgba(180,122,255,.22)'" onmouseout="this.style.background='rgba(180,122,255,.1)'" onclick="event.stopPropagation();nOpenMoveToActual(${mi})">→ Actual</button>`
+      : '';
+    block.innerHTML = `<div class="n-meal-header" style="${headerStyle}" onclick="nToggleMeal(${mi})"><div class="n-meal-name" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">${meal.name}${modeBadge}${moveBtn}</div><div style="display:flex;align-items:center;gap:12px;">${pillsHtml}<span style="color:var(--muted);font-size:11px;">▾</span></div></div>${addBtnHtml}<div class="n-meal-body" id="n-meal-body-${mi}">${foodRowsHtml}</div>`;
     c.appendChild(block);
   });
+}
+
+// ── Move planned meal to actual
+let nMoveToActualMi = null;
+function nOpenMoveToActual(mi) {
+  nMoveToActualMi = mi;
+  const planned = nGetModeData(); // currently in 'planned' mode
+  const meal = planned.meals[mi];
+  if (!meal) return;
+  // Populate modal
+  document.getElementById('mta-meal-name').textContent = meal.name;
+  const tbody = document.getElementById('mta-items-body');
+  tbody.innerHTML = '';
+  (meal.items||[]).forEach((item, ii) => {
+    const row = document.createElement('div');
+    row.className = 'n-food-row';
+    row.style.cssText = 'padding:10px 14px;';
+    row.innerHTML = `<div style="flex:1;"><div class="n-food-name">${item.name}</div><div class="n-food-sub"><span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent3)">${item.energy} kcal</span></div></div><div style="display:flex;gap:6px;align-items:center;"><input type="number" placeholder="serving" value="${item.serving||''}" style="width:70px;background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--text);font-family:'DM Mono',monospace;font-size:11px;outline:none;" data-ii="${ii}" class="mta-serving-input" oninput="mtaUpdateMacros(this,${ii})"><span style="font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);">g/unit</span></div>`;
+    tbody.appendChild(row);
+  });
+  // Store a working copy
+  window._mtaWorkingMeal = JSON.parse(JSON.stringify(meal));
+  document.getElementById('mta-modal').classList.add('open');
+}
+function mtaUpdateMacros(input, ii) {
+  const meal = window._mtaWorkingMeal;
+  if (!meal || !meal.items[ii]) return;
+  const item = meal.items[ii];
+  const fb = foodBankData.find(f => f.food === item.name);
+  const baseServing = fb ? parseFloat(fb.weight)||100 : parseFloat(item.serving)||100;
+  const baseProtein = fb ? +fb.protein : +item.protein;
+  const baseEnergy  = fb ? +fb.calories : +item.energy;
+  const newServing = parseFloat(input.value) || baseServing;
+  const ratio = newServing / baseServing;
+  item.serving  = newServing;
+  item.protein  = Math.round(baseProtein * ratio * 10) / 10;
+  item.energy   = Math.round(baseEnergy * ratio);
+  // Update the sub-label in the row
+  const row = input.closest('.n-food-row');
+  if (row) {
+    const sub = row.querySelector('.n-food-sub');
+    if (sub) sub.innerHTML = `<span style="color:var(--protein)">${item.protein}g P</span> · <span style="color:var(--accent3)">${item.energy} kcal</span>`;
+  }
+}
+function nConfirmMoveToActual() {
+  const meal = window._mtaWorkingMeal;
+  if (!meal || nMoveToActualMi === null) return;
+  const dateKey = nGetDateKey(nCurrentDayOffset);
+  const actual = loadData(nKey('actual_' + dateKey), null) || { meals: [] };
+  // Check if a meal with the same name already exists in actual
+  const existingIdx = actual.meals.findIndex(m => m.name === meal.name);
+  if (existingIdx >= 0) {
+    // Append items to existing meal
+    actual.meals[existingIdx].items.push(...meal.items);
+  } else {
+    actual.meals.push(JSON.parse(JSON.stringify(meal)));
+  }
+  saveData(nKey('actual_' + dateKey), actual);
+  document.getElementById('mta-modal').classList.remove('open');
+  nMoveToActualMi = null;
+  window._mtaWorkingMeal = null;
+  nRenderLog();
+  saveToSheets({ type:'move_to_actual', person:personaData[currentPerson]?.name||currentPerson, date:dateKey, mealName:meal.name });
+}
+function nCloseMtaModal() {
+  document.getElementById('mta-modal').classList.remove('open');
+  nMoveToActualMi = null;
+  window._mtaWorkingMeal = null;
 }
 function nToggleMeal(mi) {
   const el=document.getElementById(`n-meal-body-${mi}`), header=el.previousElementSibling;
@@ -2031,7 +2088,7 @@ document.getElementById('stepsInput').addEventListener('keydown',e=>{ if(e.key==
   await loadNutritionSheet();
 })();
 </script>
- 
+
 <script>
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
